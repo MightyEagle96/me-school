@@ -13,6 +13,8 @@ import SubjectsListPage from './pages/Teachers/subjects/SubjectsList';
 import StaffDashboard from './pages/Teachers/Home/StaffDashboard';
 import './App.scss';
 import SetExamPage from './pages/Teachers/Exams/SetExamPage';
+import StudentDashboard from './pages/Students/Home/StudentDashboard';
+import { RegisteredSubjects } from './pages/Students/Subjects/RegisteredSubjects';
 
 function App() {
   return (
@@ -23,6 +25,12 @@ function App() {
       <Route exact path="/chooseExamToSet" component={ExamChoicePage}></Route>
       <Route exact path="/subjects" component={SubjectsListPage}></Route>
       <Route exact path="/staffHome" component={StaffDashboard}></Route>
+      <Route exact path="/studentHome" component={StudentDashboard}></Route>
+      <Route
+        exact
+        path="/registerSubject"
+        component={RegisteredSubjects}
+      ></Route>
       <Route exact path="/chooseExamToSet" component={ExamChoicePage}></Route>
       <Route
         exact

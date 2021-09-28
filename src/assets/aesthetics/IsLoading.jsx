@@ -1,9 +1,15 @@
 import React from 'react';
-
-export const IsLoading = ({ color }) => {
+import { MDBSpinner } from 'mdb-react-ui-kit';
+export const IsLoading = ({ color, show }) => {
   return (
-    <div className={`spinner-border ${color}`} role="status">
-      <span className="sr-only">Loading...</span>
+    <div>
+      {show ? (
+        <MDBSpinner role="status">
+          {/* <span className="hidden">Loading...</span> */}
+        </MDBSpinner>
+      ) : (
+        ''
+      )}
     </div>
   );
 };

@@ -1,0 +1,13 @@
+.studentSideMenu {
+  background-image: linear-gradient(
+    to right bottom,
+    rgba(105, 32, 99, 0.884),
+    rgba(131, 28, 105, 0.822)
+  );
+  & .staffList {
+    list-style: none;
+  }
+  & a {
+    color: white;
+  }
+}

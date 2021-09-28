@@ -5,6 +5,7 @@ import { StaffSideMenu } from '../../../components/SideMenu/StaffSideMenu/StaffS
 import { useParams } from 'react-router';
 import { httpService } from '../../../data/services';
 import { MDBCollapse } from 'mdb-react-ui-kit';
+import { MDBTable, MDBTableBody, MDBTableHead } from 'mdbreact';
 
 export default function SetExamPage() {
   const { subjectId, levelId } = useParams();
@@ -96,7 +97,7 @@ export default function SetExamPage() {
         <div className="col-md-3">
           <StaffSideMenu />
         </div>
-        <div className="col-md-9 ">
+        <div className="col-md-9 border-left ">
           <div className="mt-3 pr-2">
             <div>
               <div className="row">
@@ -107,7 +108,7 @@ export default function SetExamPage() {
                         className="btn btn-danger mb-2"
                         onClick={toggleShow}
                       >
-                        Choose paper type
+                        {paperDetail.type || 'Choose paper type'}
                       </button>
                       <hr className="bg-white" />
                     </div>
@@ -142,7 +143,7 @@ export default function SetExamPage() {
                         className="btn btn-secondary mb-2"
                         onClick={toggleTerm}
                       >
-                        Choose Term to set
+                        {paperDetail.term || 'Choose paper type'}
                       </button>
                       <hr className="bg-white" />
                     </div>
@@ -214,7 +215,13 @@ export default function SetExamPage() {
                         <strong>{paperDetail.term}.</strong>{' '}
                       </span>
                       <span>
-                        <button type="button" className="btn btn-info">
+                        <button
+                          type="button"
+                          className="btn btn-info"
+                          onClick={() => {
+                            fetchQuestions();
+                          }}
+                        >
                           If this is not the question you wish to set for you
                           can reload
                         </button>{' '}
@@ -365,8 +372,9 @@ export default function SetExamPage() {
                 </div>
               </form>
             </div>
-            <table className="table table-bordered">
-              <thead>
+
+            <MDBTable hover>
+              <MDBTableHead color="default-color" textWhite>
                 <tr>
                   <th>Question</th>
                   <th>Option A</th>
@@ -376,8 +384,8 @@ export default function SetExamPage() {
                   <th>Correct Answer</th>
                   <th>Action</th>
                 </tr>
-              </thead>
-              <tbody>
+              </MDBTableHead>
+              <MDBTableBody>
                 {questions.map((q, index) => {
                   return (
                     <tr key={index}>
@@ -394,8 +402,8 @@ export default function SetExamPage() {
                     </tr>
                   );
                 })}
-              </tbody>
-            </table>
+              </MDBTableBody>
+            </MDBTable>
           </div>
         </div>
       </div>
