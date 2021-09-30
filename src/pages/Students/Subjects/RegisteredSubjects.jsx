@@ -5,15 +5,30 @@ import Navbar from '../../../components/Navbar/Navbar';
 import { StudentSideMenu } from '../../../components/SideMenu/StudentSideMenu/StudentSideMenu';
 import { httpService } from '../../../data/services';
 import { MDBBadge } from 'mdbreact';
+import Swal from 'sweetalert2';
 export const RegisteredSubjects = () => {
   /**
    * First of all fetch the subjects
    */
   const [subjects, setSubjects] = useState([]);
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState({
+    currentTerm: { term: '' },
+    currentSession: { session: '' },
+    level: { level: '' },
+  });
   const [selectedSubject, setSelectedSubject] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [registeredSubjects, setRegisteredSubjects] = useState([]);
 
+  const fetchRegisteredSubjects = async () => {
+    setLoading(true);
+    const path = '/class/viewRegisteredSubject';
+    const res = await httpService.get(path);
+    if (res) {
+      setLoading(false);
+      setRegisteredSubjects(res.data.registeredSubject.subjects);
+    }
+  };
   const fetchSubjects = async () => {
     setLoading(true);
     const path = 'subjects';
@@ -25,7 +40,8 @@ export const RegisteredSubjects = () => {
     }
   };
 
-  const registerSubjects = async () => {
+  async function postSubjects() {
+    setLoading(true);
     const subjectIds = [];
     for (let i = 0; i < selectedSubject.length; i++) {
       subjectIds.push(selectedSubject[i]._id);
@@ -34,19 +50,41 @@ export const RegisteredSubjects = () => {
     const body = { subjects: subjectIds };
     const res = await httpService.post(path, body);
     if (res) {
-      console.log(res.data);
+      Swal.fire({ icon: 'success', text: 'Subjects registered' }).then(() => {
+        fetchRegisteredSubjects();
+      });
     }
+  }
+  const registerSubjects = () => {
+    Swal.fire({
+      icon: 'question',
+      title: 'Cross check',
+      text: `Are you sure you want to register ${
+        selectedSubject.length > 1 ? 'these subjects?' : 'this subject?'
+      }\nThis cannot be undone, till you contact your administrator.`,
+      showCancelButton: true,
+      showConfirmButton: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        postSubjects();
+      }
+    });
   };
 
-  const fetchRegisteredSubjects = async () => {
-    const path = '/class/viewRegisteredSubject';
-    const res = await httpService.get(path);
-    console.log(res);
-  };
   useEffect(() => {
     fetchRegisteredSubjects();
     fetchSubjects();
   }, []);
+
+  const isRegistered = (subjectId) => {
+    if (subjectId && registeredSubjects) {
+      const findSubject = registeredSubjects.find((regSubject) => {
+        return regSubject.subject._id === subjectId;
+      });
+      if (findSubject) return true;
+      else return false;
+    } else return false;
+  };
   return (
     <div>
       <Navbar></Navbar>
@@ -60,9 +98,9 @@ export const RegisteredSubjects = () => {
               <div className="h3">REGISTER SUBJECTS</div>
             </div>
             <div className="alert alert- shadow col-md-4">
-              {/* <h5>Term: {userData.currentTerm.term}</h5>
+              <h5>Term: {userData.currentTerm.term}</h5>
               <h5>Session: {userData.currentSession.session}</h5>
-              <h5>Class:{userData.level.level}</h5> */}
+              <h5>Class:{userData.level.level}</h5>
             </div>
             <div>
               <div>
@@ -77,51 +115,87 @@ export const RegisteredSubjects = () => {
                     {subjects.map((subject, index) => {
                       return (
                         <div class="form-check mb-3">
-                          <input
-                            class="form-check-input"
-                            type="checkbox"
-                            value=""
-                            name={subject.title}
-                            id={subject._id}
-                            onClick={(e) => {
-                              if (e.target.checked === true) {
-                                const data = selectedSubject.find((subject) => {
-                                  return subject.title === e.target.name;
-                                });
-                                if (!data) {
-                                  setSelectedSubject((oldArray) => [
-                                    ...oldArray,
-                                    subject,
-                                  ]);
-                                }
-                              } else {
-                                const filtered = selectedSubject.filter(
-                                  (subject) => {
-                                    return subject.title !== e.target.name;
+                          {isRegistered(subject._id) ? (
+                            <div>
+                              {' '}
+                              <input
+                                class="form-check-input"
+                                type="checkbox"
+                                value=""
+                                name={subject.title}
+                                id={subject._id}
+                                checked
+                                disabled
+                              />
+                              <label class="form-check-label" for={subject._id}>
+                                {subject.title}
+                              </label>
+                            </div>
+                          ) : (
+                            <div>
+                              {' '}
+                              <input
+                                class="form-check-input"
+                                type="checkbox"
+                                value=""
+                                name={subject.title}
+                                id={subject._id}
+                                onClick={(e) => {
+                                  if (e.target.checked === true) {
+                                    const data = selectedSubject.find(
+                                      (subject) => {
+                                        return subject.title === e.target.name;
+                                      }
+                                    );
+                                    if (!data) {
+                                      setSelectedSubject((oldArray) => [
+                                        ...oldArray,
+                                        subject,
+                                      ]);
+                                    }
+                                  } else {
+                                    const filtered = selectedSubject.filter(
+                                      (subject) => {
+                                        return subject.title !== e.target.name;
+                                      }
+                                    );
+                                    setSelectedSubject(filtered);
                                   }
-                                );
-                                setSelectedSubject(filtered);
-                              }
-                            }}
-                          />
-                          <label class="form-check-label" for={subject._id}>
-                            {subject.title}
-                          </label>
+                                }}
+                              />
+                              <label class="form-check-label" for={subject._id}>
+                                {subject.title}
+                              </label>
+                            </div>
+                          )}
                         </div>
                       );
                     })}
                   </div>
                 </div>
                 <div className="col-md-4 border-left">
-                  <div className="h4 mb-2">SELECTED SUBJECTS</div>
-                  {selectedSubject.map((subject, index) => {
-                    return <h5 key={index}>{subject.title}</h5>;
-                  })}
-                  <div>
-                    <button className="btn btn-pink" onClick={registerSubjects}>
-                      Register Subjects
-                    </button>
-                  </div>
+                  {selectedSubject.length > 0 ? (
+                    <div>
+                      <div className="h4 mb-2">SELECTED SUBJECTS</div>
+                      {selectedSubject.map((subject, index) => {
+                        return <h5 key={index}>{subject.title}</h5>;
+                      })}
+                      <div>
+                        <button
+                          className="btn btn-pink"
+                          onClick={registerSubjects}
+                        >
+                          {selectedSubject.length > 1
+                            ? 'Register these subjects'
+                            : 'Register this subject'}
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="alert alert-secondary">
+                      These are the subjects you have registered for the term
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

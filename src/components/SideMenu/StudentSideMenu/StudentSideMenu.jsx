@@ -26,9 +26,8 @@ export const StudentSideMenu = () => {
               </a>
             </li>
             <li className="mb-4  ">
-              <a href="#">
-                <span class="fa fa-sticky-note mr-3"></span> Student's
-                Performance
+              <a href="/testChoice">
+                <span class="fa fa-sticky-note mr-3"></span> Take tests or exams
               </a>
             </li>
             <li className="mb-4  ">

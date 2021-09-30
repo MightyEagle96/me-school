@@ -15,6 +15,8 @@ import './App.scss';
 import SetExamPage from './pages/Teachers/Exams/SetExamPage';
 import StudentDashboard from './pages/Students/Home/StudentDashboard';
 import { RegisteredSubjects } from './pages/Students/Subjects/RegisteredSubjects';
+import TestsChoicePage from './pages/Students/Tests/TestsChoicePage';
+import { TakeTestPage } from './pages/Students/Tests/TakeTestPage';
 
 function App() {
   return (
@@ -30,6 +32,12 @@ function App() {
         exact
         path="/registerSubject"
         component={RegisteredSubjects}
+      ></Route>
+      <Route exact path="/testChoice" component={TestsChoicePage}></Route>
+      <Route
+        exact
+        path="/takeExam/:subjectId/:testTypeId"
+        component={TakeTestPage}
       ></Route>
       <Route exact path="/chooseExamToSet" component={ExamChoicePage}></Route>
       <Route
