@@ -37,9 +37,14 @@ export function HttpError() {
     //   <Button variant="outlined" onClick={handleClick}>
     //     Open success snackbar
     //   </Button>
-    <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+    <Snackbar
+      anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      open={open}
+      autoHideDuration={6000}
+      onClose={handleClose}
+    >
       <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
-        This is a success message!
+        Can't fetch data at this time
       </Alert>
     </Snackbar>
     //   <Alert severity="error">This is an error message!</Alert>

@@ -34,9 +34,10 @@ export const RegisteredSubjects = () => {
     const path = 'subjects';
     const res = await httpService.get(path);
     if (res) {
-      setLoading(false);
+      console.log(res.data);
       setUserData(res.data.userData);
       setSubjects(res.data.subjects);
+      setLoading(false);
     }
   };
 

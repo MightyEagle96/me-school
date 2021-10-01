@@ -6,8 +6,18 @@ import { useParams } from 'react-router';
 import { httpService } from '../../../data/services';
 import { MDBCollapse } from 'mdb-react-ui-kit';
 import { MDBTable, MDBTableBody, MDBTableHead } from 'mdbreact';
+import { HttpError } from '../../../assets/aesthetics/HttpError';
+import Swal from 'sweetalert2';
 
 export default function SetExamPage() {
+  const defaultData = {
+    question: '',
+    optionA: '',
+    optionB: '',
+    optionC: '',
+    optionD: '',
+    correctAns: '',
+  };
   const { subjectId, levelId } = useParams();
   const [subject, setSubject] = useState({});
   const [level, setLevel] = useState({});
@@ -15,58 +25,90 @@ export default function SetExamPage() {
   const [paperDetail, setPaperDetail] = useState({});
   const [question, setQuestion] = useState({});
   const [questions, setQuestions] = useState([]);
+  const [questionCollectionId, setQuestionCollectionId] = useState('');
+  const [isUpdate, setIsUpdate] = useState(false);
+  const [updateQuestionId, setUpdateQuestionId] = useState('');
 
   const [showTerm, setShowTerm] = useState(false);
   const [testTypes, setTestTypes] = useState([]);
   const [currentTerm, setCurrentTerm] = useState([]);
+  const [loading, setLoading] = useState(false);
+
   const toggleShow = () => setShowShow(!showShow);
 
   const toggleTerm = () => setShowTerm(!showTerm);
   async function getSubject() {
+    setLoading(true);
     const path = `subjects/${subjectId}`;
     const res = await httpService.get(path);
     if (res) {
       setSubject(res.data.subject);
+      setLoading(false);
+    } else {
+      return HttpError;
     }
   }
   async function getLevel() {
+    setLoading(true);
     const path = `levels/${levelId}`;
     const res = await httpService.get(path);
     if (res) {
       setLevel(res.data.level);
+      setLoading(false);
+    } else {
+      return HttpError;
     }
   }
   async function getTestTypes() {
+    setLoading(true);
     const path = 'testType';
     const res = await httpService.get(path);
     if (res) {
       setTestTypes(res.data.testTypes);
+      setLoading(false);
+    } else {
+      return HttpError;
     }
   }
 
   async function getTerms() {
+    setLoading(false);
     const path = 'terms';
     const res = await httpService.get(path);
     if (res) {
       setCurrentTerm(res.data.terms);
+      setLoading(true);
+    } else {
+      return HttpError;
     }
   }
 
   async function fetchQuestions() {
+    setLoading(true);
     const path = `questions?currentClass=${level._id}&subject=${subject._id}&currentTerm=${paperDetail.termId}&testType=${paperDetail.testTypeId}`;
-    //const path = 'questions';
     const res = await httpService.get(path);
     if (res) {
       if (!res.data.message) {
-        console.log(res.data.questions.questions);
+        setQuestionCollectionId(res.data.questions._id);
         setQuestions(res.data.questions.questions);
+        setLoading(false);
+      } else {
+        return HttpError;
       }
     }
   }
   async function postQuestions(e) {
-    e.preventDefault();
-    const path = 'questions';
+    setLoading(true);
+    if (!paperDetail.termId) {
+      setLoading(false);
+      return alert(`You haven't set the term yet`);
+    }
+    if (!paperDetail.testTypeId) {
+      setLoading(false);
+      return alert(`You haven't set the test type yet`);
+    }
 
+    const path = 'questions';
     const body = {
       ...question,
       currentTerm: paperDetail.termId,
@@ -74,17 +116,78 @@ export default function SetExamPage() {
       subject: subject._id,
       currentClass: level._id,
     };
-    const res = httpService.post(path, body);
+    const res = await httpService.post(path, body);
     if (res) {
+      console.log(res);
       fetchQuestions();
+      setLoading(false);
+      setQuestion(defaultData);
+    } else {
+      setLoading(false);
     }
   }
 
+  function deleteQuestion(questionId) {
+    console.log(questionId);
+    Swal.fire({
+      icon: 'question',
+      title: 'Are you sure?',
+      text: 'Do you want to delete this question?',
+      showConfirmButton: true,
+      showCancelButton: true,
+      confirmButtonColor: 'green',
+      confirmButtonText: 'Yes delete',
+      cancelButtonColor: 'red',
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const path = `/questions/delete/${questionCollectionId}`;
+        const body = { questionId };
+        const res = await httpService.post(path, body);
+        if (res) {
+          fetchQuestions();
+          Swal.fire({
+            icon: 'success',
+            title: 'Deleted',
+            text: 'Question deleted',
+          });
+        }
+      }
+    });
+  }
+
+  async function fetchQuestion(questionId) {
+    setLoading(true);
+    const path = `/questions/${questionCollectionId}/${questionId}`;
+    const res = await httpService.get(path);
+    if (res) {
+      setLoading(false);
+      setIsUpdate(true);
+      setQuestion(res.data.question);
+    }
+  }
+
+  async function updateQuestion() {
+    setLoading(true);
+    const path = `/questions/${questionCollectionId}/${updateQuestionId}`;
+    const res = await httpService.patch(path, question);
+    if (res) {
+      setLoading(false);
+      fetchQuestions();
+      setIsUpdate(false);
+      setQuestion(defaultData);
+      Swal.fire({
+        icon: 'success',
+        titleText: 'success',
+        text: 'Question updated successfully',
+      });
+    }
+  }
   useEffect(() => {
     getSubject();
     getLevel();
     getTestTypes();
     getTerms();
+    fetchQuestions();
   }, []);
 
   const handleChange = (e) => {
@@ -143,7 +246,7 @@ export default function SetExamPage() {
                         className="btn btn-secondary mb-2"
                         onClick={toggleTerm}
                       >
-                        {paperDetail.term || 'Choose paper type'}
+                        {paperDetail.term || 'Choose term to set'}
                       </button>
                       <hr className="bg-white" />
                     </div>
@@ -196,7 +299,16 @@ export default function SetExamPage() {
               </div>
             </div>
             <hr />
-            <div className="d-flex justify-content-end">
+            <div className="d-flex justify-content-between">
+              <div className="col-md-6">
+                {loading ? (
+                  <div className="spinner-border text-primary" role="status">
+                    <span className="sr-only">Loading...</span>
+                  </div>
+                ) : (
+                  ''
+                )}
+              </div>
               <div className="col-md-6 ">
                 <div className="alert alert-secondary">
                   {!paperDetail.type && !paperDetail.term ? (
@@ -217,7 +329,7 @@ export default function SetExamPage() {
                       <span>
                         <button
                           type="button"
-                          className="btn btn-info"
+                          className="btn btn-secondary"
                           onClick={() => {
                             fetchQuestions();
                           }}
@@ -234,105 +346,111 @@ export default function SetExamPage() {
                 </div>
               </div>
             </div>
-            <div className="border border-dark p-3 mb-3">
-              <form onSubmit={postQuestions}>
-                <div className="d-flex flex-wrap">
-                  <div className="col-md-4 mb-2">
-                    <div className="input-group">
-                      <div className="input-group-prepend">
-                        <span className="input-group-text" id="basic-addon">
-                          <i className="fa fa-user prefix"></i>
-                        </span>
-                      </div>
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Question"
-                        aria-label="Username"
-                        aria-describedby="basic-addon"
-                        name="question"
-                        value={question.question}
-                        onChange={handleChange}
-                      />
+            <div className="border border-dark p-4 mb-3">
+              <div className="h3 text-secondary">SET QUESTIONS</div>
+              <div className="d-flex flex-wrap">
+                <div className="col-md-4 mb-2">
+                  <div className="input-group">
+                    <div className="input-group-prepend">
+                      <span className="input-group-text" id="basic-addon">
+                        Question
+                      </span>
                     </div>
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Question"
+                      aria-label="Username"
+                      aria-describedby="basic-addon"
+                      name="question"
+                      value={question.question}
+                      onChange={handleChange}
+                    />
                   </div>
-                  <div className="col-md-4 mb-2">
-                    <div className="input-group">
-                      <div className="input-group-prepend">
-                        <span className="input-group-text" id="basic-addon">
-                          <i className="fa fa-user prefix"></i>
-                        </span>
-                      </div>
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Option A"
-                        name="optionA"
-                        value={question.optionA}
-                        onChange={handleChange}
-                        aria-label="Username"
-                        aria-describedby="basic-addon"
-                      />
+                </div>
+                <div className="col-md-4 mb-2">
+                  <div className="input-group">
+                    <div className="input-group-prepend">
+                      <span className="input-group-text" id="basic-addon">
+                        Option A
+                      </span>
                     </div>
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Option A"
+                      name="optionA"
+                      value={question.optionA}
+                      onChange={handleChange}
+                      aria-label="Username"
+                      aria-describedby="basic-addon"
+                    />
                   </div>
-                  <div className="col-md-4 mb-2">
-                    <div className="input-group">
-                      <div className="input-group-prepend">
-                        <span className="input-group-text" id="basic-addon">
-                          <i className="fa fa-user prefix"></i>
-                        </span>
-                      </div>
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Option B"
-                        aria-label="Username"
-                        aria-describedby="basic-addon"
-                        name="optionB"
-                        value={question.optionB}
-                        onChange={handleChange}
-                      />
+                </div>
+                <div className="col-md-4 mb-2">
+                  <div className="input-group">
+                    <div className="input-group-prepend">
+                      <span className="input-group-text" id="basic-addon">
+                        Option B
+                      </span>
                     </div>
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Option B"
+                      aria-label="Username"
+                      aria-describedby="basic-addon"
+                      name="optionB"
+                      value={question.optionB}
+                      onChange={handleChange}
+                    />
                   </div>
-                  <div className="col-md-4 mb-2">
-                    <div className="input-group">
-                      <div className="input-group-prepend">
-                        <span className="input-group-text" id="basic-addon">
-                          <i className="fa fa-user prefix"></i>
-                        </span>
-                      </div>
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Option C"
-                        aria-label="Username"
-                        aria-describedby="basic-addon"
-                        name="optionC"
-                        value={question.optionC}
-                        onChange={handleChange}
-                      />
+                </div>
+                <div className="col-md-4 mb-2">
+                  <div className="input-group">
+                    <div className="input-group-prepend">
+                      <span className="input-group-text" id="basic-addon">
+                        Option C
+                      </span>
                     </div>
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Option C"
+                      aria-label="Username"
+                      aria-describedby="basic-addon"
+                      name="optionC"
+                      value={question.optionC}
+                      onChange={handleChange}
+                    />
                   </div>
-                  <div className="col-md-4 mb-2">
-                    <div className="input-group">
-                      <div className="input-group-prepend">
-                        <span className="input-group-text" id="basic-addon">
-                          <i className="fa fa-user prefix"></i>
-                        </span>
-                      </div>
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Option D"
-                        aria-label="Username"
-                        aria-describedby="basic-addon"
-                        name="optionD"
-                        value={question.optionD}
-                        onChange={handleChange}
-                      />
+                </div>
+                <div className="col-md-4 mb-2">
+                  <div className="input-group">
+                    <div className="input-group-prepend">
+                      <span className="input-group-text" id="basic-addon">
+                        Option D
+                      </span>
                     </div>
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Option D"
+                      aria-label="Username"
+                      aria-describedby="basic-addon"
+                      name="optionD"
+                      value={question.optionD}
+                      onChange={handleChange}
+                    />
                   </div>
-                  <div className="col-md-4 mb-2">
+                </div>
+                <div className="col-md-4 mb-2">
+                  <div className="input-group">
+                    <div className="input-group-prepend">
+                      <span className="input-group-text" id="basic-addon">
+                        Correct Answer
+                      </span>
+                    </div>
                     <select
                       className="form-control"
                       aria-label="Default select example"
@@ -355,26 +473,35 @@ export default function SetExamPage() {
                       </option>
                     </select>
                   </div>
-                  <div className="col-md-4 mb-2">
-                    <button className="btn btn-success" type="submit">
+                </div>
+                <div className="col-md-4 mb-2">
+                  {isUpdate ? (
+                    <button className="btn btn-unique" onClick={updateQuestion}>
+                      Update this question
+                    </button>
+                  ) : (
+                    <button
+                      className="btn btn-deep-purple"
+                      onClick={postQuestions}
+                    >
                       POST QUESTION
                     </button>
-                    <button
-                      className="btn btn-danger"
-                      type="reset"
-                      onClick={() => {
-                        setQuestion({});
-                      }}
-                    >
-                      Reset
-                    </button>
-                  </div>
+                  )}
+                  <button
+                    className="btn btn-pink"
+                    type="reset"
+                    onClick={() => {
+                      setQuestion({});
+                    }}
+                  >
+                    Reset
+                  </button>
                 </div>
-              </form>
+              </div>
             </div>
 
             <MDBTable hover>
-              <MDBTableHead color="default-color" textWhite>
+              <MDBTableHead color="secondary-color" textWhite>
                 <tr>
                   <th>Question</th>
                   <th>Option A</th>
@@ -382,22 +509,52 @@ export default function SetExamPage() {
                   <th>Option C</th>
                   <th>Option D</th>
                   <th>Correct Answer</th>
-                  <th>Action</th>
+                  <th>Update</th>
+                  <th>Delete</th>
                 </tr>
               </MDBTableHead>
               <MDBTableBody>
                 {questions.map((q, index) => {
                   return (
                     <tr key={index}>
-                      <td>{q.question}</td>
-                      <td>{q.optionA}</td>
-                      <td>{q.optionB}</td>
-                      <td>{q.optionC}</td>
-                      <td>{q.optionD}</td>
-                      <td>{q.correctAns}</td>
                       <td>
-                        <button className="btn btn-warning">UPdate</button>
-                        <button className="btn btn-danger">delete</button>
+                        <h4>{q.question}</h4>
+                      </td>
+                      <td>
+                        <h4>{q.optionA}</h4>
+                      </td>
+                      <td>
+                        <h4>{q.optionB}</h4>
+                      </td>
+                      <td>
+                        <h4>{q.optionC}</h4>
+                      </td>
+                      <td>
+                        <h4>{q.optionD}</h4>
+                      </td>
+                      <td>
+                        <h4>{q.correctAns}</h4>
+                      </td>
+                      <td>
+                        <button
+                          className="btn btn-deep-purple"
+                          onClick={() => {
+                            setUpdateQuestionId(q._id);
+                            fetchQuestion(q._id);
+                          }}
+                        >
+                          UPdate
+                        </button>
+                      </td>
+                      <td>
+                        <button
+                          className="btn btn-deep-orange"
+                          onClick={() => {
+                            deleteQuestion(q._id);
+                          }}
+                        >
+                          delete
+                        </button>
                       </td>
                     </tr>
                   );
