@@ -51,7 +51,6 @@ export const LoginPage = () => {
 
   return (
     <div>
-      <Navbar></Navbar>
       <section className="login">
         <div className="d-flex justify-content-center">
           <div className="shadow-lg rounded   ">
@@ -122,7 +121,6 @@ export const LoginPage = () => {
           </div>
         </div>
       </section>
-      <Footer></Footer>
     </div>
   );
 };

@@ -195,7 +195,6 @@ export default function SetExamPage() {
   };
   return (
     <div>
-      <Navbar></Navbar>
       <div className="row">
         <div className="col-md-3">
           <StaffSideMenu />
@@ -500,7 +499,7 @@ export default function SetExamPage() {
               </div>
             </div>
 
-            <MDBTable hover>
+            <MDBTable hover bordered>
               <MDBTableHead color="secondary-color" textWhite>
                 <tr>
                   <th>Question</th>
@@ -518,22 +517,22 @@ export default function SetExamPage() {
                   return (
                     <tr key={index}>
                       <td>
-                        <h4>{q.question}</h4>
+                        <p>{q.question}</p>
                       </td>
                       <td>
-                        <h4>{q.optionA}</h4>
+                        <p>{q.optionA}</p>
                       </td>
                       <td>
-                        <h4>{q.optionB}</h4>
+                        <p>{q.optionB}</p>
                       </td>
                       <td>
-                        <h4>{q.optionC}</h4>
+                        <p>{q.optionC}</p>
                       </td>
                       <td>
-                        <h4>{q.optionD}</h4>
+                        <p>{q.optionD}</p>
                       </td>
                       <td>
-                        <h4>{q.correctAns}</h4>
+                        <p>{q.correctAns}</p>
                       </td>
                       <td>
                         <button
@@ -564,7 +563,6 @@ export default function SetExamPage() {
           </div>
         </div>
       </div>
-      <Footer></Footer>
     </div>
   );
 }

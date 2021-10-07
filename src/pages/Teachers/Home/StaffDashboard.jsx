@@ -1,11 +1,9 @@
 import React from 'react';
-import Navbar from '../../../components/Navbar/Navbar';
-import Footer from '../../../components/Footer/Footer';
+
 import { StaffSideMenu } from '../../../components/SideMenu/StaffSideMenu/StaffSideMenu';
 export default function StaffDashboard() {
   return (
     <div>
-      <Navbar></Navbar>
       <div className="row">
         <div className="col-md-3">
           <StaffSideMenu />
@@ -33,8 +31,6 @@ export default function StaffDashboard() {
           </div>
         </div>
       </div>
-
-      <Footer></Footer>
     </div>
   );
 }

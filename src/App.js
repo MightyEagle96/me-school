@@ -17,35 +17,46 @@ import StudentDashboard from './pages/Students/Home/StudentDashboard';
 import { RegisteredSubjects } from './pages/Students/Subjects/RegisteredSubjects';
 import TestsChoicePage from './pages/Students/Tests/TestsChoicePage';
 import { TakeTestPage } from './pages/Students/Tests/TakeTestPage';
+import Navbar from './components/Navbar/Navbar';
+import Footer from './components/Footer/Footer';
+import { RedirectUser } from './pages/Auth/routes';
 
 function App() {
+  const user = JSON.parse(localStorage.getItem('loggedInUser'));
+  console.log(user);
   return (
-    <Switch>
-      <Route exact path="/" component={HomePage}></Route>
-      <Route exact path="/login" component={LoginPage}></Route>
-      <Route exact path="/signUp" component={SignUpPage}></Route>
-      <Route exact path="/chooseExamToSet" component={ExamChoicePage}></Route>
-      <Route exact path="/subjects" component={SubjectsListPage}></Route>
-      <Route exact path="/staffHome" component={StaffDashboard}></Route>
-      <Route exact path="/studentHome" component={StudentDashboard}></Route>
-      <Route
-        exact
-        path="/registerSubject"
-        component={RegisteredSubjects}
-      ></Route>
-      <Route exact path="/testChoice" component={TestsChoicePage}></Route>
-      <Route
-        exact
-        path="/takeExam/:subjectId/:testTypeId"
-        component={TakeTestPage}
-      ></Route>
-      <Route exact path="/chooseExamToSet" component={ExamChoicePage}></Route>
-      <Route
-        exact
-        path="/setExam/:subjectId/:levelId"
-        component={SetExamPage}
-      ></Route>
-    </Switch>
+    <div className="m-0">
+      <Navbar></Navbar>
+      <Switch>
+        <Route exact path="/" component={HomePage}>
+          {user ? RedirectUser(user.role) : ''}
+        </Route>
+        <Route exact path="/login" component={LoginPage}></Route>
+        <Route exact path="/signUp" component={SignUpPage}></Route>
+        <Route exact path="/chooseExamToSet" component={ExamChoicePage}></Route>
+        <Route exact path="/subjects" component={SubjectsListPage}></Route>
+        <Route exact path="/staffHome" component={StaffDashboard}></Route>
+        <Route exact path="/studentHome" component={StudentDashboard}></Route>
+        <Route
+          exact
+          path="/registerSubject"
+          component={RegisteredSubjects}
+        ></Route>
+        <Route exact path="/testChoice" component={TestsChoicePage}></Route>
+        <Route
+          exact
+          path="/takeExam/:subjectId/:testTypeId"
+          component={TakeTestPage}
+        ></Route>
+        <Route exact path="/chooseExamToSet" component={ExamChoicePage}></Route>
+        <Route
+          exact
+          path="/setExam/:subjectId/:levelId"
+          component={SetExamPage}
+        ></Route>
+      </Switch>
+      <Footer></Footer>
+    </div>
   );
 }
 

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { httpService } from '../../../data/services';
-import Navbar from '../../../components/Navbar/Navbar';
-import Footer from '../../../components/Footer/Footer';
+
 import { StaffSideMenu } from '../../../components/SideMenu/StaffSideMenu/StaffSideMenu';
 import { SetExamChoiceItem } from '../../../components/ExamCards/SetExamChoiceItem';
 import { IsLoading } from '../../../assets/aesthetics/IsLoading';
@@ -27,7 +26,6 @@ export default function ExamChoicePage() {
   }, []);
   return (
     <div>
-      <Navbar></Navbar>
       <div className="row">
         <div className="col-md-3">
           <StaffSideMenu />
@@ -57,7 +55,6 @@ export default function ExamChoicePage() {
           </div>
         </div>
       </div>
-      <Footer></Footer>
     </div>
   );
 }
