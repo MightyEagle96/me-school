@@ -1,19 +1,24 @@
-import React from 'react';
-import Footer from '../../../components/Footer/Footer';
-import Navbar from '../../../components/Navbar/Navbar';
-import { StudentSideMenu } from '../../../components/SideMenu/StudentSideMenu/StudentSideMenu';
+import React from "react";
+import SideMenu from "../../../components/SideMenu/SideMenu";
 
+import { loggedInUser } from "../../../data/services";
+
+// console.log(loggedInUser.imageUrl);
 export default function StudentDashboard() {
   return (
     <div>
-      <Navbar></Navbar>
       <div className="row">
         <div className="col-md-3">
-          <StudentSideMenu />
+          <SideMenu />
         </div>
-        <div className="col-md-9"></div>
+        <div className="col-md-9">
+          <img
+            src={loggedInUser.imageUrl}
+            alt=""
+            srcset={loggedInUser.imageUrl}
+          />
+        </div>
       </div>
-      <Footer></Footer>
     </div>
   );
 }

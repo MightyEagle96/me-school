@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import { MDBInput } from 'mdbreact';
-import Navbar from '../../components/Navbar/Navbar';
-import Footer from '../../components/Footer/Footer';
-import './LoginPage.css';
-import { httpService } from '../../data/services';
+import React, { useState } from "react";
+import { MDBInput } from "mdbreact";
+import Navbar from "../../components/Navbar/Navbar";
+import Footer from "../../components/Footer/Footer";
+import "./LoginPage.css";
+import { httpService } from "../../data/services";
 
-import Swal from 'sweetalert2';
-import { IsLoading } from '../../assets/aesthetics/IsLoading';
-import { loginRouting } from './routes';
+import Swal from "sweetalert2";
+import { IsLoading } from "../../assets/aesthetics/IsLoading";
+import { loginRouting } from "./routes";
 
 export const LoginPage = () => {
   const defaultData = {};
@@ -28,17 +28,17 @@ export const LoginPage = () => {
       }, 5000);
     } else {
       setLoading(true);
-      const path = 'auth/login';
+      const path = "auth/login";
       const res = await httpService.post(path, loginData);
       setLoading(false);
       if (res) {
-        localStorage.setItem('token', res.data.accessToken);
-        localStorage.setItem('loggedInUser', JSON.stringify(res.data.user));
+        localStorage.setItem("token", res.data.accessToken);
+        localStorage.setItem("loggedInUser", JSON.stringify(res.data.user));
         setLoading(false);
         Swal.fire({
-          icon: 'success',
-          titleText: 'Welcome',
-          text: 'Logged in successfully',
+          icon: "success",
+          titleText: "Welcome",
+          text: "Logged in successfully",
           showConfirmButton: false,
           timer: 2000,
         }).then(() => {
@@ -65,7 +65,7 @@ export const LoginPage = () => {
                     Password and Email are required
                   </div>
                 ) : (
-                  ''
+                  ""
                 )}
                 <div className="grey-text">
                   <MDBInput
@@ -104,8 +104,8 @@ export const LoginPage = () => {
                         checked
                       />
                       <label class="form-check-label" for="form1Example3">
-                        {' '}
-                        Remember me{' '}
+                        {" "}
+                        Remember me{" "}
                       </label>
                     </div>
                   </div>
@@ -114,7 +114,7 @@ export const LoginPage = () => {
                   </div>
                 </div>
                 <button className="btn btn-primary btn-block" type="submit">
-                  {loading ? <IsLoading /> : 'LOGIN'}
+                  {loading ? <IsLoading show={loading} /> : "LOGIN"}
                 </button>
               </form>
             </div>

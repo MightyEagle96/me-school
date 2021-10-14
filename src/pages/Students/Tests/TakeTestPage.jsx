@@ -1,21 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router';
-import { HttpError } from '../../../assets/aesthetics/HttpError';
-import Footer from '../../../components/Footer/Footer';
-import Navbar from '../../../components/Navbar/Navbar';
-import { httpService } from '../../../data/services';
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router";
+import { HttpError } from "../../../assets/aesthetics/HttpError";
+
+import { httpService } from "../../../data/services";
 
 export const TakeTestPage = () => {
   const { subjectId, testTypeId } = useParams();
   const [preview, setPreview] = useState({
     candidate: {
-      fullName: '',
-      currentSession: { session: '' },
-      currentTerm: { term: '' },
-      level: { level: '' },
+      fullName: "",
+      currentSession: { session: "" },
+      currentTerm: { term: "" },
+      level: { level: "" },
     },
-    subject: { title: '' },
-    testType: { testType: '' },
+    subject: { title: "" },
+    testType: { testType: "" },
   });
   const [loading, setLoading] = useState(false);
 
@@ -39,7 +38,6 @@ export const TakeTestPage = () => {
 
   return (
     <div>
-      <Navbar></Navbar>
       <div className="border border-elegant m-3 p-5 ">
         <div className="row">
           <div className="col-md-6">
@@ -51,7 +49,7 @@ export const TakeTestPage = () => {
               <div>
                 <div className="alert alert-primary col-md-4">
                   <div className="h5">
-                    {' '}
+                    {" "}
                     Please preview the details below before you proceed
                   </div>
                 </div>
@@ -83,9 +81,9 @@ export const TakeTestPage = () => {
                 </div>
                 <div className="mt-4">
                   <button className="btn btn-primary">{`Begin ${
-                    preview.testType.testType.startsWith('E')
-                      ? 'Examination'
-                      : 'Test'
+                    preview.testType.testType.startsWith("E")
+                      ? "Examination"
+                      : "Test"
                   }`}</button>
                 </div>
               </div>
@@ -100,7 +98,7 @@ export const TakeTestPage = () => {
               <ol>
                 <li>
                   <h5>
-                    {' '}
+                    {" "}
                     Lorem, ipsum dolor sit amet consectetur adipisicing elit.
                     Dolore nobis, quas accusantium modi animi nesciunt
                     reiciendis ea facilis quibusdam enim, earum reprehenderit
@@ -109,7 +107,7 @@ export const TakeTestPage = () => {
                 </li>
                 <li>
                   <h5>
-                    {' '}
+                    {" "}
                     Lorem, ipsum dolor sit amet consectetur adipisicing elit.
                     Dolore nobis, quas accusantium modi animi nesciunt
                     reiciendis ea facilis quibusdam enim, earum reprehenderit
@@ -118,7 +116,7 @@ export const TakeTestPage = () => {
                 </li>
                 <li>
                   <h5>
-                    {' '}
+                    {" "}
                     Lorem, ipsum dolor sit amet consectetur adipisicing elit.
                     Dolore nobis, quas accusantium modi animi nesciunt
                     reiciendis ea facilis quibusdam enim, earum reprehenderit
@@ -127,7 +125,7 @@ export const TakeTestPage = () => {
                 </li>
                 <li>
                   <h5>
-                    {' '}
+                    {" "}
                     Lorem, ipsum dolor sit amet consectetur adipisicing elit.
                     Dolore nobis, quas accusantium modi animi nesciunt
                     reiciendis ea facilis quibusdam enim, earum reprehenderit
@@ -136,7 +134,7 @@ export const TakeTestPage = () => {
                 </li>
                 <li>
                   <h5>
-                    {' '}
+                    {" "}
                     Lorem, ipsum dolor sit amet consectetur adipisicing elit.
                     Dolore nobis, quas accusantium modi animi nesciunt
                     reiciendis ea facilis quibusdam enim, earum reprehenderit
@@ -148,8 +146,6 @@ export const TakeTestPage = () => {
           </div>
         </div>
       </div>
-
-      <Footer></Footer>
     </div>
   );
 };

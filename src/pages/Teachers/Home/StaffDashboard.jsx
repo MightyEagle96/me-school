@@ -1,12 +1,12 @@
-import React from 'react';
+import React from "react";
+import SideMenu from "../../../components/SideMenu/SideMenu";
 
-import { StaffSideMenu } from '../../../components/SideMenu/StaffSideMenu/StaffSideMenu';
 export default function StaffDashboard() {
   return (
     <div>
       <div className="row">
         <div className="col-md-3">
-          <StaffSideMenu />
+          <SideMenu />
         </div>
         <div className="col-md-9 pr-4">
           <div className="mt-3">

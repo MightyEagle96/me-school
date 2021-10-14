@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { IsLoading } from '../../../assets/aesthetics/IsLoading';
-import Footer from '../../../components/Footer/Footer';
-import Navbar from '../../../components/Navbar/Navbar';
-import { StudentSideMenu } from '../../../components/SideMenu/StudentSideMenu/StudentSideMenu';
-import { httpService } from '../../../data/services';
-import { MDBBadge } from 'mdbreact';
-import Swal from 'sweetalert2';
+import React, { useState, useEffect } from "react";
+import { IsLoading } from "../../../assets/aesthetics/IsLoading";
+
+import { httpService } from "../../../data/services";
+import { MDBBadge } from "mdbreact";
+import Swal from "sweetalert2";
+import SideMenu from "../../../components/SideMenu/SideMenu";
+
 export const RegisteredSubjects = () => {
   /**
    * First of all fetch the subjects
    */
   const [subjects, setSubjects] = useState([]);
   const [userData, setUserData] = useState({
-    currentTerm: { term: '' },
-    currentSession: { session: '' },
-    level: { level: '' },
+    currentTerm: { term: "" },
+    currentSession: { session: "" },
+    level: { level: "" },
   });
   const [selectedSubject, setSelectedSubject] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -22,23 +22,23 @@ export const RegisteredSubjects = () => {
 
   const fetchRegisteredSubjects = async () => {
     setLoading(true);
-    const path = '/class/viewRegisteredSubject';
+    const path = "/class/viewRegisteredSubject";
     const res = await httpService.get(path);
     if (res) {
       setLoading(false);
       setRegisteredSubjects(res.data.registeredSubject.subjects);
-    }
+    } else setLoading(false);
   };
   const fetchSubjects = async () => {
     setLoading(true);
-    const path = 'subjects';
+    const path = "subjects";
     const res = await httpService.get(path);
     if (res) {
       console.log(res.data);
       setUserData(res.data.userData);
       setSubjects(res.data.subjects);
       setLoading(false);
-    }
+    } else setLoading(false);
   };
 
   async function postSubjects() {
@@ -47,21 +47,21 @@ export const RegisteredSubjects = () => {
     for (let i = 0; i < selectedSubject.length; i++) {
       subjectIds.push(selectedSubject[i]._id);
     }
-    const path = '/class/registerSubject';
+    const path = "/class/registerSubject";
     const body = { subjects: subjectIds };
     const res = await httpService.post(path, body);
     if (res) {
-      Swal.fire({ icon: 'success', text: 'Subjects registered' }).then(() => {
+      Swal.fire({ icon: "success", text: "Subjects registered" }).then(() => {
         fetchRegisteredSubjects();
       });
     }
   }
   const registerSubjects = () => {
     Swal.fire({
-      icon: 'question',
-      title: 'Cross check',
+      icon: "question",
+      title: "Cross check",
       text: `Are you sure you want to register ${
-        selectedSubject.length > 1 ? 'these subjects?' : 'this subject?'
+        selectedSubject.length > 1 ? "these subjects?" : "this subject?"
       }\nThis cannot be undone, till you contact your administrator.`,
       showCancelButton: true,
       showConfirmButton: true,
@@ -88,10 +88,9 @@ export const RegisteredSubjects = () => {
   };
   return (
     <div>
-      <Navbar></Navbar>
       <div className="row">
         <div className="col-md-3">
-          <StudentSideMenu />
+          <SideMenu />
         </div>
         <div className="col-md-9">
           <div class="mt-3">
@@ -118,7 +117,7 @@ export const RegisteredSubjects = () => {
                         <div class="form-check mb-3">
                           {isRegistered(subject._id) ? (
                             <div>
-                              {' '}
+                              {" "}
                               <input
                                 class="form-check-input"
                                 type="checkbox"
@@ -134,7 +133,7 @@ export const RegisteredSubjects = () => {
                             </div>
                           ) : (
                             <div>
-                              {' '}
+                              {" "}
                               <input
                                 class="form-check-input"
                                 type="checkbox"
@@ -187,8 +186,8 @@ export const RegisteredSubjects = () => {
                           onClick={registerSubjects}
                         >
                           {selectedSubject.length > 1
-                            ? 'Register these subjects'
-                            : 'Register this subject'}
+                            ? "Register these subjects"
+                            : "Register this subject"}
                         </button>
                       </div>
                     </div>
@@ -203,7 +202,6 @@ export const RegisteredSubjects = () => {
           </div>
         </div>
       </div>
-      <Footer></Footer>
     </div>
   );
 };

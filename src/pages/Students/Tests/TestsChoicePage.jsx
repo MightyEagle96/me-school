@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import ExamChoiceItem from '../../../components/ExamCards/ExamChoiceItem';
-import Footer from '../../../components/Footer/Footer';
-import Navbar from '../../../components/Navbar/Navbar';
-import { StudentSideMenu } from '../../../components/SideMenu/StudentSideMenu/StudentSideMenu';
-import { httpService } from '../../../data/services';
+import React, { useState, useEffect } from "react";
+import ExamChoiceItem from "../../../components/ExamCards/ExamChoiceItem";
+import SideMenu from "../../../components/SideMenu/SideMenu";
+import { httpService } from "../../../data/services";
 
 export default function TestsChoicePage() {
   const [subjects, setSubjects] = useState([]);
@@ -12,7 +10,7 @@ export default function TestsChoicePage() {
   //fetch registered subjects
   const fetchRegisteredSubjects = async () => {
     setLoading(true);
-    const path = '/class/viewRegisteredSubject';
+    const path = "/class/viewRegisteredSubject";
     const res = await httpService.get(path);
     if (res) {
       setLoading(false);
@@ -27,10 +25,9 @@ export default function TestsChoicePage() {
   }, []);
   return (
     <div>
-      <Navbar></Navbar>
       <div className="row">
         <div className="col-md-3">
-          <StudentSideMenu />
+          <SideMenu />
         </div>
         <div className="col-md-9">
           <div className="alert alert-secondary text-center h3">
@@ -49,7 +46,6 @@ export default function TestsChoicePage() {
           </div>
         </div>
       </div>
-      <Footer></Footer>
     </div>
   );
 }
