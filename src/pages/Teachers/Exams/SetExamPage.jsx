@@ -1,22 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import Footer from '../../../components/Footer/Footer';
-import Navbar from '../../../components/Navbar/Navbar';
-import { StaffSideMenu } from '../../../components/SideMenu/StaffSideMenu/StaffSideMenu';
-import { useParams } from 'react-router';
-import { httpService } from '../../../data/services';
-import { MDBCollapse } from 'mdb-react-ui-kit';
-import { MDBTable, MDBTableBody, MDBTableHead } from 'mdbreact';
-import { HttpError } from '../../../assets/aesthetics/HttpError';
-import Swal from 'sweetalert2';
+import React, { useState, useEffect } from "react";
+
+import SideMenu from "../../../components/SideMenu/SideMenu";
+import { useParams } from "react-router";
+import { httpService } from "../../../data/services";
+import { MDBCollapse } from "mdb-react-ui-kit";
+import { MDBTable, MDBTableBody, MDBTableHead } from "mdbreact";
+import { HttpError } from "../../../assets/aesthetics/HttpError";
+import Swal from "sweetalert2";
 
 export default function SetExamPage() {
   const defaultData = {
-    question: '',
-    optionA: '',
-    optionB: '',
-    optionC: '',
-    optionD: '',
-    correctAns: '',
+    question: "",
+    optionA: "",
+    optionB: "",
+    optionC: "",
+    optionD: "",
+    correctAns: "",
   };
   const { subjectId, levelId } = useParams();
   const [subject, setSubject] = useState({});
@@ -25,9 +24,9 @@ export default function SetExamPage() {
   const [paperDetail, setPaperDetail] = useState({});
   const [question, setQuestion] = useState({});
   const [questions, setQuestions] = useState([]);
-  const [questionCollectionId, setQuestionCollectionId] = useState('');
+  const [questionCollectionId, setQuestionCollectionId] = useState("");
   const [isUpdate, setIsUpdate] = useState(false);
-  const [updateQuestionId, setUpdateQuestionId] = useState('');
+  const [updateQuestionId, setUpdateQuestionId] = useState("");
 
   const [showTerm, setShowTerm] = useState(false);
   const [testTypes, setTestTypes] = useState([]);
@@ -61,7 +60,7 @@ export default function SetExamPage() {
   }
   async function getTestTypes() {
     setLoading(true);
-    const path = 'testType';
+    const path = "testType";
     const res = await httpService.get(path);
     if (res) {
       setTestTypes(res.data.testTypes);
@@ -73,7 +72,7 @@ export default function SetExamPage() {
 
   async function getTerms() {
     setLoading(false);
-    const path = 'terms';
+    const path = "terms";
     const res = await httpService.get(path);
     if (res) {
       setCurrentTerm(res.data.terms);
@@ -108,7 +107,7 @@ export default function SetExamPage() {
       return alert(`You haven't set the test type yet`);
     }
 
-    const path = 'questions';
+    const path = "questions";
     const body = {
       ...question,
       currentTerm: paperDetail.termId,
@@ -130,14 +129,14 @@ export default function SetExamPage() {
   function deleteQuestion(questionId) {
     console.log(questionId);
     Swal.fire({
-      icon: 'question',
-      title: 'Are you sure?',
-      text: 'Do you want to delete this question?',
+      icon: "question",
+      title: "Are you sure?",
+      text: "Do you want to delete this question?",
       showConfirmButton: true,
       showCancelButton: true,
-      confirmButtonColor: 'green',
-      confirmButtonText: 'Yes delete',
-      cancelButtonColor: 'red',
+      confirmButtonColor: "green",
+      confirmButtonText: "Yes delete",
+      cancelButtonColor: "red",
     }).then(async (result) => {
       if (result.isConfirmed) {
         const path = `/questions/delete/${questionCollectionId}`;
@@ -146,9 +145,9 @@ export default function SetExamPage() {
         if (res) {
           fetchQuestions();
           Swal.fire({
-            icon: 'success',
-            title: 'Deleted',
-            text: 'Question deleted',
+            icon: "success",
+            title: "Deleted",
+            text: "Question deleted",
           });
         }
       }
@@ -176,9 +175,9 @@ export default function SetExamPage() {
       setIsUpdate(false);
       setQuestion(defaultData);
       Swal.fire({
-        icon: 'success',
-        titleText: 'success',
-        text: 'Question updated successfully',
+        icon: "success",
+        titleText: "success",
+        text: "Question updated successfully",
       });
     }
   }
@@ -197,7 +196,7 @@ export default function SetExamPage() {
     <div>
       <div className="row">
         <div className="col-md-3">
-          <StaffSideMenu />
+          <SideMenu />
         </div>
         <div className="col-md-9 border-left ">
           <div className="mt-3 pr-2">
@@ -210,7 +209,7 @@ export default function SetExamPage() {
                         className="btn btn-danger mb-2"
                         onClick={toggleShow}
                       >
-                        {paperDetail.type || 'Choose paper type'}
+                        {paperDetail.type || "Choose paper type"}
                       </button>
                       <hr className="bg-white" />
                     </div>
@@ -245,7 +244,7 @@ export default function SetExamPage() {
                         className="btn btn-secondary mb-2"
                         onClick={toggleTerm}
                       >
-                        {paperDetail.term || 'Choose term to set'}
+                        {paperDetail.term || "Choose term to set"}
                       </button>
                       <hr className="bg-white" />
                     </div>
@@ -305,7 +304,7 @@ export default function SetExamPage() {
                     <span className="sr-only">Loading...</span>
                   </div>
                 ) : (
-                  ''
+                  ""
                 )}
               </div>
               <div className="col-md-6 ">
@@ -314,16 +313,16 @@ export default function SetExamPage() {
                     <span>Please select a paper type and a term</span>
                   ) : (
                     <b>
-                      You are currently working on {subject.title} for{' '}
-                      {level.level} and you are setting{' '}
+                      You are currently working on {subject.title} for{" "}
+                      {level.level} and you are setting{" "}
                       <span>
-                        {' '}
-                        <strong>{paperDetail.type}</strong>{' '}
-                      </span>{' '}
-                      questions for{' '}
+                        {" "}
+                        <strong>{paperDetail.type}</strong>{" "}
+                      </span>{" "}
+                      questions for{" "}
                       <span>
-                        {' '}
-                        <strong>{paperDetail.term}.</strong>{' '}
+                        {" "}
+                        <strong>{paperDetail.term}.</strong>{" "}
                       </span>
                       <span>
                         <button
@@ -335,7 +334,7 @@ export default function SetExamPage() {
                         >
                           If this is not the question you wish to set for you
                           can reload
-                        </button>{' '}
+                        </button>{" "}
                         <a href="/chooseExamToSet" className="nav-link">
                           Go back to the SELECT CLASS TO SET PAGE.
                         </a>

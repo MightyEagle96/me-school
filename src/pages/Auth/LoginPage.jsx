@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { MDBInput } from "mdbreact";
-import Navbar from "../../components/Navbar/Navbar";
-import Footer from "../../components/Footer/Footer";
-import "./LoginPage.css";
+
 import { httpService } from "../../data/services";
 
 import Swal from "sweetalert2";

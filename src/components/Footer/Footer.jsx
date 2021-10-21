@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 export default function Footer() {
   return (
@@ -8,7 +8,7 @@ export default function Footer() {
           <section className="mb-4">
             <a
               className="btn btn-primary btn-floating m-1"
-              style={{ backgroundColor: '#3b5998' }}
+              style={{ backgroundColor: "#3b5998" }}
               href="#!"
               role="button"
             >
@@ -17,7 +17,7 @@ export default function Footer() {
 
             <a
               className="btn btn-primary btn-floating m-1"
-              style={{ backgroundColor: '#55acee' }}
+              style={{ backgroundColor: "#55acee" }}
               href="#!"
               role="button"
             >
@@ -26,7 +26,7 @@ export default function Footer() {
 
             <a
               className="btn btn-primary btn-floating m-1"
-              style={{ backgroundColor: '#dd4b39' }}
+              style={{ backgroundColor: "#dd4b39" }}
               href="#!"
               role="button"
             >
@@ -35,7 +35,7 @@ export default function Footer() {
 
             <a
               className="btn btn-primary btn-floating m-1"
-              style={{ backgroundColor: '#ac2bac' }}
+              style={{ backgroundColor: "#ac2bac" }}
               href="#!"
               role="button"
             >
@@ -44,7 +44,7 @@ export default function Footer() {
 
             <a
               className="btn btn-primary btn-floating m-1"
-              style={{ backgroundColor: '#0082ca' }}
+              style={{ backgroundColor: "#0082ca" }}
               href="#!"
               role="button"
             >
@@ -53,7 +53,7 @@ export default function Footer() {
 
             <a
               className="btn btn-primary btn-floating m-1"
-              style={{ backgroundColor: '#333333' }}
+              style={{ backgroundColor: "#333333" }}
               href="#!"
               role="button"
             >
@@ -64,7 +64,7 @@ export default function Footer() {
 
         <div
           className="text-center p-3"
-          style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}
+          style={{ backgroundColor: "rgba(0, 0, 0, 0.2)" }}
         >
           © 2020 Copyright:
           <a className="text-white" href="https://mdbootstrap.com/">

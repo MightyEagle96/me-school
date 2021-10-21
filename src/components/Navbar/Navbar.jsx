@@ -100,7 +100,7 @@ export default function Navbar() {
                   <MDBDropdownMenu>
                     {user.role !== "user" ? (
                       <MDBDropdownItem>
-                        <MDBDropdownLink href="/dashboard">
+                        <MDBDropdownLink href="/profile">
                           {" "}
                           My Profile
                         </MDBDropdownLink>

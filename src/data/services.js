@@ -1,8 +1,8 @@
 import axios from "axios";
 
 import Swal from "sweetalert2";
-//export const backendUrl = 'http://localhost:4000/';
-export const backendUrl = "https://mightyeagle-be.herokuapp.com";
+export const backendUrl = "http://localhost:4000/";
+//export const backendUrl = "https://mightyeagle-be.herokuapp.com";
 
 const AUTH_TOKEN = localStorage.getItem("token") || "";
 
@@ -60,6 +60,14 @@ class DataService {
     return JSON.parse(localStorage.getItem("loggedInUser")) || null;
   }
   async logout() {
+    Swal.fire({
+      icon: "info",
+      html: `<div class="spinner-border text-primary" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>`,
+      showConfirmButton: false,
+      title: "Logging out",
+    });
     const path = "auth/logout";
     await httpService
       .post(path, {})
@@ -67,7 +75,7 @@ class DataService {
         localStorage.removeItem("token");
         localStorage.removeItem("loggedInUser");
       })
-      .then(() => window.location.assign("/login"));
+      .then(() => window.location.assign("/"));
   }
 }
 

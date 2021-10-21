@@ -1,22 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import { httpService } from '../../../data/services';
+import React, { useState, useEffect } from "react";
+import { httpService } from "../../../data/services";
+import SideMenu from "../../../components/SideMenu/SideMenu";
 
-import { StaffSideMenu } from '../../../components/SideMenu/StaffSideMenu/StaffSideMenu';
-import { SetExamChoiceItem } from '../../../components/ExamCards/SetExamChoiceItem';
-import { IsLoading } from '../../../assets/aesthetics/IsLoading';
+import { SetExamChoiceItem } from "../../../components/ExamCards/SetExamChoiceItem";
+import { IsLoading } from "../../../assets/aesthetics/IsLoading";
 export default function ExamChoicePage() {
   const [subjects, setSubjects] = useState([]);
   const [loading, setLoading] = useState(false);
 
   async function getSubjects() {
     setLoading(true);
-    const path = 'subjects';
+    const path = "subjects";
     const res = await httpService.get(path);
     if (res) {
       setSubjects(res.data.subjects);
       setLoading(false);
     } else {
-      console.log('error');
+      console.log("error");
       setLoading(false);
     }
   }
@@ -28,7 +28,7 @@ export default function ExamChoicePage() {
     <div>
       <div className="row">
         <div className="col-md-3">
-          <StaffSideMenu />
+          <SideMenu />
         </div>
         <div className="col-md-9">
           <div className="mt-3 pr-2">
@@ -45,7 +45,7 @@ export default function ExamChoicePage() {
                 </div>
               </div>
             ) : (
-              ''
+              ""
             )}
             <div className="d-flex flex-wrap">
               {subjects.map((subject, index) => {
