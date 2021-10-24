@@ -21,12 +21,15 @@ import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import { RedirectUser } from "./pages/Auth/routes";
 import ProfilePage from "./pages/User/ProfilePage";
+import AdminDashboard from "./pages/Admin/Home/AdminDashboard";
+import Subjects from "./pages/Admin/Subjects/Subjects";
+import StaffAndUsersPage from "./pages/Admin/StaffAndUsers/StaffAndUsersPage";
 
 function App() {
   const user = JSON.parse(localStorage.getItem("loggedInUser"));
   console.log(user);
   return (
-    <div className="m-0">
+    <div className="m-0 defColor">
       <Navbar></Navbar>
       <Switch>
         <Route exact path="/" component={HomePage}>
@@ -38,6 +41,13 @@ function App() {
         <Route exact path="/subjects" component={SubjectsListPage}></Route>
         <Route exact path="/staffHome" component={StaffDashboard}></Route>
         <Route exact path="/studentHome" component={StudentDashboard}></Route>
+        <Route exact path="/adminHome" component={AdminDashboard}></Route>
+        <Route exact path="/subjectsViewAdd" component={Subjects}></Route>
+        <Route
+          exact
+          path="/staffAndUsers"
+          component={StaffAndUsersPage}
+        ></Route>
         <Route
           exact
           path="/registerSubject"

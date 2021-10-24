@@ -16,7 +16,7 @@ import {
   MDBCollapse,
 } from "mdb-react-ui-kit";
 
-import { backendUrl, dataService } from "../../data/services";
+import { backendUrl, dataService, loggedInUser } from "../../data/services";
 import Swal from "sweetalert2";
 import "./Navbar.scss";
 export default function Navbar() {
@@ -41,8 +41,13 @@ export default function Navbar() {
   return (
     <MDBNavbar expand="lg" light bgColor="white">
       <MDBContainer fluid>
-        <MDBNavbarBrand href="#" className="text-danger">
-          <i className="fa fa-shopping-cart" aria-hidden="true"></i>
+        <MDBNavbarBrand href="#">
+          <div className="h5 text-primary d-flex align-items-center">
+            ME-SCHOOL{" "}
+            <span>
+              <i className="fab fa-phoenix-framework "></i>
+            </span>
+          </div>
         </MDBNavbarBrand>
 
         <MDBNavbarToggler
@@ -90,7 +95,12 @@ export default function Navbar() {
               <MDBNavbarNav>
                 <MDBNavbarItem>
                   <MDBNavbarLink className="waves-effect waves-light" to="#!">
-                    <MDBIcon icon="user" />
+                    <img
+                      src={
+                        `${backendUrl}/images/${loggedInUser.imageUrl}` || ""
+                      }
+                      className="navbarImg"
+                    />
                   </MDBNavbarLink>
                 </MDBNavbarItem>
                 <MDBDropdown>
