@@ -110,7 +110,7 @@ export default function SideMenu() {
                   </a>
                 </li>
                 <li className="mb-4">
-                  <a href="£!">
+                  <a href="/classAndClassTeachers">
                     <span className="fas fa-chalkboard-teacher   mr-3   "></span>{" "}
                     Classes and Class Teachers
                   </a>

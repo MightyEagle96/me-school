@@ -24,6 +24,7 @@ import ProfilePage from "./pages/User/ProfilePage";
 import AdminDashboard from "./pages/Admin/Home/AdminDashboard";
 import Subjects from "./pages/Admin/Subjects/Subjects";
 import StaffAndUsersPage from "./pages/Admin/StaffAndUsers/StaffAndUsersPage";
+import ClassesAndClassTeachersPage from "./pages/Admin/ClassesAndClassTeachers/ClassesAndClassTeachersPage";
 
 function App() {
   const user = JSON.parse(localStorage.getItem("loggedInUser"));
@@ -43,6 +44,11 @@ function App() {
         <Route exact path="/studentHome" component={StudentDashboard}></Route>
         <Route exact path="/adminHome" component={AdminDashboard}></Route>
         <Route exact path="/subjectsViewAdd" component={Subjects}></Route>
+        <Route
+          exact
+          path="/classAndClassTeachers"
+          component={ClassesAndClassTeachersPage}
+        ></Route>
         <Route
           exact
           path="/staffAndUsers"
