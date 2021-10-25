@@ -25,6 +25,8 @@ import AdminDashboard from "./pages/Admin/Home/AdminDashboard";
 import Subjects from "./pages/Admin/Subjects/Subjects";
 import StaffAndUsersPage from "./pages/Admin/StaffAndUsers/StaffAndUsersPage";
 import ClassesAndClassTeachersPage from "./pages/Admin/ClassesAndClassTeachers/ClassesAndClassTeachersPage";
+import SideMenu from "./components/SideMenu/SideMenu";
+import TermsAndSessionPage from "./pages/Admin/TermsAndSessionPage/TermsAndSessionPage";
 
 function App() {
   const user = JSON.parse(localStorage.getItem("loggedInUser"));
@@ -42,18 +44,32 @@ function App() {
         <Route exact path="/subjects" component={SubjectsListPage}></Route>
         <Route exact path="/staffHome" component={StaffDashboard}></Route>
         <Route exact path="/studentHome" component={StudentDashboard}></Route>
-        <Route exact path="/adminHome" component={AdminDashboard}></Route>
-        <Route exact path="/subjectsViewAdd" component={Subjects}></Route>
-        <Route
-          exact
-          path="/classAndClassTeachers"
-          component={ClassesAndClassTeachersPage}
-        ></Route>
-        <Route
-          exact
-          path="/staffAndUsers"
-          component={StaffAndUsersPage}
-        ></Route>
+
+        <div className="row">
+          <div className="col-md-3">
+            <SideMenu />
+          </div>
+          <div className="col-md-9">
+            <Route exact path="/adminHome" component={AdminDashboard}></Route>
+            <Route exact path="/subjectsViewAdd" component={Subjects}></Route>
+            <Route
+              exact
+              path="/staffAndUsers"
+              component={StaffAndUsersPage}
+            ></Route>
+            <Route
+              exact
+              path="/classAndClassTeachers"
+              component={ClassesAndClassTeachersPage}
+            ></Route>
+            <Route exact path="/profile" component={ProfilePage}></Route>
+            <Route
+              exact
+              path="/termsAndSessions"
+              component={TermsAndSessionPage}
+            ></Route>
+          </div>
+        </div>
         <Route
           exact
           path="/registerSubject"
@@ -71,7 +87,6 @@ function App() {
           path="/setExam/:subjectId/:levelId"
           component={SetExamPage}
         ></Route>
-        <Route exact path="/profile" component={ProfilePage}></Route>
       </Switch>
       <Footer></Footer>
     </div>

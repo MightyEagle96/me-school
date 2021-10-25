@@ -26,10 +26,11 @@ export default function Subjects() {
   };
 
   const viewSubjects = async () => {
+    setLoading(true);
     const path = "subjects/view";
     const res = await httpService.get(path);
     if (res) {
-      console.log(res.data);
+      setLoading(false);
       setSubjects(res.data.subjects);
     }
   };
@@ -39,142 +40,138 @@ export default function Subjects() {
   }, []);
   return (
     <div>
-      <div className="row">
-        <div className="col-md-3">
-          <SideMenu />
-        </div>
-        <div className="col-md-9 p-3">
-          <div className="h3 mt-4">CREATED SUBJECTS</div>
-          <hr />
-          <div className="row">
-            <div className="col-md-8 p-3">
-              <IsLoading />
-              <table className="table table-bordered">
-                <thead>
-                  <tr>
-                    <th>SUBJECT</th>
-                    <th>JUNIOR</th>
-                    <th>SENIOR</th>
-                    <th>BOTH</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {subjects.map((sub) => {
-                    return (
-                      <tr>
-                        <td>{sub.title}</td>
-                        <td>
-                          {sub.category === "junior" ? (
-                            <i class="fas fa-check  text-success  "></i>
-                          ) : (
-                            "-"
-                          )}
-                        </td>
-                        <td>
-                          {sub.category === "senior" ? (
-                            <i class="fas fa-check  text-success  "></i>
-                          ) : (
-                            "-"
-                          )}
-                        </td>
-                        <td>
-                          {sub.category === "both" ? (
-                            <i class="fas fa-check  text-success  "></i>
-                          ) : (
-                            "-"
-                          )}
-                        </td>
-                        <td>
-                          <button className="btn btn-danger">Delete</button>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+      <div>
+        <div className="h3 mt-4">CREATED SUBJECTS</div>
+        <hr />
+
+        <div className="row">
+          <div className="col-md-8 p-3">
+            <IsLoading color={"text-primary"} />
+            <table className="table table-bordered">
+              <thead>
+                <tr>
+                  <th>SUBJECT</th>
+                  <th>JUNIOR</th>
+                  <th>SENIOR</th>
+                  <th>BOTH</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {subjects.map((sub) => {
+                  return (
+                    <tr>
+                      <td>{sub.title}</td>
+                      <td className="text-center">
+                        {sub.category === "junior" ? (
+                          <i class="fas fa-check  text-success  "></i>
+                        ) : (
+                          "-"
+                        )}
+                      </td>
+                      <td className="text-center">
+                        {sub.category === "senior" ? (
+                          <i class="fas fa-check  text-success  "></i>
+                        ) : (
+                          "-"
+                        )}
+                      </td>
+                      <td className="text-center">
+                        {sub.category === "both" ? (
+                          <i class="fas fa-check  text-success  "></i>
+                        ) : (
+                          "-"
+                        )}
+                      </td>
+                      <td className="text-center">
+                        <button className="btn btn-danger">Delete</button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+          <div className=" col-md-4 p-3">
+            <div className="border border-primary p-3">
+              <h4 className="text-primary">Add a new subject</h4>
+              <div className="mt-2 mb-2">
+                <input
+                  className="form-control"
+                  name="subject"
+                  placeholder="Subject name"
+                  onChange={(e) => {
+                    setSubject({ ...subject, title: e.target.value });
+                  }}
+                  value={subject.title}
+                />
+              </div>
+              <div className="mb-2">
+                <select
+                  className="form-control"
+                  onChange={(e) => {
+                    setSubject({ ...subject, category: e.target.value });
+                  }}
+                >
+                  <option value="">Select a category for the subject</option>
+                  <option value="junior">Junior</option>
+                  <option value="senior">Senior</option>
+                  <option value="both">Both</option>
+                </select>
+              </div>
+              <div>
+                <button className="btn btn-primary" onClick={createSubject}>
+                  Create Subject
+                </button>{" "}
+                <IsLoading show={loading} />
+              </div>
             </div>
-            <div className=" col-md-4 p-3">
-              <div className="border border-primary p-3">
-                <h4 className="text-primary">Add a new subject</h4>
-                <div className="mt-2 mb-2">
-                  <input
-                    className="form-control"
-                    name="subject"
-                    placeholder="Subject name"
-                    onChange={(e) => {
-                      setSubject({ ...subject, title: e.target.value });
-                    }}
-                    value={subject.title}
-                  />
-                </div>
-                <div className="mb-2">
-                  <select
-                    className="form-control"
-                    onChange={(e) => {
-                      setSubject({ ...subject, category: e.target.value });
-                    }}
-                  >
-                    <option value="">Select a category for the subject</option>
-                    <option value="junior">Junior</option>
-                    <option value="senior">Senior</option>
-                    <option value="both">Both</option>
-                  </select>
-                </div>
+            <hr />
+            <div className="alert alert-primary p-3">
+              <h4>LEGEND</h4>
+              {subjects.length > 0 ? (
                 <div>
-                  <button className="btn btn-primary" onClick={createSubject}>
-                    Create Subject
-                  </button>{" "}
-                  <IsLoading show={loading} />
-                </div>
-              </div>
-              <hr />
-              <div className="alert alert-primary p-3">
-                <h4>LEGEND</h4>
-                {subjects.length > 0 ? (
                   <div>
-                    <div>
-                      Junior category <i class="fas fa-arrow-down    "></i>:{" "}
-                      <strong>
-                        {
-                          subjects.filter((sub) => {
-                            return sub.category === "junior";
-                          }).length
-                        }
-                      </strong>
-                    </div>
-                    <div>
-                      Senior category <i class="fas fa-arrow-up    "></i>:{" "}
-                      <strong>
-                        {
-                          subjects.filter((sub) => {
-                            return sub.category === "senior";
-                          }).length
-                        }
-                      </strong>
-                    </div>
-                    <div>
-                      Both <i class="fas fa-recycle  "></i>:{" "}
-                      <strong>
-                        {
-                          subjects.filter((sub) => {
-                            return sub.category === "both";
-                          }).length
-                        }
-                      </strong>
-                    </div>
-                    <div>
-                      Total Number of Subjects:{" "}
-                      <span>
-                        {" "}
-                        <strong>{subjects.length}</strong>
-                      </span>
-                    </div>
+                    Junior category <i class="fas fa-arrow-down    "></i>:{" "}
+                    <strong>
+                      {
+                        subjects.filter((sub) => {
+                          return sub.category === "junior";
+                        }).length
+                      }
+                    </strong>
                   </div>
-                ) : (
-                  ""
-                )}
-              </div>
+                  <div>
+                    Senior category <i class="fas fa-arrow-up    "></i>:{" "}
+                    <strong>
+                      {
+                        subjects.filter((sub) => {
+                          return sub.category === "senior";
+                        }).length
+                      }
+                    </strong>
+                  </div>
+                  <div>
+                    Both <i class="fas fa-recycle  "></i>:{" "}
+                    <strong>
+                      {
+                        subjects.filter((sub) => {
+                          return sub.category === "both";
+                        }).length
+                      }
+                    </strong>
+                  </div>
+                  <div>
+                    Total Number of Subjects:{" "}
+                    <span>
+                      {" "}
+                      <strong>{subjects.length}</strong>
+                    </span>
+                  </div>
+                </div>
+              ) : (
+                ""
+              )}
             </div>
           </div>
         </div>

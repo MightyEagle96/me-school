@@ -93,7 +93,7 @@ export default function SideMenu() {
             {loggedInUser && loggedInUser.role === "admin" ? (
               <div>
                 <li className="mb-4">
-                  <a href="£!">
+                  <a href="/termsAndSessions">
                     <span className="fas fa-clock mr-3   "></span> Terms and
                     Sessions
                   </a>
