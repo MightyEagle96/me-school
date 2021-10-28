@@ -47,6 +47,12 @@ httpService.interceptors.response.use(
           titleText: "Access Denied",
           text: response.data.message,
         });
+      } else if (response.status === 409) {
+        Swal.fire({
+          icon: "error",
+          titleText: "Can't create",
+          text: "Duplicate data found.",
+        });
       }
     }
   }

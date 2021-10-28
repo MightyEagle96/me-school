@@ -1,8 +1,7 @@
-import React from 'react';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import Snackbar from '@mui/material/Snackbar';
-import MuiAlert from '@mui/material/Alert';
+import React from "react";
+
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 // import CloseIcon from '@mui/icons-material/Close';
 
 export function HttpErrorComponent() {
@@ -25,7 +24,7 @@ export function HttpError() {
   };
 
   const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
 
@@ -38,12 +37,12 @@ export function HttpError() {
     //     Open success snackbar
     //   </Button>
     <Snackbar
-      anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      anchorOrigin={{ vertical: "top", horizontal: "center" }}
       open={open}
       autoHideDuration={6000}
       onClose={handleClose}
     >
-      <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+      <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
         Can't fetch data at this time
       </Alert>
     </Snackbar>

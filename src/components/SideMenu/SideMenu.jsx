@@ -3,6 +3,7 @@ import { backendUrl, loggedInUser } from "../../data/services";
 import "./SideMenu.scss";
 import maleAvatar from "../../assets/images/avatars/maleDefault.png";
 import femaleAvatar from "../../assets/images/avatars/femaleDefault.jpeg";
+import { RedirectUser } from "../../pages/Auth/routes";
 
 export default function SideMenu() {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -17,6 +18,20 @@ export default function SideMenu() {
         : (avatar = femaleAvatar);
     }
   }
+  function redirectUser(role) {
+    switch (role) {
+      case "admin":
+        return "/adminHome";
+      case "student":
+        return "/studentHome";
+      case "classTeacher":
+        return "/classTeacherHome";
+
+      default:
+        break;
+    }
+  }
+
   return (
     <div className="shadow-lg">
       <div className="p-4 sideMenu text-white">
@@ -29,7 +44,7 @@ export default function SideMenu() {
         <div>
           <ul class="staffList mb-5">
             <li className="mb-4  ">
-              <a href="/studentHome">
+              <a href={redirectUser(loggedInUser.role)}>
                 <span class="fa fa-home mr-3"></span> Home
               </a>
             </li>

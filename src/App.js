@@ -30,7 +30,7 @@ import TermsAndSessionPage from "./pages/Admin/TermsAndSessionPage/TermsAndSessi
 
 function App() {
   const user = JSON.parse(localStorage.getItem("loggedInUser"));
-  console.log(user);
+
   return (
     <div className="m-0 defColor">
       <Navbar></Navbar>

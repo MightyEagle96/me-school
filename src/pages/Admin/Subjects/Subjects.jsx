@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import SideMenu from "../../../components/SideMenu/SideMenu";
+
 import { httpService } from "../../../data/services";
 import { IsLoading } from "../../../assets/aesthetics/IsLoading";
 
