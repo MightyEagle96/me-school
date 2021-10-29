@@ -8,7 +8,7 @@ import {
   MDBModalBody,
   MDBModalFooter,
 } from "mdb-react-ui-kit";
-import { httpService } from "../../../data/services";
+import { httpService, loggedInUser } from "../../../data/services";
 import { IsLoading } from "../../../assets/aesthetics/IsLoading";
 import Swal from "sweetalert2";
 
@@ -26,6 +26,8 @@ export default function TermsAndSessionPage() {
   const [terms, setTerms] = useState([]);
   const [loadTerm, setLoadTerm] = useState(false);
   const [loadSession, setLoadSession] = useState(false);
+  const [activeSession, setActiveSession] = useState({ session: "-" });
+  const [activeTerm, setActiveTerm] = useState({ term: "-" });
 
   const showModal = (e) => {
     if (e === "term") {
@@ -44,10 +46,18 @@ export default function TermsAndSessionPage() {
   };
 
   const createTerm = async () => {
-    console.log(term);
     const path = "/terms/create";
     const res = await httpService.post(path, term);
     if (res) {
+      console.log(res.data);
+
+      localStorage.setItem(
+        "loggedInUser",
+        JSON.stringify({
+          ...loggedInUser,
+          currentTerm: res.data.currentTerm._id,
+        })
+      );
       listTerms();
       Swal.fire({
         icon: "success",
@@ -88,12 +98,18 @@ export default function TermsAndSessionPage() {
 
     const body = {
       session: sessionString,
-      activeSession: session.activeSession,
     };
     const path = "/session/create";
     toggle("session");
     const res = await httpService.post(path, body);
     if (res) {
+      localStorage.setItem(
+        "loggedInUser",
+        JSON.stringify({
+          ...loggedInUser,
+          currentSession: res.data.currentSession._id,
+        })
+      );
       Swal.fire({ icon: "success", titleText: res.data.message });
       listSessions();
     }
@@ -111,17 +127,20 @@ export default function TermsAndSessionPage() {
     } else {
       setLoadSession(false);
     }
+    getActiveSession();
   };
   const listTerms = async () => {
     setLoadTerm(true);
     const path = "/terms/view";
     const res = await httpService.get(path);
     if (res) {
+      console.log(res.data);
       setLoadTerm(false);
-      setTerms(res.data.terms);
+      if (res.data.terms.length > 0) setTerms(res.data.terms);
     } else {
       setLoadTerm(false);
     }
+    getActiveTerm();
   };
 
   const activateSession = async (id) => {
@@ -164,9 +183,29 @@ export default function TermsAndSessionPage() {
     });
   };
 
+  const getActiveSession = async () => {
+    const path = "/session/activeSession";
+    const res = await httpService.get(path);
+
+    if (res) {
+      setActiveSession(res.data.activeSession);
+    }
+  };
+
+  const getActiveTerm = async () => {
+    const path = "/terms/activeTerm";
+    const res = await httpService.get(path);
+
+    if (res) {
+      setActiveTerm(res.data.activeTerm);
+    }
+  };
+
   useEffect(() => {
     listSessions();
     listTerms();
+    getActiveSession();
+    getActiveTerm();
   }, []);
   return (
     <div>
@@ -176,23 +215,13 @@ export default function TermsAndSessionPage() {
         <div className="row alert alert-success ">
           <div className="col-md-4">
             <div className="h5">Current Session</div>
-            <div className="h2">
-              {sessions.length > 0
-                ? sessions.find((t) => {
-                    return t.activeSession === true;
-                  }).session
-                : "-"}
+            <div className="h3">
+              {activeSession ? activeSession.session : "-"}
             </div>
           </div>
           <div className="col-md-4">
             <div className="h5">Current Term</div>
-            <div className="h3">
-              {terms.length > 0
-                ? terms.find((t) => {
-                    return t.activeTerm === true;
-                  }).term
-                : "-"}
-            </div>
+            <div className="h3">{activeTerm ? activeTerm.term : "-"}</div>
           </div>
           <div className="col-md-4"></div>
           <hr />
@@ -349,7 +378,7 @@ export default function TermsAndSessionPage() {
                   }}
                   value={term.term}
                 />
-                <div className="mt-2">
+                {/* <div className="mt-2">
                   <label htmlFor="active">Make it active</label>
                   <select
                     name=""
@@ -363,7 +392,7 @@ export default function TermsAndSessionPage() {
                     <option value={true}>Yes</option>
                     <option value={false}>No</option>
                   </select>
-                </div>
+                </div> */}
                 <button className="btn btn-primary" onClick={createTerm}>
                   Create Term
                 </button>
@@ -414,7 +443,7 @@ export default function TermsAndSessionPage() {
                     value={session.sessionEnd}
                   />
                 </div>
-                <div className="mt-2">
+                {/* <div className="mt-2">
                   <label htmlFor="active">Make it active</label>
                   <select
                     name=""
@@ -428,7 +457,7 @@ export default function TermsAndSessionPage() {
                     <option value={true}>Yes</option>
                     <option value={false}>No</option>
                   </select>
-                </div>
+                </div> */}
                 <button className="btn btn-primary" onClick={createSession}>
                   Create Session
                 </button>
