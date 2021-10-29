@@ -213,22 +213,40 @@ export default function TermsAndSessionPage() {
         <div className="mt-3 mb-3 h3">Terms And Sessions</div>
         <hr />
         <div className="row alert alert-success ">
-          <div className="col-md-4">
-            <div className="h5">Current Session</div>
-            <div className="h3">
-              {activeSession ? activeSession.session : "-"}
+          <div className="col-md-6 p-3">
+            <div className="d-flex justify-content-between">
+              <div>
+                <div className="h5">Current Session</div>
+                <div className="h3">
+                  {activeSession ? activeSession.session : "-"}
+                </div>
+              </div>
+              <div className="d-flex align-items-center">
+                <div className="h1 ">
+                  <i class="fas fa-calendar"></i>
+                </div>
+              </div>
             </div>
           </div>
-          <div className="col-md-4">
-            <div className="h5">Current Term</div>
-            <div className="h3">{activeTerm ? activeTerm.term : "-"}</div>
+          <div className="col-md-6 p-3">
+            <div className="d-flex justify-content-between">
+              <div>
+                <div className="h5">Current Term</div>
+                <div className="h3">{activeTerm ? activeTerm.term : "-"}</div>
+              </div>
+              <div className="d-flex align-items-center">
+                <div className="h1">
+                  <i class="fas fa-clock    "></i>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="col-md-4"></div>
+
           <hr />
         </div>
-        <hr />
+
         <div className="row">
-          <div className="col-md-4">
+          <div className="col-md-6">
             <div className="d-flex justify-content-between">
               <div className="h3">Sessions List</div>
               <div>
@@ -286,7 +304,7 @@ export default function TermsAndSessionPage() {
               </tbody>
             </table>
           </div>
-          <div className="border-left col-md-4">
+          <div className="border-left col-md-6">
             <div className="d-flex justify-content-between">
               <div className="h3">Term List</div>
               <div>
