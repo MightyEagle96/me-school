@@ -1,22 +1,23 @@
-import React, { useState, useEffect } from "react";
-import { httpService } from "../../../data/services";
-import SideMenu from "../../../components/SideMenu/SideMenu";
+import React, { useState, useEffect } from 'react';
+import { httpService } from '../../../data/services';
+import SideMenu from '../../../components/SideMenu/SideMenu';
 
-import { SetExamChoiceItem } from "../../../components/ExamCards/SetExamChoiceItem";
-import { IsLoading } from "../../../assets/aesthetics/IsLoading";
+import { SetExamChoiceItem } from '../../../components/ExamCards/SetExamChoiceItem';
+
 export default function ExamChoicePage() {
   const [subjects, setSubjects] = useState([]);
   const [loading, setLoading] = useState(false);
 
   async function getSubjects() {
     setLoading(true);
-    const path = "subjects";
+    const path = 'subjects/view';
     const res = await httpService.get(path);
     if (res) {
+      console.log(res.data.subjects);
       setSubjects(res.data.subjects);
       setLoading(false);
     } else {
-      console.log("error");
+      console.log('error');
       setLoading(false);
     }
   }
@@ -45,7 +46,7 @@ export default function ExamChoicePage() {
                 </div>
               </div>
             ) : (
-              ""
+              ''
             )}
             <div className="d-flex flex-wrap">
               {subjects.map((subject, index) => {

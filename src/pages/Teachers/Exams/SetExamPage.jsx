@@ -1,21 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 
-import SideMenu from "../../../components/SideMenu/SideMenu";
-import { useParams } from "react-router";
-import { httpService } from "../../../data/services";
-import { MDBCollapse } from "mdb-react-ui-kit";
-import { MDBTable, MDBTableBody, MDBTableHead } from "mdbreact";
-import { HttpError } from "../../../assets/aesthetics/HttpError";
-import Swal from "sweetalert2";
+import SideMenu from '../../../components/SideMenu/SideMenu';
+import { useParams } from 'react-router';
+import { httpService } from '../../../data/services';
+import { MDBCollapse } from 'mdb-react-ui-kit';
+import { MDBTable, MDBTableBody, MDBTableHead } from 'mdbreact';
+import { HttpError } from '../../../assets/aesthetics/HttpError';
+import Swal from 'sweetalert2';
+import { MyTable } from '../../../assets/aesthetics/MyTable';
 
 export default function SetExamPage() {
   const defaultData = {
-    question: "",
-    optionA: "",
-    optionB: "",
-    optionC: "",
-    optionD: "",
-    correctAns: "",
+    question: '',
+    optionA: '',
+    optionB: '',
+    optionC: '',
+    optionD: '',
+    correctAns: '',
   };
   const { subjectId, levelId } = useParams();
   const [subject, setSubject] = useState({});
@@ -24,9 +25,9 @@ export default function SetExamPage() {
   const [paperDetail, setPaperDetail] = useState({});
   const [question, setQuestion] = useState({});
   const [questions, setQuestions] = useState([]);
-  const [questionCollectionId, setQuestionCollectionId] = useState("");
+  const [questionCollectionId, setQuestionCollectionId] = useState('');
   const [isUpdate, setIsUpdate] = useState(false);
-  const [updateQuestionId, setUpdateQuestionId] = useState("");
+  const [updateQuestionId, setUpdateQuestionId] = useState('');
 
   const [showTerm, setShowTerm] = useState(false);
   const [testTypes, setTestTypes] = useState([]);
@@ -35,12 +36,14 @@ export default function SetExamPage() {
 
   const toggleShow = () => setShowShow(!showShow);
 
+  console.log(useParams());
   const toggleTerm = () => setShowTerm(!showTerm);
   async function getSubject() {
     setLoading(true);
-    const path = `subjects/${subjectId}`;
+    const path = `subjects/view/${subjectId}`;
     const res = await httpService.get(path);
     if (res) {
+      console.log(res.data);
       setSubject(res.data.subject);
       setLoading(false);
     } else {
@@ -60,7 +63,7 @@ export default function SetExamPage() {
   }
   async function getTestTypes() {
     setLoading(true);
-    const path = "testType";
+    const path = 'testType';
     const res = await httpService.get(path);
     if (res) {
       setTestTypes(res.data.testTypes);
@@ -72,8 +75,9 @@ export default function SetExamPage() {
 
   async function getTerms() {
     setLoading(false);
-    const path = "terms";
+    const path = 'terms/view';
     const res = await httpService.get(path);
+    console.log(res);
     if (res) {
       setCurrentTerm(res.data.terms);
       setLoading(true);
@@ -87,6 +91,7 @@ export default function SetExamPage() {
     const path = `questions?currentClass=${level._id}&subject=${subject._id}&currentTerm=${paperDetail.termId}&testType=${paperDetail.testTypeId}`;
     const res = await httpService.get(path);
     if (res) {
+      console.log(res.data);
       if (!res.data.message) {
         setQuestionCollectionId(res.data.questions._id);
         setQuestions(res.data.questions.questions);
@@ -107,7 +112,7 @@ export default function SetExamPage() {
       return alert(`You haven't set the test type yet`);
     }
 
-    const path = "questions";
+    const path = 'questions';
     const body = {
       ...question,
       currentTerm: paperDetail.termId,
@@ -129,14 +134,14 @@ export default function SetExamPage() {
   function deleteQuestion(questionId) {
     console.log(questionId);
     Swal.fire({
-      icon: "question",
-      title: "Are you sure?",
-      text: "Do you want to delete this question?",
+      icon: 'question',
+      title: 'Are you sure?',
+      text: 'Do you want to delete this question?',
       showConfirmButton: true,
       showCancelButton: true,
-      confirmButtonColor: "green",
-      confirmButtonText: "Yes delete",
-      cancelButtonColor: "red",
+      confirmButtonColor: 'green',
+      confirmButtonText: 'Yes delete',
+      cancelButtonColor: 'red',
     }).then(async (result) => {
       if (result.isConfirmed) {
         const path = `/questions/delete/${questionCollectionId}`;
@@ -145,9 +150,9 @@ export default function SetExamPage() {
         if (res) {
           fetchQuestions();
           Swal.fire({
-            icon: "success",
-            title: "Deleted",
-            text: "Question deleted",
+            icon: 'success',
+            title: 'Deleted',
+            text: 'Question deleted',
           });
         }
       }
@@ -175,9 +180,9 @@ export default function SetExamPage() {
       setIsUpdate(false);
       setQuestion(defaultData);
       Swal.fire({
-        icon: "success",
-        titleText: "success",
-        text: "Question updated successfully",
+        icon: 'success',
+        titleText: 'success',
+        text: 'Question updated successfully',
       });
     }
   }
@@ -192,373 +197,339 @@ export default function SetExamPage() {
   const handleChange = (e) => {
     setQuestion({ ...question, [e.target.name]: e.target.value });
   };
+
+  const columns = [
+    { title: 'Question', field: 'question' },
+    { title: 'Option A', field: 'optionA' },
+    { title: 'Option B', field: 'optionB' },
+    { title: 'Option C', field: 'optionC' },
+    { title: 'Option D', field: 'optionD' },
+    { title: 'Correct Answer', field: 'correctAns' },
+    {
+      title: 'Update',
+      field: '_id',
+      render: (rowData) => (
+        <button
+          className="btn btn-warning btn-sm"
+          onClick={() => {
+            setUpdateQuestionId(rowData._id);
+            fetchQuestion(rowData._id);
+          }}
+        >
+          Update
+        </button>
+      ),
+    },
+    {
+      title: 'Delete',
+      field: '_id',
+      render: (rowData) => (
+        <button
+          className="btn btn-danger btn-sm"
+          onClick={() => {
+            deleteQuestion(rowData._id);
+          }}
+        >
+          Delete
+        </button>
+      ),
+    },
+  ];
   return (
     <div>
-      <div className="row">
-        <div className="col-md-3">
-          <SideMenu />
-        </div>
-        <div className="col-md-9 border-left ">
-          <div className="mt-3 pr-2">
-            <div>
-              <div className="row">
-                <div className="col-md-4">
-                  <div className="alert alert-success">
-                    <div className="text-center">
-                      <button
-                        className="btn btn-danger mb-2"
-                        onClick={toggleShow}
-                      >
-                        {paperDetail.type || "Choose paper type"}
-                      </button>
-                      <hr className="bg-white" />
-                    </div>
-                    <div className="text-center">
-                      <MDBCollapse show={showShow}>
-                        {testTypes.map((testType, index) => {
-                          return (
-                            <button
-                              key={index}
-                              className="btn btn-info"
-                              onClick={() => {
-                                setPaperDetail({
-                                  ...paperDetail,
-                                  testTypeId: testType._id,
-                                  type: testType.testType,
-                                });
-                                setShowShow(!showShow);
-                              }}
-                            >
-                              {testType.testType}
-                            </button>
-                          );
-                        })}
-                      </MDBCollapse>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-md-4">
-                  <div className="alert alert-info">
-                    <div className="text-center">
-                      <button
-                        className="btn btn-secondary mb-2"
-                        onClick={toggleTerm}
-                      >
-                        {paperDetail.term || "Choose term to set"}
-                      </button>
-                      <hr className="bg-white" />
-                    </div>
-                    <div className="text-cetner">
-                      <MDBCollapse show={showTerm}>
-                        {currentTerm.map((term, index) => {
-                          return (
-                            <button
-                              key={index}
-                              className="btn btn-info"
-                              onClick={() => {
-                                setPaperDetail({
-                                  ...paperDetail,
-                                  termId: term._id,
-                                  term: term.term,
-                                });
-                                setShowTerm(!showTerm);
-                              }}
-                            >
-                              {term.term}
-                            </button>
-                          );
-                        })}
-                      </MDBCollapse>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-md-4">
-                  <div className="alert alert-danger mb-2">
-                    <div className="d-flex justify-content-between">
-                      <div>
-                        <div className="h5">Subject: {subject.title}</div>
-                        <div className="h5">Class: {level.level}</div>
-                      </div>
-                      <div>
-                        <button
-                          className="btn btn-danger"
-                          onClick={() => {
-                            fetchQuestions();
-                          }}
-                        >
-                          FETCH QUESTIONS
-                        </button>
-                      </div>
-                    </div>
-
+      <div className=" ">
+        <div className="mt-3 pr-2">
+          <div>
+            <div className="row">
+              <div className="col-md-4">
+                <div className="shadow-lg rounded p-3">
+                  <div className="text-center">
+                    <button
+                      className="btn btn-danger mb-2"
+                      onClick={toggleShow}
+                    >
+                      {paperDetail.type || 'Choose paper type'}
+                    </button>
                     <hr className="bg-white" />
                   </div>
+                  <div className="text-center">
+                    <MDBCollapse show={showShow}>
+                      {testTypes.map((testType, index) => {
+                        return (
+                          <button
+                            key={index}
+                            className="btn btn-info"
+                            onClick={() => {
+                              setPaperDetail({
+                                ...paperDetail,
+                                testTypeId: testType._id,
+                                type: testType.testType,
+                              });
+                              setShowShow(!showShow);
+                            }}
+                          >
+                            {testType.testType}
+                          </button>
+                        );
+                      })}
+                    </MDBCollapse>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-4">
+                <div className="shadow-lg rounded p-3">
+                  <div className="text-center">
+                    <button
+                      className="btn btn-secondary mb-2"
+                      onClick={toggleTerm}
+                    >
+                      {paperDetail.term || 'Choose term to set'}
+                    </button>
+                    <hr className="bg-white" />
+                  </div>
+                  <div className="text-cetner">
+                    <MDBCollapse show={showTerm}>
+                      {currentTerm.map((term, index) => {
+                        return (
+                          <button
+                            key={index}
+                            className="btn btn-info"
+                            onClick={() => {
+                              setPaperDetail({
+                                ...paperDetail,
+                                termId: term._id,
+                                term: term.term,
+                              });
+                              setShowTerm(!showTerm);
+                            }}
+                          >
+                            {term.term}
+                          </button>
+                        );
+                      })}
+                    </MDBCollapse>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-4">
+                <div className="shadow-lg rounded p-3 mb-2">
+                  <div className="d-flex justify-content-between">
+                    <div>
+                      <div className="h6">Subject: {subject.title}</div>
+                      <div className="h6">Class: {level.level}</div>
+                    </div>
+                    <div>
+                      <button
+                        className="btn btn-danger btn-sm"
+                        onClick={() => {
+                          fetchQuestions();
+                        }}
+                      >
+                        FETCH QUESTIONS
+                      </button>
+                    </div>
+                  </div>
+
+                  <hr className="bg-white" />
                 </div>
               </div>
             </div>
-            <hr />
-            <div className="d-flex justify-content-between">
-              <div className="col-md-6">
-                {loading ? (
-                  <div className="spinner-border text-primary" role="status">
-                    <span className="sr-only">Loading...</span>
-                  </div>
+          </div>
+          <hr />
+          <div className="d-flex justify-content-between">
+            <div className="col-md-6">
+              {loading ? (
+                <div className="spinner-border text-primary" role="status">
+                  <span className="sr-only">Loading...</span>
+                </div>
+              ) : (
+                ''
+              )}
+            </div>
+            <div className="col-md-6 ">
+              <div className="alert alert-secondary">
+                {!paperDetail.type && !paperDetail.term ? (
+                  <span>Please select a paper type and a term</span>
                 ) : (
-                  ""
+                  <b>
+                    You are currently working on {subject.title} for{' '}
+                    {level.level} and you are setting{' '}
+                    <span>
+                      {' '}
+                      <strong>{paperDetail.type}</strong>{' '}
+                    </span>{' '}
+                    questions for{' '}
+                    <span>
+                      {' '}
+                      <strong>{paperDetail.term}.</strong>{' '}
+                    </span>
+                    <span>
+                      <button
+                        type="button"
+                        className="btn btn-secondary"
+                        onClick={() => {
+                          fetchQuestions();
+                        }}
+                      >
+                        If this is not the question you wish to set for you can
+                        reload
+                      </button>{' '}
+                      <a href="/chooseExamToSet" className="nav-link">
+                        Go back to the SELECT CLASS TO SET PAGE.
+                      </a>
+                    </span>
+                  </b>
                 )}
               </div>
-              <div className="col-md-6 ">
-                <div className="alert alert-secondary">
-                  {!paperDetail.type && !paperDetail.term ? (
-                    <span>Please select a paper type and a term</span>
-                  ) : (
-                    <b>
-                      You are currently working on {subject.title} for{" "}
-                      {level.level} and you are setting{" "}
-                      <span>
-                        {" "}
-                        <strong>{paperDetail.type}</strong>{" "}
-                      </span>{" "}
-                      questions for{" "}
-                      <span>
-                        {" "}
-                        <strong>{paperDetail.term}.</strong>{" "}
-                      </span>
-                      <span>
-                        <button
-                          type="button"
-                          className="btn btn-secondary"
-                          onClick={() => {
-                            fetchQuestions();
-                          }}
-                        >
-                          If this is not the question you wish to set for you
-                          can reload
-                        </button>{" "}
-                        <a href="/chooseExamToSet" className="nav-link">
-                          Go back to the SELECT CLASS TO SET PAGE.
-                        </a>
-                      </span>
-                    </b>
-                  )}
+            </div>
+          </div>
+          <div className="border border-dark p-4 mb-3">
+            <div className="h3 text-secondary">SET QUESTIONS</div>
+            <div className="d-flex flex-wrap">
+              <div className="col-md-4 mb-2">
+                <div className="input-group">
+                  <div className="input-group-prepend">
+                    <span className="input-group-text" id="basic-addon">
+                      Question
+                    </span>
+                  </div>
+                  <input
+                    type="text"
+                    className="form-control"
+                    aria-label="Username"
+                    aria-describedby="basic-addon"
+                    name="question"
+                    value={question.question}
+                    onChange={handleChange}
+                  />
                 </div>
               </div>
-            </div>
-            <div className="border border-dark p-4 mb-3">
-              <div className="h3 text-secondary">SET QUESTIONS</div>
-              <div className="d-flex flex-wrap">
-                <div className="col-md-4 mb-2">
-                  <div className="input-group">
-                    <div className="input-group-prepend">
-                      <span className="input-group-text" id="basic-addon">
-                        Question
-                      </span>
-                    </div>
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Question"
-                      aria-label="Username"
-                      aria-describedby="basic-addon"
-                      name="question"
-                      value={question.question}
-                      onChange={handleChange}
-                    />
+              <div className="col-md-4 mb-2">
+                <div className="input-group">
+                  <div className="input-group-prepend">
+                    <span className="input-group-text" id="basic-addon">
+                      Option A
+                    </span>
                   </div>
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="optionA"
+                    value={question.optionA}
+                    onChange={handleChange}
+                    aria-label="Username"
+                    aria-describedby="basic-addon"
+                  />
                 </div>
-                <div className="col-md-4 mb-2">
-                  <div className="input-group">
-                    <div className="input-group-prepend">
-                      <span className="input-group-text" id="basic-addon">
-                        Option A
-                      </span>
-                    </div>
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Option A"
-                      name="optionA"
-                      value={question.optionA}
-                      onChange={handleChange}
-                      aria-label="Username"
-                      aria-describedby="basic-addon"
-                    />
+              </div>
+              <div className="col-md-4 mb-2">
+                <div className="input-group">
+                  <div className="input-group-prepend">
+                    <span className="input-group-text" id="basic-addon">
+                      Option B
+                    </span>
                   </div>
+                  <input
+                    type="text"
+                    className="form-control"
+                    aria-label="Username"
+                    aria-describedby="basic-addon"
+                    name="optionB"
+                    value={question.optionB}
+                    onChange={handleChange}
+                  />
                 </div>
-                <div className="col-md-4 mb-2">
-                  <div className="input-group">
-                    <div className="input-group-prepend">
-                      <span className="input-group-text" id="basic-addon">
-                        Option B
-                      </span>
-                    </div>
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Option B"
-                      aria-label="Username"
-                      aria-describedby="basic-addon"
-                      name="optionB"
-                      value={question.optionB}
-                      onChange={handleChange}
-                    />
+              </div>
+              <div className="col-md-4 mb-2">
+                <div className="input-group">
+                  <div className="input-group-prepend">
+                    <span className="input-group-text" id="basic-addon">
+                      Option C
+                    </span>
                   </div>
+                  <input
+                    type="text"
+                    className="form-control"
+                    aria-label="Username"
+                    aria-describedby="basic-addon"
+                    name="optionC"
+                    value={question.optionC}
+                    onChange={handleChange}
+                  />
                 </div>
-                <div className="col-md-4 mb-2">
-                  <div className="input-group">
-                    <div className="input-group-prepend">
-                      <span className="input-group-text" id="basic-addon">
-                        Option C
-                      </span>
-                    </div>
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Option C"
-                      aria-label="Username"
-                      aria-describedby="basic-addon"
-                      name="optionC"
-                      value={question.optionC}
-                      onChange={handleChange}
-                    />
+              </div>
+              <div className="col-md-4 mb-2">
+                <div className="input-group">
+                  <div className="input-group-prepend">
+                    <span className="input-group-text" id="basic-addon">
+                      Option D
+                    </span>
                   </div>
+                  <input
+                    type="text"
+                    className="form-control"
+                    aria-label="Username"
+                    aria-describedby="basic-addon"
+                    name="optionD"
+                    value={question.optionD}
+                    onChange={handleChange}
+                  />
                 </div>
-                <div className="col-md-4 mb-2">
-                  <div className="input-group">
-                    <div className="input-group-prepend">
-                      <span className="input-group-text" id="basic-addon">
-                        Option D
-                      </span>
-                    </div>
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Option D"
-                      aria-label="Username"
-                      aria-describedby="basic-addon"
-                      name="optionD"
-                      value={question.optionD}
-                      onChange={handleChange}
-                    />
+              </div>
+              <div className="col-md-4 mb-2">
+                <div className="input-group">
+                  <div className="input-group-prepend">
+                    <span className="input-group-text" id="basic-addon">
+                      Correct Answer
+                    </span>
                   </div>
-                </div>
-                <div className="col-md-4 mb-2">
-                  <div className="input-group">
-                    <div className="input-group-prepend">
-                      <span className="input-group-text" id="basic-addon">
-                        Correct Answer
-                      </span>
-                    </div>
-                    <select
-                      className="form-control"
-                      aria-label="Default select example"
-                      value={question.correctAns}
-                      onChange={handleChange}
-                      name="correctAns"
-                    >
-                      <option selected>Select correct answer </option>
-                      <option value={question.optionA}>
-                        {question.optionA}
-                      </option>
-                      <option value={question.optionB}>
-                        {question.optionB}
-                      </option>
-                      <option value={question.optionC}>
-                        {question.optionC}
-                      </option>
-                      <option value={question.optionD}>
-                        {question.optionD}
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <div className="col-md-4 mb-2">
-                  {isUpdate ? (
-                    <button className="btn btn-unique" onClick={updateQuestion}>
-                      Update this question
-                    </button>
-                  ) : (
-                    <button
-                      className="btn btn-deep-purple"
-                      onClick={postQuestions}
-                    >
-                      POST QUESTION
-                    </button>
-                  )}
-                  <button
-                    className="btn btn-pink"
-                    type="reset"
-                    onClick={() => {
-                      setQuestion({});
-                    }}
+                  <select
+                    className="form-control"
+                    aria-label="Default select example"
+                    value={question.correctAns}
+                    onChange={handleChange}
+                    name="correctAns"
                   >
-                    Reset
-                  </button>
+                    <option selected>Select correct answer </option>
+                    <option value={question.optionA}>{question.optionA}</option>
+                    <option value={question.optionB}>{question.optionB}</option>
+                    <option value={question.optionC}>{question.optionC}</option>
+                    <option value={question.optionD}>{question.optionD}</option>
+                  </select>
                 </div>
               </div>
+              <div className="col-md-4 mb-2">
+                {isUpdate ? (
+                  <button className="btn btn-unique" onClick={updateQuestion}>
+                    Update this question
+                  </button>
+                ) : (
+                  <button
+                    className="btn btn-deep-purple"
+                    onClick={postQuestions}
+                  >
+                    POST QUESTION
+                  </button>
+                )}
+                <button
+                  className="btn btn-pink"
+                  type="reset"
+                  onClick={() => {
+                    setQuestion({});
+                  }}
+                >
+                  Reset
+                </button>
+              </div>
             </div>
+          </div>
 
-            <MDBTable hover bordered>
-              <MDBTableHead color="secondary-color" textWhite>
-                <tr>
-                  <th>Question</th>
-                  <th>Option A</th>
-                  <th>Option B</th>
-                  <th>Option C</th>
-                  <th>Option D</th>
-                  <th>Correct Answer</th>
-                  <th>Update</th>
-                  <th>Delete</th>
-                </tr>
-              </MDBTableHead>
-              <MDBTableBody>
-                {questions.map((q, index) => {
-                  return (
-                    <tr key={index}>
-                      <td>
-                        <p>{q.question}</p>
-                      </td>
-                      <td>
-                        <p>{q.optionA}</p>
-                      </td>
-                      <td>
-                        <p>{q.optionB}</p>
-                      </td>
-                      <td>
-                        <p>{q.optionC}</p>
-                      </td>
-                      <td>
-                        <p>{q.optionD}</p>
-                      </td>
-                      <td>
-                        <p>{q.correctAns}</p>
-                      </td>
-                      <td>
-                        <button
-                          className="btn btn-deep-purple"
-                          onClick={() => {
-                            setUpdateQuestionId(q._id);
-                            fetchQuestion(q._id);
-                          }}
-                        >
-                          UPdate
-                        </button>
-                      </td>
-                      <td>
-                        <button
-                          className="btn btn-deep-orange"
-                          onClick={() => {
-                            deleteQuestion(q._id);
-                          }}
-                        >
-                          delete
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </MDBTableBody>
-            </MDBTable>
+          <div>
+            <MyTable
+              title={`${subject.title} questions`}
+              data={questions}
+              columns={columns}
+            />
           </div>
         </div>
       </div>

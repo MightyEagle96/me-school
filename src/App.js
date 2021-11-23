@@ -29,6 +29,7 @@ import SideMenu from './components/SideMenu/SideMenu';
 import TermsAndSessionPage from './pages/Admin/TermsAndSessionPage/TermsAndSessionPage';
 import { RegisteredSubjects } from './pages/Students/Subjects/RegisteredSubjects';
 import NotificationsPage from './pages/Admin/Notifications/NotificationsPage';
+import TestAndExaminations from './pages/Admin/TestAndExaminations/TestAndExaminations';
 
 function App() {
   const user = JSON.parse(localStorage.getItem('loggedInUser'));
@@ -76,21 +77,25 @@ function App() {
               component={RegisteredSubjects}
             ></Route>
             <Route path="/notifications" component={NotificationsPage}></Route>
+            <Route path="/testTypes" component={TestAndExaminations}></Route>
+            <Route exact path="/testChoice" component={TestsChoicePage}></Route>
+            <Route
+              exact
+              path="/takeExam/:subjectId/:testTypeId"
+              component={TakeTestPage}
+            ></Route>
+            <Route
+              exact
+              path="/chooseExamToSet"
+              component={ExamChoicePage}
+            ></Route>
+            <Route
+              exact
+              path="/setExam/:subjectId/:levelId"
+              component={SetExamPage}
+            ></Route>
           </div>
         </div>
-
-        <Route exact path="/testChoice" component={TestsChoicePage}></Route>
-        <Route
-          exact
-          path="/takeExam/:subjectId/:testTypeId"
-          component={TakeTestPage}
-        ></Route>
-        <Route exact path="/chooseExamToSet" component={ExamChoicePage}></Route>
-        <Route
-          exact
-          path="/setExam/:subjectId/:levelId"
-          component={SetExamPage}
-        ></Route>
       </Switch>
       <Footer></Footer>
     </div>

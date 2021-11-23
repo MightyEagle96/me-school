@@ -38,6 +38,7 @@ export default function Subjects() {
   useEffect(() => {
     viewSubjects();
   }, []);
+
   return (
     <div>
       <div>
@@ -61,23 +62,23 @@ export default function Subjects() {
                 {subjects.map((sub) => {
                   return (
                     <tr>
-                      <td>{sub.title}</td>
+                      <td>{sub.subject.title}</td>
                       <td className="text-center">
-                        {sub.category === 'junior' ? (
+                        {sub.subject.category === 'junior' ? (
                           <i class="fas fa-check  text-success  "></i>
                         ) : (
                           '-'
                         )}
                       </td>
                       <td className="text-center">
-                        {sub.category === 'senior' ? (
+                        {sub.subject.category === 'senior' ? (
                           <i class="fas fa-check  text-success  "></i>
                         ) : (
                           '-'
                         )}
                       </td>
                       <td className="text-center">
-                        {sub.category === 'both' ? (
+                        {sub.subject.category === 'both' ? (
                           <i class="fas fa-check  text-success  "></i>
                         ) : (
                           '-'

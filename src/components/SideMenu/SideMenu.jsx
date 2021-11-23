@@ -131,6 +131,12 @@ export default function SideMenu() {
                   </a>
                 </li>
                 <li className="mb-4">
+                  <a href="/testTypes">
+                    <span className="fas fa-pen-nib mr-3 "></span> Test &
+                    Examinations
+                  </a>
+                </li>
+                <li className="mb-4">
                   <a href="/notifications">
                     <span className="fas fa-bell mr-3   "></span> Notifications
                   </a>

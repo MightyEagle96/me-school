@@ -18,3 +18,15 @@ export const NOTIFICATIONS_PAGE = {
   CLASS_ASSIGNMENT_TEXT:
     "Are you sure you want to assign this student to this class?\nThis change can't be undone.",
 };
+
+export const TEST_AND_EXAMINATIONS_PAGE = {
+  information_text:
+    'A test type can either be a continuous assessment like a test, quiz or an examination. \nStudents will be tested on any of the subjects based on a certain test type.',
+};
+
+export const TEST_TYPES = [
+  'First Continous Assessment',
+  'Second Continous Assessment',
+  'Third Continous Assessment',
+  'Examination',
+];

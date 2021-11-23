@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 
-import Navbar from '../../components/Navbar/Navbar';
-
 import './SignUpPage.css';
 import { httpService } from '../../data/services';
 import Swal from 'sweetalert2';
@@ -9,7 +7,6 @@ import Swal from 'sweetalert2';
 import { IsLoading } from '../../assets/aesthetics/IsLoading';
 
 import { MDBInput } from 'mdbreact';
-import Footer from '../../components/Footer/Footer';
 
 export const SignUpPage = () => {
   const [formData, setFormData] = useState({ account_type: 'me-school' });
