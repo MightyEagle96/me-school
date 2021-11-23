@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { backendUrl, loggedInUser } from "../../data/services";
-import "./SideMenu.scss";
-import maleAvatar from "../../assets/images/avatars/maleDefault.png";
-import femaleAvatar from "../../assets/images/avatars/femaleDefault.jpeg";
-import { RedirectUser } from "../../pages/Auth/routes";
+import React, { useState } from 'react';
+import { backendUrl, loggedInUser } from '../../data/services';
+import './SideMenu.scss';
+import maleAvatar from '../../assets/images/avatars/maleDefault.png';
+import femaleAvatar from '../../assets/images/avatars/femaleDefault.jpeg';
+import { RedirectUser } from '../../pages/Auth/routes';
 
 export default function SideMenu() {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -13,19 +13,19 @@ export default function SideMenu() {
     if (loggedInUser.imageUrl) {
       avatar = `${backendUrl}/images/${loggedInUser.imageUrl}`;
     } else {
-      loggedInUser.gender === "male"
+      loggedInUser.gender === 'male'
         ? (avatar = maleAvatar)
         : (avatar = femaleAvatar);
     }
   }
   function redirectUser(role) {
     switch (role) {
-      case "admin":
-        return "/adminHome";
-      case "student":
-        return "/studentHome";
-      case "classTeacher":
-        return "/classTeacherHome";
+      case 'admin':
+        return '/adminHome';
+      case 'student':
+        return '/studentHome';
+      case 'classTeacher':
+        return '/classTeacherHome';
 
       default:
         break;
@@ -49,9 +49,9 @@ export default function SideMenu() {
               </a>
             </li>
             {/* Student menu */}
-            {loggedInUser && loggedInUser.role === "student" ? (
+            {loggedInUser && loggedInUser.role === 'student' ? (
               <div>
-                {" "}
+                {' '}
                 <li className=" mb-4 ">
                   <a href="/registerSubject">
                     <span class="fa fa-briefcase mr-3"></span> Registered
@@ -69,12 +69,12 @@ export default function SideMenu() {
                     <span class="fab fa-phoenix-framework  mr-3"></span> My
                     Results
                   </a>
-                </li>{" "}
+                </li>{' '}
               </div>
             ) : (
-              ""
+              ''
             )}
-            {loggedInUser && loggedInUser.role === "classTeacher" ? (
+            {loggedInUser && loggedInUser.role === 'classTeacher' ? (
               <div>
                 <li className="mb-4  ">
                   <a href="#">
@@ -83,13 +83,13 @@ export default function SideMenu() {
                 </li>
               </div>
             ) : (
-              ""
+              ''
             )}
             {loggedInUser &&
-            (loggedInUser.role === "classTeacher" ||
-              loggedInUser.role === "teacher") ? (
+            (loggedInUser.role === 'classTeacher' ||
+              loggedInUser.role === 'teacher') ? (
               <div>
-                {" "}
+                {' '}
                 <li className=" mb-4 ">
                   <a href="/chooseExamToSet">
                     <span class="fa fa-briefcase mr-3"></span> Set Exams
@@ -103,9 +103,9 @@ export default function SideMenu() {
                 </li>
               </div>
             ) : (
-              ""
+              ''
             )}
-            {loggedInUser && loggedInUser.role === "admin" ? (
+            {loggedInUser && loggedInUser.role === 'admin' ? (
               <div>
                 <li className="mb-4">
                   <a href="/termsAndSessions">
@@ -126,30 +126,30 @@ export default function SideMenu() {
                 </li>
                 <li className="mb-4">
                   <a href="/classAndClassTeachers">
-                    <span className="fas fa-chalkboard-teacher   mr-3   "></span>{" "}
+                    <span className="fas fa-chalkboard-teacher   mr-3   "></span>{' '}
                     Classes and Class Teachers
                   </a>
                 </li>
                 <li className="mb-4">
-                  <a href="£!">
+                  <a href="/notifications">
                     <span className="fas fa-bell mr-3   "></span> Notifications
                   </a>
                 </li>
                 <li className="mb-4">
                   <a href="£!">
-                    <span className="fas fa-chart-bar  mr-3   "></span>{" "}
+                    <span className="fas fa-chart-bar  mr-3   "></span>{' '}
                     Analytics
                   </a>
                 </li>
                 <li className="mb-4">
                   <a href="£!">
-                    <span className="fas fa-volume-up mr-3   "></span>{" "}
+                    <span className="fas fa-volume-up mr-3   "></span>{' '}
                     Broadcasts
                   </a>
                 </li>
               </div>
             ) : (
-              ""
+              ''
             )}
             <li className="mb-4  ">
               <a href="/profile">

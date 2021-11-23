@@ -1,22 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 
-import { httpService } from "../../../data/services";
-import { IsLoading } from "../../../assets/aesthetics/IsLoading";
+import { httpService } from '../../../data/services';
+import { IsLoading } from '../../../assets/aesthetics/IsLoading';
 
 export default function Subjects() {
-  const defaultData = { title: "", category: "" };
+  const defaultData = { title: '', category: '' };
   const [subject, setSubject] = useState(defaultData);
   const [subjects, setSubjects] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const createSubject = async () => {
     setLoading(true);
-    if (subject.title === "" && subject.category === "") {
+    if (subject.title === '' && subject.category === '') {
       setLoading(false);
-      return alert("Please enter a subject name and select a category");
+      return alert('Please enter a subject name and select a category');
     }
 
-    const path = "subjects/add";
+    const path = 'subjects/add';
     const res = await httpService.post(path, subject);
     if (res) {
       setLoading(false);
@@ -27,7 +27,7 @@ export default function Subjects() {
 
   const viewSubjects = async () => {
     setLoading(true);
-    const path = "subjects/view";
+    const path = 'subjects/view';
     const res = await httpService.get(path);
     if (res) {
       setLoading(false);
@@ -46,7 +46,7 @@ export default function Subjects() {
 
         <div className="row">
           <div className="col-md-8 p-3">
-            <IsLoading color={"text-primary"} />
+            <IsLoading color={'text-primary'} />
             <table className="table table-bordered">
               <thead>
                 <tr>
@@ -63,28 +63,30 @@ export default function Subjects() {
                     <tr>
                       <td>{sub.title}</td>
                       <td className="text-center">
-                        {sub.category === "junior" ? (
+                        {sub.category === 'junior' ? (
                           <i class="fas fa-check  text-success  "></i>
                         ) : (
-                          "-"
+                          '-'
                         )}
                       </td>
                       <td className="text-center">
-                        {sub.category === "senior" ? (
+                        {sub.category === 'senior' ? (
                           <i class="fas fa-check  text-success  "></i>
                         ) : (
-                          "-"
+                          '-'
                         )}
                       </td>
                       <td className="text-center">
-                        {sub.category === "both" ? (
+                        {sub.category === 'both' ? (
                           <i class="fas fa-check  text-success  "></i>
                         ) : (
-                          "-"
+                          '-'
                         )}
                       </td>
                       <td className="text-center">
-                        <button className="btn btn-danger">Delete</button>
+                        <button className="btn btn-danger btn-sm">
+                          Delete
+                        </button>
                       </td>
                     </tr>
                   );
@@ -120,9 +122,12 @@ export default function Subjects() {
                 </select>
               </div>
               <div>
-                <button className="btn btn-primary" onClick={createSubject}>
+                <button
+                  className="btn btn-primary btn-sm"
+                  onClick={createSubject}
+                >
                   Create Subject
-                </button>{" "}
+                </button>{' '}
                 <IsLoading show={loading} />
               </div>
             </div>
@@ -132,45 +137,45 @@ export default function Subjects() {
               {subjects.length > 0 ? (
                 <div>
                   <div>
-                    Junior category <i class="fas fa-arrow-down    "></i>:{" "}
+                    Junior category <i class="fas fa-arrow-down    "></i>:{' '}
                     <strong>
                       {
                         subjects.filter((sub) => {
-                          return sub.category === "junior";
+                          return sub.category === 'junior';
                         }).length
                       }
                     </strong>
                   </div>
                   <div>
-                    Senior category <i class="fas fa-arrow-up    "></i>:{" "}
+                    Senior category <i class="fas fa-arrow-up    "></i>:{' '}
                     <strong>
                       {
                         subjects.filter((sub) => {
-                          return sub.category === "senior";
+                          return sub.category === 'senior';
                         }).length
                       }
                     </strong>
                   </div>
                   <div>
-                    Both <i class="fas fa-recycle  "></i>:{" "}
+                    Both <i class="fas fa-recycle  "></i>:{' '}
                     <strong>
                       {
                         subjects.filter((sub) => {
-                          return sub.category === "both";
+                          return sub.category === 'both';
                         }).length
                       }
                     </strong>
                   </div>
                   <div>
-                    Total Number of Subjects:{" "}
+                    Total Number of Subjects:{' '}
                     <span>
-                      {" "}
+                      {' '}
                       <strong>{subjects.length}</strong>
                     </span>
                   </div>
                 </div>
               ) : (
-                ""
+                ''
               )}
             </div>
           </div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import {
   MDBModal,
   MDBModalDialog,
@@ -7,52 +7,52 @@ import {
   MDBModalTitle,
   MDBModalBody,
   MDBModalFooter,
-} from "mdb-react-ui-kit";
-import { httpService, loggedInUser } from "../../../data/services";
-import { IsLoading } from "../../../assets/aesthetics/IsLoading";
-import Swal from "sweetalert2";
+} from 'mdb-react-ui-kit';
+import { httpService, loggedInUser } from '../../../data/services';
+import { IsLoading } from '../../../assets/aesthetics/IsLoading';
+import Swal from 'sweetalert2';
 
 export default function TermsAndSessionPage() {
   const [showSession, setShowSession] = useState(false);
   const [showTerm, setShowTerm] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [term, setTerm] = useState({ term: "", activeTerm: false });
+  const [term, setTerm] = useState({ term: '', activeTerm: false });
   const [session, setSession] = useState({
-    sessionStart: "",
-    sessionEnd: "",
+    sessionStart: '',
+    sessionEnd: '',
     activeSession: false,
   });
   const [sessions, setSessions] = useState([]);
   const [terms, setTerms] = useState([]);
   const [loadTerm, setLoadTerm] = useState(false);
   const [loadSession, setLoadSession] = useState(false);
-  const [activeSession, setActiveSession] = useState({ session: "-" });
-  const [activeTerm, setActiveTerm] = useState({ term: "-" });
+  const [activeSession, setActiveSession] = useState({ session: '-' });
+  const [activeTerm, setActiveTerm] = useState({ term: '-' });
 
   const showModal = (e) => {
-    if (e === "term") {
+    if (e === 'term') {
       setShowTerm(!showTerm);
     }
-    if (e === "session") {
+    if (e === 'session') {
       setShowSession(!showSession);
     }
   };
   const toggle = (e) => {
-    if (e === "term") {
+    if (e === 'term') {
       setShowTerm(!showTerm);
-    } else if (e === "session") {
+    } else if (e === 'session') {
       setShowSession(!showSession);
     }
   };
 
   const createTerm = async () => {
-    const path = "/terms/create";
+    const path = '/terms/create';
     const res = await httpService.post(path, term);
     if (res) {
       console.log(res.data);
 
       localStorage.setItem(
-        "loggedInUser",
+        'loggedInUser',
         JSON.stringify({
           ...loggedInUser,
           currentTerm: res.data.currentTerm._id,
@@ -60,11 +60,11 @@ export default function TermsAndSessionPage() {
       );
       listTerms();
       Swal.fire({
-        icon: "success",
-        title: "Success",
+        icon: 'success',
+        title: 'Success',
         text: res.data.message,
       }).then(() => {
-        toggle("term");
+        toggle('term');
       });
     }
   };
@@ -73,14 +73,14 @@ export default function TermsAndSessionPage() {
     //toggle("session");
     if (session.sessionStart === session.sessionEnd) {
       return Swal.fire({
-        icon: "error",
-        text: "The start of a session and the end of a session cannot be the same",
+        icon: 'error',
+        text: 'The start of a session and the end of a session cannot be the same',
         timer: 2000,
       });
     } else if (Number(session.sessionStart) > Number(session.sessionEnd)) {
       return Swal.fire({
-        icon: "error",
-        text: "The start of a session year cannot be greater than the end of a session year",
+        icon: 'error',
+        text: 'The start of a session year cannot be greater than the end of a session year',
         timer: 2000,
       });
     } else if (
@@ -88,8 +88,8 @@ export default function TermsAndSessionPage() {
       1
     ) {
       return Swal.fire({
-        icon: "error",
-        text: "This must be a calendar year",
+        icon: 'error',
+        text: 'This must be a calendar year',
         timer: 2000,
       });
     }
@@ -99,25 +99,25 @@ export default function TermsAndSessionPage() {
     const body = {
       session: sessionString,
     };
-    const path = "/session/create";
-    toggle("session");
+    const path = '/session/create';
+    toggle('session');
     const res = await httpService.post(path, body);
     if (res) {
       localStorage.setItem(
-        "loggedInUser",
+        'loggedInUser',
         JSON.stringify({
           ...loggedInUser,
           currentSession: res.data.currentSession._id,
         })
       );
-      Swal.fire({ icon: "success", titleText: res.data.message });
+      Swal.fire({ icon: 'success', titleText: res.data.message });
       listSessions();
     }
   };
 
   const listSessions = async () => {
     setLoadSession(true);
-    const path = "/session/view";
+    const path = '/session/view';
 
     const res = await httpService.get(path);
     if (res) {
@@ -131,7 +131,7 @@ export default function TermsAndSessionPage() {
   };
   const listTerms = async () => {
     setLoadTerm(true);
-    const path = "/terms/view";
+    const path = '/terms/view';
     const res = await httpService.get(path);
     if (res) {
       console.log(res.data);
@@ -145,18 +145,18 @@ export default function TermsAndSessionPage() {
 
   const activateSession = async (id) => {
     Swal.fire({
-      icon: "question",
+      icon: 'question',
       showConfirmButton: true,
       showCancelButton: true,
-      title: "Activate?",
-      text: "Do you wish to make this session the active session?",
+      title: 'Activate?',
+      text: 'Do you wish to make this session the active session?',
     }).then(async (result) => {
       if (result.isConfirmed) {
         const path = `/session/update/${id}`;
 
         const res = await httpService.patch(path, { activeSession: true });
         if (res) {
-          Swal.fire({ icon: "success", text: res.data.message });
+          Swal.fire({ icon: 'success', text: res.data.message });
           listSessions();
         }
       }
@@ -165,18 +165,18 @@ export default function TermsAndSessionPage() {
 
   const activateTerm = async (id) => {
     Swal.fire({
-      icon: "question",
+      icon: 'question',
       showConfirmButton: true,
       showCancelButton: true,
-      title: "Activate?",
-      text: "Do you wish to make this term the active term?",
+      title: 'Activate?',
+      text: 'Do you wish to make this term the active term?',
     }).then(async (result) => {
       if (result.isConfirmed) {
         const path = `/terms/update/${id}`;
 
         const res = await httpService.patch(path, { activeTerm: true });
         if (res) {
-          Swal.fire({ icon: "success", text: res.data.message });
+          Swal.fire({ icon: 'success', text: res.data.message });
           listTerms();
         }
       }
@@ -184,7 +184,7 @@ export default function TermsAndSessionPage() {
   };
 
   const getActiveSession = async () => {
-    const path = "/session/activeSession";
+    const path = '/session/activeSession';
     const res = await httpService.get(path);
 
     if (res) {
@@ -193,7 +193,7 @@ export default function TermsAndSessionPage() {
   };
 
   const getActiveTerm = async () => {
-    const path = "/terms/activeTerm";
+    const path = '/terms/activeTerm';
     const res = await httpService.get(path);
 
     if (res) {
@@ -218,7 +218,7 @@ export default function TermsAndSessionPage() {
               <div>
                 <div className="h5">Current Session</div>
                 <div className="h3">
-                  {activeSession ? activeSession.session : "-"}
+                  {activeSession ? activeSession.session : '-'}
                 </div>
               </div>
               <div className="d-flex align-items-center">
@@ -232,7 +232,7 @@ export default function TermsAndSessionPage() {
             <div className="d-flex justify-content-between">
               <div>
                 <div className="h5">Current Term</div>
-                <div className="h3">{activeTerm ? activeTerm.term : "-"}</div>
+                <div className="h3">{activeTerm ? activeTerm.term : '-'}</div>
               </div>
               <div className="d-flex align-items-center">
                 <div className="h1">
@@ -253,14 +253,14 @@ export default function TermsAndSessionPage() {
                 <button
                   className="btn btn-secondary"
                   onClick={() => {
-                    showModal("session");
+                    showModal('session');
                   }}
                 >
                   Add Session
                 </button>
               </div>
             </div>
-            <IsLoading show={loadSession} color={"text-secondary"} />
+            <IsLoading show={loadSession} color={'text-secondary'} />
             <table className="table table-condensed">
               <thead>
                 <tr>
@@ -279,8 +279,8 @@ export default function TermsAndSessionPage() {
                           <span className="badge badge-success"> Active </span>
                         ) : (
                           <span className="badge badge-danger">
-                            {" "}
-                            Not active{" "}
+                            {' '}
+                            Not active{' '}
                           </span>
                         )}
                       </td>
@@ -295,7 +295,7 @@ export default function TermsAndSessionPage() {
                             Activate
                           </button>
                         ) : (
-                          ""
+                          ''
                         )}
                       </td>
                     </tr>
@@ -311,14 +311,14 @@ export default function TermsAndSessionPage() {
                 <button
                   className="btn btn-warning"
                   onClick={() => {
-                    showModal("term");
+                    showModal('term');
                   }}
                 >
                   Add Term
                 </button>
               </div>
             </div>
-            <IsLoading show={loadTerm} color={"text-warning"} />
+            <IsLoading show={loadTerm} color={'text-warning'} />
             <table className="table table-condensed">
               <thead>
                 <tr>
@@ -356,7 +356,7 @@ export default function TermsAndSessionPage() {
                             Activate
                           </button>
                         ) : (
-                          ""
+                          ''
                         )}
                       </td>
                     </tr>
@@ -375,9 +375,9 @@ export default function TermsAndSessionPage() {
               <MDBModalTitle>Create Term</MDBModalTitle>
 
               <button
-                className="btn btn-danger"
+                className="btn btn-danger btn-sm"
                 onClick={() => {
-                  toggle("term");
+                  toggle('term');
                 }}
               >
                 x
@@ -411,10 +411,13 @@ export default function TermsAndSessionPage() {
                     <option value={false}>No</option>
                   </select>
                 </div> */}
-                <button className="btn btn-primary" onClick={createTerm}>
+                <button
+                  className="btn btn-primary btn-sm mt-3"
+                  onClick={createTerm}
+                >
                   Create Term
                 </button>
-                <IsLoading color={"text-primary"} show={loading} />
+                <IsLoading color={'text-primary'} show={loading} />
               </div>
             </MDBModalBody>
           </MDBModalContent>
@@ -427,9 +430,9 @@ export default function TermsAndSessionPage() {
               <MDBModalTitle>Create Session</MDBModalTitle>
 
               <button
-                className="btn btn-danger"
+                className="btn btn-danger btn-sm"
                 onClick={() => {
-                  toggle("session");
+                  toggle('session');
                 }}
               >
                 x
@@ -476,10 +479,15 @@ export default function TermsAndSessionPage() {
                     <option value={false}>No</option>
                   </select>
                 </div> */}
-                <button className="btn btn-primary" onClick={createSession}>
-                  Create Session
-                </button>
-                <IsLoading color={"text-primary"} show={loading} />
+                <div className="mt-3">
+                  <button
+                    className="btn btn-primary btn-sm"
+                    onClick={createSession}
+                  >
+                    Create Session
+                  </button>
+                  <IsLoading color={'text-primary'} show={loading} />
+                </div>
               </div>
             </MDBModalBody>
           </MDBModalContent>

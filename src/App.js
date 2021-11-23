@@ -1,42 +1,44 @@
-import { Route, Switch } from "react-router-dom";
-import "@fortawesome/fontawesome-free/css/all.min.css";
-import "bootstrap-css-only/css/bootstrap.min.css";
-import "mdbreact/dist/css/mdb.css";
+import { Route, Switch } from 'react-router-dom';
+import '@fortawesome/fontawesome-free/css/all.min.css';
+import 'bootstrap-css-only/css/bootstrap.min.css';
+import 'mdbreact/dist/css/mdb.css';
 
-import "bootstrap/dist/js/bootstrap.bundle";
+import 'bootstrap/dist/js/bootstrap.bundle';
 
-import HomePage from "./pages/Gen/HomePage";
-import { LoginPage } from "./pages/Auth/LoginPage";
-import { SignUpPage } from "./pages/Auth/SignUpPage";
-import ExamChoicePage from "./pages/Teachers/Exams/ExamChoicePage";
-import SubjectsListPage from "./pages/Teachers/subjects/SubjectsList";
-import StaffDashboard from "./pages/Teachers/Home/StaffDashboard";
-import "./App.scss";
-import SetExamPage from "./pages/Teachers/Exams/SetExamPage";
-import StudentDashboard from "./pages/Students/Home/StudentDashboard";
-import { RegisteredSubjects } from "./pages/Students/Subjects/RegisteredSubjects";
-import TestsChoicePage from "./pages/Students/Tests/TestsChoicePage";
-import { TakeTestPage } from "./pages/Students/Tests/TakeTestPage";
-import Navbar from "./components/Navbar/Navbar";
-import Footer from "./components/Footer/Footer";
-import { RedirectUser } from "./pages/Auth/routes";
-import ProfilePage from "./pages/User/ProfilePage";
-import AdminDashboard from "./pages/Admin/Home/AdminDashboard";
-import Subjects from "./pages/Admin/Subjects/Subjects";
-import StaffAndUsersPage from "./pages/Admin/StaffAndUsers/StaffAndUsersPage";
-import ClassesAndClassTeachersPage from "./pages/Admin/ClassesAndClassTeachers/ClassesAndClassTeachersPage";
-import SideMenu from "./components/SideMenu/SideMenu";
-import TermsAndSessionPage from "./pages/Admin/TermsAndSessionPage/TermsAndSessionPage";
+import HomePage from './pages/Gen/HomePage';
+import { LoginPage } from './pages/Auth/LoginPage';
+import { SignUpPage } from './pages/Auth/SignUpPage';
+import ExamChoicePage from './pages/Teachers/Exams/ExamChoicePage';
+import SubjectsListPage from './pages/Teachers/subjects/SubjectsList';
+import StaffDashboard from './pages/Teachers/Home/StaffDashboard';
+import './App.scss';
+import SetExamPage from './pages/Teachers/Exams/SetExamPage';
+import StudentDashboard from './pages/Students/Home/StudentDashboard';
+
+import TestsChoicePage from './pages/Students/Tests/TestsChoicePage';
+import { TakeTestPage } from './pages/Students/Tests/TakeTestPage';
+import Navbar from './components/Navbar/Navbar';
+import Footer from './components/Footer/Footer';
+import { RedirectUser } from './pages/Auth/routes';
+import ProfilePage from './pages/User/ProfilePage';
+import AdminDashboard from './pages/Admin/Home/AdminDashboard';
+import Subjects from './pages/Admin/Subjects/Subjects';
+import StaffAndUsersPage from './pages/Admin/StaffAndUsers/StaffAndUsersPage';
+import ClassesAndClassTeachersPage from './pages/Admin/ClassesAndClassTeachers/ClassesAndClassTeachersPage';
+import SideMenu from './components/SideMenu/SideMenu';
+import TermsAndSessionPage from './pages/Admin/TermsAndSessionPage/TermsAndSessionPage';
+import { RegisteredSubjects } from './pages/Students/Subjects/RegisteredSubjects';
+import NotificationsPage from './pages/Admin/Notifications/NotificationsPage';
 
 function App() {
-  const user = JSON.parse(localStorage.getItem("loggedInUser"));
+  const user = JSON.parse(localStorage.getItem('loggedInUser'));
 
   return (
     <div className="m-0 defColor">
       <Navbar></Navbar>
       <Switch>
         <Route exact path="/" component={HomePage}>
-          {user ? RedirectUser(user.role) : ""}
+          {user ? RedirectUser(user.role) : ''}
         </Route>
         <Route exact path="/login" component={LoginPage}></Route>
         <Route exact path="/signUp" component={SignUpPage}></Route>
@@ -68,13 +70,15 @@ function App() {
               path="/termsAndSessions"
               component={TermsAndSessionPage}
             ></Route>
+            <Route
+              exact
+              path="/registerSubject"
+              component={RegisteredSubjects}
+            ></Route>
+            <Route path="/notifications" component={NotificationsPage}></Route>
           </div>
         </div>
-        <Route
-          exact
-          path="/registerSubject"
-          component={RegisteredSubjects}
-        ></Route>
+
         <Route exact path="/testChoice" component={TestsChoicePage}></Route>
         <Route
           exact
