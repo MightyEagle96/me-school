@@ -383,7 +383,7 @@ export default function SetExamPage() {
               </div>
             </div>
           </div>
-          <div className="border border-dark p-4 mb-3">
+          <div className="shadow-lg rounded p-4 mb-3">
             <div className="h3 text-secondary">SET QUESTIONS</div>
             <div className="d-flex flex-wrap">
               <div className="col-md-4 mb-2">

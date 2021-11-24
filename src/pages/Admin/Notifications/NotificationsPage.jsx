@@ -76,7 +76,7 @@ export default function NotificationsPage() {
       title: 'Class',
       field: '_id',
       render: (rowData) => (
-        <div className="col-md-6">
+        <div className="col-md-8">
           <div className="d-flex justify-content-between">
             <div>
               <select
@@ -132,27 +132,6 @@ export default function NotificationsPage() {
         </div>
       ),
     },
-    // {
-    //   title: 'Action',
-    //   render: (rowData) => (
-    //     <button
-    //       className="btn btn-primary btn-sm"
-    //       onClick={() => {
-    //         Swal.fire({
-    //           icon: 'question',
-    //           title: 'Please confirm',
-    //           text: 'Are you sure you want to assign this student to this class?',
-    //           confirmButtonText: 'Yes assign!',
-    //           cancelButtonText: "No don't assign",
-    //           showConfirmButton: true,
-    //           showCancelButton: true,
-    //         });
-    //       }}
-    //     >
-    //       Assign to class
-    //     </button>
-    //   ),
-    // },
   ];
   return (
     <div>

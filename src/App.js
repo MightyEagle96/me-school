@@ -30,12 +30,13 @@ import TermsAndSessionPage from './pages/Admin/TermsAndSessionPage/TermsAndSessi
 import { RegisteredSubjects } from './pages/Students/Subjects/RegisteredSubjects';
 import NotificationsPage from './pages/Admin/Notifications/NotificationsPage';
 import TestAndExaminations from './pages/Admin/TestAndExaminations/TestAndExaminations';
+import MyClassStudentsPage from './pages/ClassTeacher/MyClassStudents';
 
 function App() {
   const user = JSON.parse(localStorage.getItem('loggedInUser'));
 
   return (
-    <div className="m-0 defColor">
+    <div className="m-0 noOverFlow defColor">
       <Navbar></Navbar>
       <Switch>
         <Route exact path="/" component={HomePage}>
@@ -93,6 +94,11 @@ function App() {
               exact
               path="/setExam/:subjectId/:levelId"
               component={SetExamPage}
+            ></Route>
+            <Route
+              exact
+              path="/myStudents"
+              component={MyClassStudentsPage}
             ></Route>
           </div>
         </div>

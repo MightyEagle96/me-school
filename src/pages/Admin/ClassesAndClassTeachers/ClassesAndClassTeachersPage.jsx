@@ -68,12 +68,12 @@ export default function ClassesAndClassTeachersPage() {
     <div>
       <div className="p-3">
         <div>
-          <div className="h3">CLASSES AND CLASS TEACHERS</div>
+          <div className="h3 text-black-50">CLASSES AND CLASS TEACHERS</div>
           <hr />
         </div>
         <div className="row">
           <div className="col-md-5">
-            <div className="border border-primary p-3">
+            <div className="shadow-lg rounded p-4">
               <div className="h4 text-primary">Add a new class</div>
               <div className="mb-3 mt-3 form-group">
                 <label htmlFor="" className="">
@@ -161,12 +161,16 @@ export default function ClassesAndClassTeachersPage() {
             </div>
           </div>
           <div className="col-md-7">
-            <div>
+            <div className="shadow-lg p-4 rounded">
               <table className="table table-bordered">
                 <thead>
                   <tr>
-                    <th>Class</th>
-                    <th>Class Teacher</th>
+                    <th>
+                      <div className="h4 text-primary">Class</div>
+                    </th>
+                    <th>
+                      <div className="h4 text-primary">Class Teacher</div>
+                    </th>
                   </tr>
                 </thead>
                 <tbody>

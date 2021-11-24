@@ -6,7 +6,7 @@ import femaleAvatar from '../../assets/images/avatars/femaleDefault.jpeg';
 import { RedirectUser } from '../../pages/Auth/routes';
 
 export default function SideMenu() {
-  const [selectedFile, setSelectedFile] = useState(null);
+  //const [selectedFile, setSelectedFile] = useState(null);
 
   let avatar;
   if (loggedInUser) {
@@ -33,8 +33,8 @@ export default function SideMenu() {
   }
 
   return (
-    <div className="shadow-lg">
-      <div className="p-4 sideMenu text-white">
+    <div className="shadow-lg rounded">
+      <div className="p-4 sideMenu text-primary">
         <div className="mb-4 mt-4">
           <div className="text-center ">
             <img className="avatar" src={avatar} alt={loggedInUser.fullName} />
@@ -77,8 +77,8 @@ export default function SideMenu() {
             {loggedInUser && loggedInUser.role === 'classTeacher' ? (
               <div>
                 <li className="mb-4  ">
-                  <a href="#">
-                    <span class="fa fa-paper-plane mr-3"></span> Class Record
+                  <a href="/myStudents">
+                    <span class="fas fa-users  mr-3"></span> My Students
                   </a>
                 </li>
               </div>
