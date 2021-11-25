@@ -18,7 +18,7 @@ export const RegisteredSubjects = () => {
     setLoading(true);
     const path = 'subjects/view';
     const res = await httpService.get(path);
-    console.log(res.data);
+
     if (res) {
       setSubjects(res.data.subjects);
       setLoading(false);
@@ -51,7 +51,7 @@ export const RegisteredSubjects = () => {
     const path = 'subjectRegistration/viewRegisteredSubject';
 
     const res = await httpService.get(path);
-    console.log(res.data.registeredSubjects.subjects);
+
     if (res && res.data.registeredSubjects.subjects) {
       setRegisteredSubjects(res.data.registeredSubjects.subjects);
     }

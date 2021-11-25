@@ -1,0 +1,21 @@
+.cardWidth {
+  width: 250px;
+}
+
+.subjectBanner {
+  height: 200px;
+  // width: 230px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: linear-gradient(
+      to right bottom,
+      rgba(0, 0, 0, 0.616),
+      rgba(0, 0, 0, 0.288)
+    ),
+    url('../../assets/images/subjectBanner.jpg');
+}
+.marginText {
+  margin-top: 100px;
+  text-transform: capitalize;
+  font-weight: 700;
+}
