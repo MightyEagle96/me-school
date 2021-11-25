@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 
-import SideMenu from '../../../components/SideMenu/SideMenu';
 import { useParams } from 'react-router';
 import { httpService } from '../../../data/services';
 import { MDBCollapse } from 'mdb-react-ui-kit';
-import { MDBTable, MDBTableBody, MDBTableHead } from 'mdbreact';
+
 import { HttpError } from '../../../assets/aesthetics/HttpError';
 import Swal from 'sweetalert2';
 import { MyTable } from '../../../assets/aesthetics/MyTable';
@@ -26,6 +25,7 @@ export default function SetExamPage() {
   const [question, setQuestion] = useState({});
   const [questions, setQuestions] = useState([]);
   const [questionCollectionId, setQuestionCollectionId] = useState('');
+  const [questionId, setQuestionId] = useState('');
   const [isUpdate, setIsUpdate] = useState(false);
   const [updateQuestionId, setUpdateQuestionId] = useState('');
 
@@ -34,22 +34,28 @@ export default function SetExamPage() {
   const [currentTerm, setCurrentTerm] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  const [isActivated, setIsActivated] = useState(false);
+
+  const [duration, setDuration] = useState({
+    hour: 0,
+    minute: 0,
+  });
+
   const toggleShow = () => setShowShow(!showShow);
 
-  console.log(useParams());
   const toggleTerm = () => setShowTerm(!showTerm);
   async function getSubject() {
     setLoading(true);
     const path = `subjects/view/${subjectId}`;
     const res = await httpService.get(path);
     if (res) {
-      console.log(res.data);
       setSubject(res.data.subject);
       setLoading(false);
     } else {
       return HttpError;
     }
   }
+
   async function getLevel() {
     setLoading(true);
     const path = `levels/${levelId}`;
@@ -77,7 +83,6 @@ export default function SetExamPage() {
     setLoading(false);
     const path = 'terms/view';
     const res = await httpService.get(path);
-    console.log(res);
     if (res) {
       setCurrentTerm(res.data.terms);
       setLoading(true);
@@ -95,7 +100,18 @@ export default function SetExamPage() {
       if (!res.data.message) {
         setQuestionCollectionId(res.data.questions._id);
         setQuestions(res.data.questions.questions);
+        setQuestionId(res.data.questionId);
+        setIsActivated(res.data.questions.activated);
         setLoading(false);
+
+        if (res.data.questions.duration) {
+          setDuration({
+            hour: Math.floor(res.data.questions.duration / (60 * 60 * 1000)),
+            minute: Math.floor(
+              (res.data.questions.duration / (60 * 1000)) % 60
+            ),
+          });
+        }
       } else {
         return HttpError;
       }
@@ -186,6 +202,29 @@ export default function SetExamPage() {
       });
     }
   }
+
+  async function toggleActivation(toggleStatus) {
+    const path = `questions/${questionId}/toggleActivate/paper`;
+
+    const res = await httpService.patch(path, {});
+
+    if (res) {
+      Swal.fire({ icon: 'success', title: `Paper ${toggleStatus}` });
+      fetchQuestions();
+    }
+  }
+
+  async function setTimer() {
+    const path = `questions/${questionId}/timer/paper`;
+
+    const res = await httpService.patch(path, duration);
+
+    if (res) {
+      Swal.fire({ icon: 'success', title: res.data.message });
+      fetchQuestions();
+    }
+  }
+
   useEffect(() => {
     getSubject();
     getLevel();
@@ -336,15 +375,111 @@ export default function SetExamPage() {
             </div>
           </div>
           <hr />
-          <div className="d-flex justify-content-between">
+          <div className="row">
             <div className="col-md-6">
-              {loading ? (
-                <div className="spinner-border text-primary" role="status">
-                  <span className="sr-only">Loading...</span>
+              <div className="alert alert-light pt-5">
+                {loading ? (
+                  <div className="spinner-border text-primary" role="status">
+                    <span className="sr-only">Loading...</span>
+                  </div>
+                ) : (
+                  ''
+                )}
+                <div className="row">
+                  <div className="col-md-6">
+                    {isActivated ? (
+                      <div>
+                        <div className="text-center h1 text-success ">
+                          <i
+                            className="fas fa-lock-open   delete "
+                            onClick={() => {
+                              Swal.fire({
+                                icon: 'question',
+                                title: 'Deactivate paper?',
+                                showCancelButton: true,
+                                showConfirmButton: true,
+                                confirmButtonText: 'Yes',
+                                cancelButtonText: 'No',
+                              }).then((result) => {
+                                if (result.isConfirmed) {
+                                  toggleActivation('Deactivated');
+                                }
+                              });
+                            }}
+                          ></i>
+                        </div>
+                        <div className="text-center">
+                          <div className="h6">Paper Activated</div>
+                        </div>
+                      </div>
+                    ) : (
+                      <div>
+                        <div className="text-center h1 text-danger ">
+                          <i
+                            className="fas fa-lock    delete"
+                            onClick={() => {
+                              Swal.fire({
+                                icon: 'question',
+                                title: 'Activate paper?',
+                                showCancelButton: true,
+                                showConfirmButton: true,
+                                confirmButtonText: 'Yes',
+                                cancelButtonText: 'No',
+                              }).then((result) => {
+                                if (result.isConfirmed) {
+                                  toggleActivation('Activated');
+                                }
+                              });
+                            }}
+                          ></i>
+                        </div>
+                        <div className="text-center">
+                          <div className="h6">Paper Deactivated</div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  <div className="border-left col-md-6">
+                    <div className="input-group">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text bg-primary text-white">
+                          <i class="fas fa-clock    "></i>
+                        </span>
+                      </div>
+                      <input
+                        type="number"
+                        placeholder="HH"
+                        className="form-control"
+                        min="0"
+                        max="3"
+                        value={duration.hour}
+                        onChange={(e) => {
+                          setDuration({ ...duration, hour: e.target.value });
+                        }}
+                      />
+                      <input
+                        type="number"
+                        placeholder="MM"
+                        className="form-control"
+                        min="0"
+                        max="59"
+                        value={duration.minute}
+                        onChange={(e) => {
+                          setDuration({ ...duration, minute: e.target.value });
+                        }}
+                      />
+                    </div>
+                    <div className="input-group">
+                      <button
+                        className="btn btn-primary btn-sm"
+                        onClick={setTimer}
+                      >
+                        Set Duration
+                      </button>
+                    </div>
+                  </div>
                 </div>
-              ) : (
-                ''
-              )}
+              </div>
             </div>
             <div className="col-md-6 ">
               <div className="alert alert-secondary">

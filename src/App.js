@@ -36,7 +36,7 @@ function App() {
   const user = JSON.parse(localStorage.getItem('loggedInUser'));
 
   return (
-    <div className="m-0 noOverFlow defColor bg-white">
+    <div className="m-0 noOverFlow defColor">
       <Navbar></Navbar>
       <Switch>
         <Route exact path="/" component={HomePage}>
