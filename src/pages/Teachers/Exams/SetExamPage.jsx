@@ -469,7 +469,8 @@ export default function SetExamPage() {
                         }}
                       />
                     </div>
-                    <div className="input-group">
+
+                    <div className="text-center">
                       <button
                         className="btn btn-primary btn-sm"
                         onClick={setTimer}

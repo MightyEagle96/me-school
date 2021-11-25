@@ -31,6 +31,7 @@ import { RegisteredSubjects } from './pages/Students/Subjects/RegisteredSubjects
 import NotificationsPage from './pages/Admin/Notifications/NotificationsPage';
 import TestAndExaminations from './pages/Admin/TestAndExaminations/TestAndExaminations';
 import MyClassStudentsPage from './pages/ClassTeacher/MyClassStudents';
+import ClassTeacherDashboard from './pages/ClassTeacher/Home/ClassTeacherDashboard';
 
 function App() {
   const user = JSON.parse(localStorage.getItem('loggedInUser'));
@@ -99,6 +100,11 @@ function App() {
               exact
               path="/myStudents"
               component={MyClassStudentsPage}
+            ></Route>
+            <Route
+              exact
+              path="/classTeacherHome"
+              component={ClassTeacherDashboard}
             ></Route>
           </div>
         </div>

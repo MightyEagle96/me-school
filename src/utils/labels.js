@@ -30,3 +30,21 @@ export const TEST_TYPES = [
   'Third Continous Assessment',
   'Examination',
 ];
+
+export const ROLE = (role) => {
+  switch (role) {
+    case 'admin':
+      return 'Admin';
+
+    case 'teacher':
+      return 'Teacher';
+
+    case 'classTeacher':
+      return 'Class Teacher';
+
+    case 'student':
+      return 'Student';
+    default:
+      break;
+  }
+};
