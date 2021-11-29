@@ -32,6 +32,7 @@ import NotificationsPage from './pages/Admin/Notifications/NotificationsPage';
 import TestAndExaminations from './pages/Admin/TestAndExaminations/TestAndExaminations';
 import MyClassStudentsPage from './pages/ClassTeacher/MyClassStudents';
 import ClassTeacherDashboard from './pages/ClassTeacher/Home/ClassTeacherDashboard';
+import ResultsPage from './pages/Students/Results/ResultsPage';
 
 function App() {
   const user = JSON.parse(localStorage.getItem('loggedInUser'));
@@ -49,7 +50,11 @@ function App() {
         <Route exact path="/subjects" component={SubjectsListPage}></Route>
         <Route exact path="/staffHome" component={StaffDashboard}></Route>
         <Route exact path="/studentHome" component={StudentDashboard}></Route>
-
+        <Route
+          exact
+          path="/takeExam/:subjectId/:testTypeId"
+          component={TakeTestPage}
+        ></Route>
         <div className="row">
           <div className="col-md-3">
             <SideMenu />
@@ -81,11 +86,7 @@ function App() {
             <Route path="/notifications" component={NotificationsPage}></Route>
             <Route path="/testTypes" component={TestAndExaminations}></Route>
             <Route exact path="/testChoice" component={TestsChoicePage}></Route>
-            <Route
-              exact
-              path="/takeExam/:subjectId/:testTypeId"
-              component={TakeTestPage}
-            ></Route>
+
             <Route
               exact
               path="/chooseExamToSet"
@@ -106,6 +107,7 @@ function App() {
               path="/classTeacherHome"
               component={ClassTeacherDashboard}
             ></Route>
+            <Route exact path="/myResults" component={ResultsPage}></Route>
           </div>
         </div>
       </Switch>

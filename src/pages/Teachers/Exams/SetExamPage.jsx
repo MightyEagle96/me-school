@@ -96,7 +96,6 @@ export default function SetExamPage() {
     const path = `questions?currentClass=${level._id}&subject=${subject._id}&currentTerm=${paperDetail.termId}&testType=${paperDetail.testTypeId}`;
     const res = await httpService.get(path);
     if (res) {
-      console.log(res.data);
       if (!res.data.message) {
         setQuestionCollectionId(res.data.questions._id);
         setQuestions(res.data.questions.questions);
@@ -138,7 +137,6 @@ export default function SetExamPage() {
     };
     const res = await httpService.post(path, body);
     if (res) {
-      console.log(res);
       fetchQuestions();
       setLoading(false);
       setQuestion(defaultData);
@@ -230,7 +228,6 @@ export default function SetExamPage() {
     getLevel();
     getTestTypes();
     getTerms();
-    fetchQuestions();
   }, []);
 
   const handleChange = (e) => {
@@ -378,13 +375,13 @@ export default function SetExamPage() {
           <div className="row">
             <div className="col-md-6">
               <div className="alert alert-light pt-5">
-                {loading ? (
+                {/* {loading ? (
                   <div className="spinner-border text-primary" role="status">
                     <span className="sr-only">Loading...</span>
                   </div>
                 ) : (
                   ''
-                )}
+                )} */}
                 <div className="row">
                   <div className="col-md-6">
                     {isActivated ? (

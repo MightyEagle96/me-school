@@ -11,7 +11,6 @@ export default function MyClassStudentsPage() {
     const res = await httpService.get(path);
 
     if (res) {
-      console.log(res.data);
       setStudents(res.data.students);
       setLevel(res.data.level);
     }

@@ -24,8 +24,8 @@ export default function SideMenu() {
         return '/adminHome';
       case 'student':
         return '/studentHome';
-      case 'classTeacher':
-        return '/classTeacherHome';
+      case 'class teacher':
+        return '/class teacherHome';
 
       default:
         break;
@@ -60,21 +60,19 @@ export default function SideMenu() {
                 </li>
                 <li className="mb-4  ">
                   <a href="/testChoice">
-                    <span class="fa fa-sticky-note mr-3"></span> Take tests or
-                    exams
+                    <span class="fas fa-pen  mr-3"></span> Take tests or exams
                   </a>
                 </li>
                 <li className="mb-4  ">
-                  <a href="/testChoice">
-                    <span class="fab fa-phoenix-framework  mr-3"></span> My
-                    Results
+                  <a href="/myResults">
+                    <span class="fas fa-scroll   mr-3"></span> My Results
                   </a>
                 </li>{' '}
               </div>
             ) : (
               ''
             )}
-            {loggedInUser && loggedInUser.role === 'classTeacher' ? (
+            {loggedInUser && loggedInUser.role === 'class teacher' ? (
               <div>
                 <li className="mb-4  ">
                   <a href="/myStudents">
@@ -86,7 +84,7 @@ export default function SideMenu() {
               ''
             )}
             {loggedInUser &&
-            (loggedInUser.role === 'classTeacher' ||
+            (loggedInUser.role === 'class teacher' ||
               loggedInUser.role === 'teacher') ? (
               <div>
                 {' '}
@@ -125,7 +123,7 @@ export default function SideMenu() {
                   </a>
                 </li>
                 <li className="mb-4">
-                  <a href="/classAndClassTeachers">
+                  <a href="/classAndclass teachers">
                     <span className="fas fa-chalkboard-teacher   mr-3   "></span>{' '}
                     Classes and Class Teachers
                   </a>
