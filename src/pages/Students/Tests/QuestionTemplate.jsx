@@ -48,8 +48,6 @@ export default function QuestionTemplate({
     ];
   }
 
-  let userChoice;
-
   //to check if user has answered this question and display the checked option
   function HasAnswered(value) {
     const answered = answeredQuestion.find((q) => q.choice === value);
