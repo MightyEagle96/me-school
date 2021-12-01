@@ -28,14 +28,6 @@ const getTimeHours = (time) => ((time % daySeconds) / hourSeconds) | 0;
 const getTimeDays = (time) => (time / daySeconds) | 0;
 
 export default function TimerTemplate({ examTime, setTimeUp }) {
-  function getCountDown() {
-    setTimeout(() => {
-      setTimeUp(true);
-    }, examTime);
-  }
-
-  getCountDown();
-
   //   const stratTime = Date.now() / 1000; // use UNIX timestamp in seconds
   //   const endTime = stratTime + 243248; // use UNIX timestamp in seconds
 

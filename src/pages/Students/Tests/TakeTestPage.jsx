@@ -12,7 +12,6 @@ export const TakeTestPage = () => {
   const [subjectDetail, setSubjectDetail] = useState({});
 
   const [testDetail, setTestDetail] = useState({
-    activated: false,
     duration: 0,
   });
 
@@ -26,11 +25,14 @@ export const TakeTestPage = () => {
 
   const [displayExam, setDisplayExam] = useState(false);
 
+  const [hasTakenPaper, setHasTakenPaper] = useState();
+
   async function HasTaken(paperId) {
     const path = `takeExams/hasTakenPaper/${paperId}`;
     const res = await httpService.get(path);
 
     if (res) {
+      setHasTakenPaper(res.data.hasTaken);
     }
   }
 
@@ -78,28 +80,74 @@ export const TakeTestPage = () => {
   }, []);
 
   async function CalculateScoreAndSubmit() {
+    Swal.fire({
+      icon: 'question',
+      title: 'Submit?',
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'No',
+      showCancelButton: true,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        submitPaper();
+      }
+    });
+  }
+  async function submitPaper() {
     let score = 0;
     answeredQuestions.forEach((a) => {
       score += a.score;
     });
-
-    alert(score);
     const path = `student/result/${questionId}`;
     const res = await httpService.post(path, { score });
 
-    console.log(res.data);
+    Swal.fire({ icon: 'success', titleText: 'Paper submitted' }).then(() => {
+      window.close();
+    });
   }
-
   function ShowTimeUp() {
     if (timeUp) {
-      Swal.fire({ icon: 'info', titleText: 'TIME UP' });
+      Swal.fire({ icon: 'info', titleText: 'TIME UP' }).then(() => {
+        submitPaper();
+      });
     }
   }
 
-  function startExam() {
+  async function startExam() {
     //1. display the exam panel
     setDisplayExam(true);
+    function getCountDown() {
+      setTimeout(() => {
+        setTimeUp(true);
+      }, testDetail.duration);
+    }
+
+    getCountDown();
     //2. register the student against the exam
+    const path = 'takeExams/registerStudentWithPaper';
+    const body = { paper: questionId };
+    const res = await httpService.post(path, body);
+    if (res) {
+      console.log(res.data);
+    }
+  }
+
+  function ShowButtonOrNot() {
+    //1. if paper is not activated don't show the button
+    if (!testDetail.activated) {
+      return <h3>This paper is not yet activated, contact your teacher</h3>;
+    }
+
+    //2. if the user has taken the paper show a text
+    else if (hasTakenPaper) {
+      return <h3>You have already taken this paper</h3>;
+    }
+
+    //3. if none of these is true display the button
+    return (
+      <button className="btn btn-primary" onClick={startExam}>
+        Begin <i class="fas fa-pen  ml-3  "></i>
+      </button>
+    );
   }
 
   ShowTimeUp();
@@ -133,11 +181,7 @@ export const TakeTestPage = () => {
                       <h6 class="card-subtitle mb-2 text-muted">Subject</h6>
                     </div>
                   </div>
-                  <div className="form-group">
-                    <button className="btn btn-primary" onClick={startExam}>
-                      Begin <i class="fas fa-pen  ml-3  "></i>
-                    </button>
-                  </div>
+                  <div className="form-group">{ShowButtonOrNot()}</div>
                 </div>
               ) : (
                 ''
