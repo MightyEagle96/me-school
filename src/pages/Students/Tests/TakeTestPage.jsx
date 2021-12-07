@@ -27,6 +27,8 @@ export const TakeTestPage = () => {
 
   const [hasTakenPaper, setHasTakenPaper] = useState();
 
+  const [divisor, setDivisor] = useState(0);
+
   async function HasTaken(paperId) {
     const path = `takeExams/hasTakenPaper/${paperId}`;
     const res = await httpService.get(path);
@@ -52,6 +54,7 @@ export const TakeTestPage = () => {
         console.log(res.data);
         HasTaken(res.data.questionId);
         setSubjectDetail(res.data.questions.subject);
+        setDivisor(res.data.questions.divisor);
         setTestType(res.data.questions.testType);
       } else {
         setSubjectDetail({ message: 'Paper not available' });
@@ -97,12 +100,15 @@ export const TakeTestPage = () => {
     answeredQuestions.forEach((a) => {
       score += a.score;
     });
+    const totalScore = Math.ceil((score / questions.length) * divisor);
     const path = `student/result/${questionId}`;
-    const res = await httpService.post(path, { score });
+    const res = await httpService.post(path, { score: totalScore });
 
-    Swal.fire({ icon: 'success', titleText: 'Paper submitted' }).then(() => {
-      window.close();
-    });
+    if (res) {
+      Swal.fire({ icon: 'success', titleText: 'Paper submitted' }).then(() => {
+        window.close();
+      });
+    }
   }
   function ShowTimeUp() {
     if (timeUp) {

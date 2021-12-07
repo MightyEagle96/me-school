@@ -49,7 +49,9 @@ export default function SideMenu() {
               </a>
             </li>
             {/* Student menu */}
-            {loggedInUser && loggedInUser.role === 'student' ? (
+            {loggedInUser &&
+            loggedInUser.role === 'student' &&
+            loggedInUser.level ? (
               <div>
                 {' '}
                 <li className=" mb-4 ">
@@ -123,7 +125,7 @@ export default function SideMenu() {
                   </a>
                 </li>
                 <li className="mb-4">
-                  <a href="/classAndclass teachers">
+                  <a href="/classAndclassTeachers">
                     <span className="fas fa-chalkboard-teacher   mr-3   "></span>{' '}
                     Classes and Class Teachers
                   </a>

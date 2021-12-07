@@ -12,7 +12,7 @@ export default function TestsChoicePage() {
     setLoading(true);
     const path = 'subjectRegistration/viewRegisteredSubject';
     const res = await httpService.get(path);
-    if (res) {
+    if (res && res.data.registeredSubjects.subjects) {
       setLoading(false);
       setSubjects(res.data.registeredSubjects.subjects);
     } else {
@@ -30,15 +30,23 @@ export default function TestsChoicePage() {
         <hr />
       </div>
       <div>
-        <div className="d-flex flex-wrap">
-          {subjects.map((subject, index) => {
-            return (
-              <div key={index} className="mb-3">
-                <ExamChoiceItem subject={subject} />
-              </div>
-            );
-          })}
-        </div>
+        {subjects.length > 0 ? (
+          <div className="d-flex flex-wrap">
+            {subjects.map((subject, index) => {
+              return (
+                <div key={index} className="mb-3">
+                  <ExamChoiceItem subject={subject} />
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          <div className="p-5">
+            <div className="h4 text-center text-dark">
+              You have not yet registered any subject
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

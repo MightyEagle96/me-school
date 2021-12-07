@@ -7,7 +7,12 @@ export default function SubjectListITem({ subject }) {
       <div className="d-flex justify-content-between">
         <div className="h6 text-default">{subject.subject.title}</div>
         <div>
-          <button className="btn btn-warning btn-sm">View result</button>
+          <a
+            href={`myResults/${subject._id}`}
+            className="btn btn-primary btn-sm"
+          >
+            View Result
+          </a>
         </div>
       </div>
     </div>

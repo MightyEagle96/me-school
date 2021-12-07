@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { backendUrl, httpService } from "../../../data/services";
-import "./StaffAndUsersPage.scss";
+import React, { useState, useEffect } from 'react';
+import { backendUrl, httpService } from '../../../data/services';
+import './StaffAndUsersPage.scss';
 
 export default function StaffAndUsersPage() {
   const [users, setUsers] = useState([]);
 
   const viewUsers = async () => {
-    const path = "/school/admin/viewUsers?account_type=me-school";
+    const path = '/school/admin/viewUsers?account_type=me-school';
     const res = await httpService.get(path);
     if (res) {
       setUsers(res.data.users);
@@ -25,9 +25,9 @@ export default function StaffAndUsersPage() {
               <h3>STAFF & STUDENTS</h3>
             </div>
             <div>
-              <button className="btn btn-success">
-                <i class="fas fa-user-plus"></i>
-              </button>
+              <a href="/createUser" className="btn btn-success">
+                <i class="fa fa-user-plus" aria-hidden="true"></i>
+              </a>
             </div>
           </div>
 

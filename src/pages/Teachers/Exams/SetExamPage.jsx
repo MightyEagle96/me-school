@@ -41,6 +41,8 @@ export default function SetExamPage() {
     minute: 0,
   });
 
+  const [divisor, setDivisor] = useState(0);
+
   const toggleShow = () => setShowShow(!showShow);
 
   const toggleTerm = () => setShowTerm(!showTerm);
@@ -102,6 +104,7 @@ export default function SetExamPage() {
         setQuestionId(res.data.questionId);
         setIsActivated(res.data.questions.activated);
         setLoading(false);
+        setDivisor(res.data.questions.divisor);
 
         if (res.data.questions.duration) {
           setDuration({
@@ -233,6 +236,26 @@ export default function SetExamPage() {
   const handleChange = (e) => {
     setQuestion({ ...question, [e.target.name]: e.target.value });
   };
+  async function SetDivisor() {
+    Swal.fire({
+      icon: 'question',
+      text: 'Do you want to update the divisor for this paper?',
+      showCancelButton: true,
+      showConfirmButton: true,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const path = `questions/${questionCollectionId}/divisor/paper`;
+        const body = { divisor };
+        const res = await httpService.patch(path, body);
+
+        if (res) {
+          Swal.fire({ icon: 'success', title: 'Divisor Updated' }).then(() => {
+            fetchQuestions();
+          });
+        }
+      }
+    });
+  }
 
   const columns = [
     { title: 'Question', field: 'question' },
@@ -383,7 +406,7 @@ export default function SetExamPage() {
                   ''
                 )} */}
                 <div className="row">
-                  <div className="col-md-6">
+                  <div className="col-md-3">
                     {isActivated ? (
                       <div>
                         <div className="text-center h1 text-success ">
@@ -473,6 +496,27 @@ export default function SetExamPage() {
                         onClick={setTimer}
                       >
                         Set Duration
+                      </button>
+                    </div>
+                  </div>
+                  <div className="border-left col-md-3">
+                    <div className="form-group mb-3">
+                      <label htmlFor="" className="form-label">
+                        Divisor
+                      </label>
+                      <input
+                        type="number"
+                        className="form-control"
+                        onChange={(e) => {
+                          setDivisor(e.target.value);
+                        }}
+                        value={divisor}
+                      />
+                      <button
+                        className="btn btn-sm btn-warning"
+                        onClick={SetDivisor}
+                      >
+                        <i class="fa fa-check" aria-hidden="true"></i>
                       </button>
                     </div>
                   </div>

@@ -33,6 +33,7 @@ import TestAndExaminations from './pages/Admin/TestAndExaminations/TestAndExamin
 import MyClassStudentsPage from './pages/ClassTeacher/MyClassStudents';
 import ClassTeacherDashboard from './pages/ClassTeacher/Home/ClassTeacherDashboard';
 import ResultsPage from './pages/Students/Results/ResultsPage';
+import CreateUserPage from './pages/Admin/CreateUser/CreateUserPage';
 
 function App() {
   const user = JSON.parse(localStorage.getItem('loggedInUser'));
@@ -67,6 +68,7 @@ function App() {
               path="/staffAndUsers"
               component={StaffAndUsersPage}
             ></Route>
+            <Route exact path="/createUser" component={CreateUserPage}></Route>
             <Route
               exact
               path="/classAndClassTeachers"
@@ -107,7 +109,7 @@ function App() {
               path="/classTeacherHome"
               component={ClassTeacherDashboard}
             ></Route>
-            <Route exact path="/myResults" component={ResultsPage}></Route>
+            <Route exact path="/myResults/:id" component={ResultsPage}></Route>
           </div>
         </div>
       </Switch>
