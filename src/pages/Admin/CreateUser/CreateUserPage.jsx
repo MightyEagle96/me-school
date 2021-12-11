@@ -32,6 +32,12 @@ export default function CreateUserPage() {
               window.location.assign('/staffAndUsers');
             }
           );
+        } else {
+          setLoading(false);
+          Swal.fire({
+            icon: 'error',
+            text: 'Could not process request at this time',
+          });
         }
       }
     });

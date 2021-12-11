@@ -10,7 +10,7 @@ export default function ClassesAndClassTeachersPage() {
   const [level, setLevel] = useState(defaultValue);
 
   const getClassTeachers = async () => {
-    const path = `/school/admin/viewUsers?account_type=me-school&role=classTeacher&filter=ytba`;
+    const path = `/school/admin/viewUsers?account_type=me-school&role=class teacher&filter=ytba`;
     const res = await httpService.get(path);
     if (res) {
       setClassTeachers(res.data.users);
