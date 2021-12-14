@@ -96,13 +96,16 @@ export const TakeTestPage = () => {
     });
   }
   async function submitPaper() {
+    const body = {};
+    body.testType = testType._id;
+    body.subject = subjectDetail._id;
     let score = 0;
     answeredQuestions.forEach((a) => {
       score += a.score;
     });
-    const totalScore = Math.ceil((score / questions.length) * divisor);
-    const path = `student/result/${questionId}`;
-    const res = await httpService.post(path, { score: totalScore });
+    body.score = Math.ceil((score / questions.length) * divisor);
+    const path = 'student/result';
+    const res = await httpService.post(path, body);
 
     if (res) {
       Swal.fire({ icon: 'success', titleText: 'Paper submitted' }).then(() => {

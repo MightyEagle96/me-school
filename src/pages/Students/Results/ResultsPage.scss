@@ -1,0 +1,12 @@
+.resultBanner {
+  height: 20vh;
+  background-image: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.37),
+      rgba(0, 0, 0, 0.664)
+    ),
+    url('../../../assets/images/resultBanner.jpg');
+  background-position: top;
+  background-size: cover;
+  border-radius: 10px;
+}

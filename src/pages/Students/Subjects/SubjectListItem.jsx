@@ -8,7 +8,7 @@ export default function SubjectListITem({ subject }) {
         <div className="h6 text-default">{subject.subject.title}</div>
         <div>
           <a
-            href={`myResults/${subject._id}`}
+            href={`myResults/${subject.subject._id}`}
             className="btn btn-primary btn-sm"
           >
             View Result

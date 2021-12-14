@@ -11,6 +11,7 @@ export default function MyClassStudentsPage() {
     const res = await httpService.get(path);
 
     if (res) {
+      console.log(res.data.students);
       setStudents(res.data.students);
       setLevel(res.data.level);
     }
@@ -35,6 +36,18 @@ export default function MyClassStudentsPage() {
       ),
     },
     { title: 'Full Name', field: 'fullName' },
+    {
+      title: 'Action',
+      field: '_id',
+      render: (rowData) => (
+        <div>
+          <a
+            className="btn btn-elegant"
+            href={`/studentsPerformance/${rowData._id}`}
+          >{`${rowData.firstName}'s performance`}</a>
+        </div>
+      ),
+    },
   ];
   return (
     <div>

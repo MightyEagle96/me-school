@@ -34,12 +34,13 @@ import MyClassStudentsPage from './pages/ClassTeacher/MyClassStudents';
 import ClassTeacherDashboard from './pages/ClassTeacher/Home/ClassTeacherDashboard';
 import ResultsPage from './pages/Students/Results/ResultsPage';
 import CreateUserPage from './pages/Admin/CreateUser/CreateUserPage';
+import StudentsPerformance from './pages/ClassTeacher/StudentsPerformance';
 
 function App() {
   const user = JSON.parse(localStorage.getItem('loggedInUser'));
 
   return (
-    <div className="m-0 noOverFlow defColor">
+    <div className=" noOverFlow defColor">
       <Navbar></Navbar>
       <Switch>
         <Route exact path="/" component={HomePage}>
@@ -103,6 +104,11 @@ function App() {
               exact
               path="/myStudents"
               component={MyClassStudentsPage}
+            ></Route>
+            <Route
+              exact
+              path="/studentsPerformance/:studentId"
+              component={StudentsPerformance}
             ></Route>
             <Route
               exact
