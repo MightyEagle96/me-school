@@ -1,33 +1,35 @@
-import React, { useState } from "react";
-import Swal from "sweetalert2";
+import React, { useState } from 'react';
+import Swal from 'sweetalert2';
 
-import { httpService, loggedInUser } from "../../data/services";
+import { httpService, loggedInUser } from '../../data/services';
 
 export default function ProfilePage() {
   const [selectedFile, setSelectedFile] = useState(null);
   const user = loggedInUser;
 
   const uploadPhoto = async () => {
-    console.log(selectedFile);
+    if (selectedFile.size > 1_000_000) {
+      return Swal.fire({ icon: 'error', title: 'File is larger than 1Mb' });
+    } else {
+      const formData = new FormData();
+      formData.append('profilePhoto', selectedFile, selectedFile.name);
 
-    const formData = new FormData();
-    formData.append("profilePhoto", selectedFile, selectedFile.name);
-
-    const path = "/users/uploadPhoto";
-    const res = await httpService.post(path, formData);
-    if (res) {
-      setSelectedFile(null);
-      Swal.fire({
-        icon: "success",
-        title: "Profile photo updated",
-        showConfirmButton: false,
-        timer: 2000,
-      });
-      const path = "/users/me";
-      const res = await httpService.get(path);
+      const path = '/users/uploadPhoto';
+      const res = await httpService.post(path, formData);
       if (res) {
-        localStorage.setItem("loggedInUser", JSON.stringify(res.data.user));
-        window.location.reload();
+        setSelectedFile(null);
+        Swal.fire({
+          icon: 'success',
+          title: 'Profile photo updated',
+          showConfirmButton: false,
+          timer: 2000,
+        });
+        const path = '/users/me';
+        const res = await httpService.get(path);
+        if (res) {
+          localStorage.setItem('loggedInUser', JSON.stringify(res.data.user));
+          window.location.reload();
+        }
       }
     }
   };
@@ -47,13 +49,13 @@ export default function ProfilePage() {
             />
             {selectedFile ? (
               <button className="btn btn-danger" onClick={uploadPhoto}>
-                Upload Photo{" "}
+                Upload Photo{' '}
                 <span>
                   <i class="fa fa-camera" aria-hidden="true"></i>
                 </span>
               </button>
             ) : (
-              ""
+              ''
             )}
           </div>
         </div>

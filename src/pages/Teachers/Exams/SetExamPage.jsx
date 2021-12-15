@@ -42,6 +42,35 @@ export default function SetExamPage() {
   });
 
   const [divisor, setDivisor] = useState(0);
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const uploadQuestion = async () => {
+    if (!paperDetail.termId) {
+      setLoading(false);
+      return alert(`You haven't set the term yet`);
+    }
+    if (!paperDetail.testTypeId) {
+      setLoading(false);
+      return alert(`You haven't set the test type yet`);
+    }
+    setLoading(true);
+    console.log(selectedFile);
+
+    const formData = new FormData();
+    formData.append('questions', selectedFile, selectedFile.name);
+
+    console.log(formData);
+    const path = `questions?currentTerm=${paperDetail.termId}&testType=${paperDetail.testTypeId}&subject=${subject._id}&currentClass=${level._id}`;
+    // const body ={...}
+
+    const res = await httpService.post(path, formData);
+
+    if (res) {
+      // setSelectedFile(null);
+      fetchQuestions();
+      Swal.fire({ icon: 'success', title: 'Document uploaded successfully' });
+    }
+  };
 
   const toggleShow = () => setShowShow(!showShow);
 
@@ -149,7 +178,6 @@ export default function SetExamPage() {
   }
 
   function deleteQuestion(questionId) {
-    console.log(questionId);
     Swal.fire({
       icon: 'question',
       title: 'Are you sure?',
@@ -269,7 +297,7 @@ export default function SetExamPage() {
       field: '_id',
       render: (rowData) => (
         <button
-          className="btn btn-warning btn-sm"
+          className="btn btn-warning"
           onClick={() => {
             setUpdateQuestionId(rowData._id);
             fetchQuestion(rowData._id);
@@ -284,7 +312,7 @@ export default function SetExamPage() {
       field: '_id',
       render: (rowData) => (
         <button
-          className="btn btn-danger btn-sm"
+          className="btn btn-danger"
           onClick={() => {
             deleteQuestion(rowData._id);
           }}
@@ -379,7 +407,7 @@ export default function SetExamPage() {
                     </div>
                     <div>
                       <button
-                        className="btn btn-danger btn-sm"
+                        className="btn btn-danger"
                         onClick={() => {
                           fetchQuestions();
                         }}
@@ -491,10 +519,7 @@ export default function SetExamPage() {
                     </div>
 
                     <div className="text-center">
-                      <button
-                        className="btn btn-primary btn-sm"
-                        onClick={setTimer}
-                      >
+                      <button className="btn btn-primary" onClick={setTimer}>
                         Set Duration
                       </button>
                     </div>
@@ -512,10 +537,7 @@ export default function SetExamPage() {
                         }}
                         value={divisor}
                       />
-                      <button
-                        className="btn btn-sm btn-warning"
-                        onClick={SetDivisor}
-                      >
+                      <button className="btn btn-warning" onClick={SetDivisor}>
                         <i class="fa fa-check" aria-hidden="true"></i>
                       </button>
                     </div>
@@ -697,6 +719,42 @@ export default function SetExamPage() {
                 >
                   Reset
                 </button>
+                {/* <button className="btn btn-success">
+                  upload csv{' '}
+                  <span>
+                    <i className="fas fa-upload    ml-3"></i>
+                  </span>
+                </button> */}
+                <div className="mt-3">
+                  <label htmlFor="customFile" className="form-label">
+                    Upload CSV file for this paper
+                  </label>
+                  <input
+                    type="file"
+                    name=""
+                    id="customFile"
+                    className="form-control"
+                    accept=".csv"
+                    onChange={(e) => {
+                      setSelectedFile(e.target.files[0]);
+                    }}
+                  />
+                </div>
+                <div className="mt-3">
+                  {selectedFile ? (
+                    <button
+                      className="btn btn-success"
+                      onClick={uploadQuestion}
+                    >
+                      Upload{' '}
+                      <span>
+                        <i class="fas fa-upload    ml-2"></i>
+                      </span>
+                    </button>
+                  ) : (
+                    ''
+                  )}
+                </div>
               </div>
             </div>
           </div>

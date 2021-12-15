@@ -35,6 +35,7 @@ import ClassTeacherDashboard from './pages/ClassTeacher/Home/ClassTeacherDashboa
 import ResultsPage from './pages/Students/Results/ResultsPage';
 import CreateUserPage from './pages/Admin/CreateUser/CreateUserPage';
 import StudentsPerformance from './pages/ClassTeacher/StudentsPerformance';
+import TermResultsPage from './pages/Students/Results/TermResultsPage';
 
 function App() {
   const user = JSON.parse(localStorage.getItem('loggedInUser'));
@@ -116,6 +117,11 @@ function App() {
               component={ClassTeacherDashboard}
             ></Route>
             <Route exact path="/myResults/:id" component={ResultsPage}></Route>
+            <Route
+              exact
+              path="/results/all"
+              component={TermResultsPage}
+            ></Route>
           </div>
         </div>
       </Switch>

@@ -25,7 +25,7 @@ export default function SideMenu() {
       case 'student':
         return '/studentHome';
       case 'class teacher':
-        return '/class teacherHome';
+        return '/classteacherHome';
 
       default:
         break;
@@ -66,7 +66,7 @@ export default function SideMenu() {
                   </a>
                 </li>
                 <li className="mb-4  ">
-                  <a href="/myResults">
+                  <a href="/results/all">
                     <span class="fas fa-scroll   mr-3"></span> My Results
                   </a>
                 </li>{' '}
@@ -92,15 +92,17 @@ export default function SideMenu() {
                 {' '}
                 <li className=" mb-4 ">
                   <a href="/chooseExamToSet">
-                    <span class="fa fa-briefcase mr-3"></span> Set Exams
+                    <i class="    "></i>
+                    <span class="fas fa-question mr-3"></span> Set Tests and
+                    Examinations
                   </a>
                 </li>
-                <li className="mb-4  ">
+                {/* <li className="mb-4  ">
                   <a href="#">
                     <span class="fa fa-sticky-note mr-3"></span> Student's
                     Performance
                   </a>
-                </li>
+                </li> */}
               </div>
             ) : (
               ''

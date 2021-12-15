@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { httpService } from '../../../data/services';
 import { useParams } from 'react-router';
 import './ResultsPage.scss';
+import { loggedInUser } from '../../../data/services';
 
 export default function ResultsPage() {
   const [results, setResults] = useState([]);
@@ -25,7 +26,6 @@ export default function ResultsPage() {
     const res = await httpService.get(path);
 
     if (res) {
-      console.log(res.data.result);
       setResults(res.data.result);
     }
   }
@@ -43,6 +43,18 @@ export default function ResultsPage() {
             <h1>
               {subject && subject.title ? subject.title : 'Subject not found'}
             </h1>
+            <h4>
+              {' '}
+              <strong>
+                {' '}
+                {`${loggedInUser.level.level} result for ${
+                  loggedInUser.currentTerm.term
+                }, ${loggedInUser.currentSession.session.replace(
+                  '-',
+                  '/'
+                )} academic session.`}
+              </strong>
+            </h4>
           </div>
         </div>
       </div>
