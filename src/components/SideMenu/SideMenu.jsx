@@ -92,9 +92,21 @@ export default function SideMenu() {
                 {' '}
                 <li className=" mb-4 ">
                   <a href="/chooseExamToSet">
-                    <i class="    "></i>
                     <span class="fas fa-question mr-3"></span> Set Tests and
                     Examinations
+                  </a>
+                </li>
+                <li className=" mb-4 ">
+                  <a href="/subjectsClassAssignment">
+                    <span class="fas fa-chalkboard-teacher  mr-3"></span>{' '}
+                    Subjects and Class Assignment
+                  </a>
+                </li>
+                <li className=" mb-4 ">
+                  <a href="#">
+                    <i class="    "></i>
+                    <span class="fas fa-user-graduate  mr-3"></span> Students
+                    performance
                   </a>
                 </li>
                 {/* <li className="mb-4  ">

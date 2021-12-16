@@ -36,6 +36,7 @@ import ResultsPage from './pages/Students/Results/ResultsPage';
 import CreateUserPage from './pages/Admin/CreateUser/CreateUserPage';
 import StudentsPerformance from './pages/ClassTeacher/StudentsPerformance';
 import TermResultsPage from './pages/Students/Results/TermResultsPage';
+import SubjectsClassAssignmentPage from './pages/Academics/SubjectsClassAssignmentPage';
 
 function App() {
   const user = JSON.parse(localStorage.getItem('loggedInUser'));
@@ -121,6 +122,11 @@ function App() {
               exact
               path="/results/all"
               component={TermResultsPage}
+            ></Route>
+            <Route
+              exact
+              path="/subjectsClassAssignment"
+              component={SubjectsClassAssignmentPage}
             ></Route>
           </div>
         </div>
