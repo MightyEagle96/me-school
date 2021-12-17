@@ -65,29 +65,40 @@ export default function SubjectsClassAssignmentPage() {
 
   async function GetWhoIsAssignedToWhat() {
     const path = 'academics/whoIsAssignedToWhat';
-
     const res = await httpService.get(path);
-
     if (res) {
       const playAround = res.data.whoIsAssignedToWhat;
-
       const index = playAround.findIndex((d) => d.teacher === loggedInUser._id);
-
-      setUserCombination(playAround.splice(index, 1)[0].subjectAndLevel);
-
-      setOtherStaffAssignment(playAround[0].subjectAndLevel);
+      if (index >= 0) {
+        setUserCombination(playAround.splice(index, 1)[0].subjectAndLevel);
+      } else {
+        setUserCombination([]);
+      }
+      let data = [];
+      for (let i = 0; i < playAround.length; i++) {
+        const loop1 = playAround[i];
+        for (let j = 0; j < loop1.subjectAndLevel.length; j++) {
+          const combo = loop1.subjectAndLevel[j];
+          data.push(combo);
+        }
+      }
+      setOtherStaffAssignment(data);
     }
   }
 
   function HandleChecked(subject, level) {
-    if (userCombination.find((d) => d.subject === subject && d.level === level))
+    if (
+      userCombination.find(
+        (d) => d.subject._id === subject && d.level._id === level
+      )
+    )
       return true;
   }
 
   function HandleDisabled(subject, level) {
     if (
       otherStaffAssignment.find(
-        (d) => d.subject === subject && d.level === level
+        (d) => d.subject._id === subject && d.level._id === level
       )
     )
       return true;
@@ -100,8 +111,16 @@ export default function SubjectsClassAssignmentPage() {
   return (
     <div>
       <div className="p-3">
-        <div className="alert alert-primary col-md-4">
-          The table is combination of subjects and their classes
+        <div className="border border-danger p-3 mb-4 bg-danger text-white shadow-lg rounded">
+          <div className="h3 mb-3">Subject And Class Assignment</div>
+          <p>
+            Select a class for a subject from available checkboxes you will like
+            to teach.
+          </p>
+          <p>
+            Disabled checkboxes show that they have been selected by other
+            teachers.
+          </p>
         </div>
         <div className="mt-3">
           <div className="h3 text-center">Subects and Classes</div>
@@ -146,7 +165,7 @@ export default function SubjectsClassAssignmentPage() {
                               type="checkbox"
                               id={`${combo.subjectId}-${level._id}`}
                               className="form-check-input"
-                              onClick={handleChange}
+                              onChange={handleChange}
                               name={`${combo.subjectId}-${level._id}`}
                               checked={
                                 HandleChecked(combo.subjectId, level._id) ||
@@ -170,7 +189,9 @@ export default function SubjectsClassAssignmentPage() {
                 ))}
             </tbody>
           </table>
-          <button className="btn btn-success" onClick={SaveChanges}>
+        </div>
+        <div>
+          <button className="btn btn-warning text-white" onClick={SaveChanges}>
             Save Changes
           </button>
         </div>

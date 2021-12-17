@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 
 import { useParams } from 'react-router';
-import { httpService } from '../../../data/services';
+import { httpService } from '../../data/services';
 import { MDBCollapse } from 'mdb-react-ui-kit';
 
-import { HttpError } from '../../../assets/aesthetics/HttpError';
+import { HttpError } from '../../assets/aesthetics/HttpError';
 import Swal from 'sweetalert2';
-import { MyTable } from '../../../assets/aesthetics/MyTable';
+import { MyTable } from '../../assets/aesthetics/MyTable';
 
 export default function SetExamPage() {
   const defaultData = {

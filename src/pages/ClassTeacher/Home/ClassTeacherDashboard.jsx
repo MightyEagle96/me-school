@@ -17,16 +17,11 @@ export default function ClassTeacherDashboard() {
     GetClassSize();
   }, []);
 
-  console.log(loggedInUser);
   return (
     <div className="mb-4">
       <div className="jumbotron jumbotron-fluid jumbotronBackground text-white m-0">
         <div class="container">
           <h1 class="display-4">Hello, {loggedInUser.firstName}</h1>
-          <p class="lead">
-            This is a modified jumbotron that occupies the entire horizontal
-            space of its parent.
-          </p>
         </div>
         <div className="row mt-5">
           <div className="col-md-4">

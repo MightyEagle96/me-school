@@ -1,0 +1,16 @@
+.footerLogo {
+  height: 200px;
+  width: 200px;
+}
+
+.footerColor {
+  // background-color: rgb(39, 39, 39);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: linear-gradient(
+      to right bottom,
+      rgba(51, 50, 50, 0.747),
+      rgba(0, 0, 0, 0.767)
+    ),
+    url('../../assets/images/footerBackground.jpg');
+}

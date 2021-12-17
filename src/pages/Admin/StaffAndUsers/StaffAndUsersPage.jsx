@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { backendUrl, httpService } from '../../../data/services';
 import './StaffAndUsersPage.scss';
+import { MyTable } from '../../../assets/aesthetics/MyTable';
 
 export default function StaffAndUsersPage() {
   const [users, setUsers] = useState([]);
@@ -16,58 +17,51 @@ export default function StaffAndUsersPage() {
   useEffect(() => {
     viewUsers();
   }, []);
+
+  const columns = [
+    {
+      title: 'Photo',
+      field: 'imageUrl',
+      render: (rowData) => (
+        <div>
+          <img
+            src={`${backendUrl}/images/${rowData.imageUrl}`}
+            alt={rowData.fullName}
+            className="avatar"
+          />
+        </div>
+      ),
+    },
+    { title: 'Full Name', field: 'fullName' },
+    {
+      title: 'Role',
+      field: 'role',
+      render: (rowData) => <p className="capitalise">{rowData.role}</p>,
+    },
+    {
+      title: 'Email',
+      field: 'email',
+    },
+  ];
   return (
     <div>
       <div>
         <div className="mt-3">
-          <div className="d-flex justify-content-between">
-            <div>
-              <h3>STAFF & STUDENTS</h3>
-            </div>
-            <div>
-              <a href="/createUser" className="btn btn-success">
-                <i class="fa fa-user-plus" aria-hidden="true"></i>
-              </a>
+          <div className="alert alert-light">
+            <div className="d-flex justify-content-between">
+              <div>
+                <h3>STAFF & STUDENTS</h3>
+              </div>
+              <div>
+                <a href="/createUser" className="btn btn-success">
+                  <i class="fa fa-user-plus" aria-hidden="true"></i>
+                </a>
+              </div>
             </div>
           </div>
 
           <div>
-            <table className="table table-condensed">
-              <thead>
-                <tr>
-                  <th>Avatar</th>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Role</th>
-                  {/* <th>Class</th> */}
-                </tr>
-              </thead>
-              <tbody>
-                {users.map((user, index) => {
-                  return (
-                    <tr key={index}>
-                      <td>
-                        <div>
-                          <img
-                            src={`${backendUrl}/images/${user.imageUrl}`}
-                            className="avatar"
-                          />
-                        </div>
-                      </td>
-                      <td>
-                        <div className="h6">{user.fullName}</div>
-                      </td>
-                      <td>
-                        <div className="h6">{user.email}</div>
-                      </td>
-                      <td>
-                        <div className="h6 transform">{user.role}</div>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+            <MyTable title={'All Users'} data={users} columns={columns} />
           </div>
         </div>
       </div>

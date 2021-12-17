@@ -1,18 +1,17 @@
 import { Route, Switch } from 'react-router-dom';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap-css-only/css/bootstrap.min.css';
-import 'mdbreact/dist/css/mdb.css';
+// import 'mdbreact/dist/css/mdb.css';
 
 import 'bootstrap/dist/js/bootstrap.bundle';
 
 import HomePage from './pages/Gen/HomePage';
 import { LoginPage } from './pages/Auth/LoginPage';
 import { SignUpPage } from './pages/Auth/SignUpPage';
-import ExamChoicePage from './pages/Teachers/Exams/ExamChoicePage';
-import SubjectsListPage from './pages/Teachers/subjects/SubjectsList';
-import StaffDashboard from './pages/Teachers/Home/StaffDashboard';
+import ExamChoicePage from './pages/Exams/ExamChoicePage';
+
 import './App.scss';
-import SetExamPage from './pages/Teachers/Exams/SetExamPage';
+import SetExamPage from './pages/Exams/SetExamPage';
 import StudentDashboard from './pages/Students/Home/StudentDashboard';
 
 import TestsChoicePage from './pages/Students/Tests/TestsChoicePage';
@@ -37,6 +36,8 @@ import CreateUserPage from './pages/Admin/CreateUser/CreateUserPage';
 import StudentsPerformance from './pages/ClassTeacher/StudentsPerformance';
 import TermResultsPage from './pages/Students/Results/TermResultsPage';
 import SubjectsClassAssignmentPage from './pages/Academics/SubjectsClassAssignmentPage';
+import TeacherDashboard from './pages/Teachers/Home/TeacherDashboard';
+import StudentsPerformancePage from './pages/Academics/StudentsPerformancePage';
 
 function App() {
   const user = JSON.parse(localStorage.getItem('loggedInUser'));
@@ -50,9 +51,7 @@ function App() {
         </Route>
         <Route exact path="/login" component={LoginPage}></Route>
         <Route exact path="/signUp" component={SignUpPage}></Route>
-        <Route exact path="/chooseExamToSet" component={ExamChoicePage}></Route>
-        <Route exact path="/subjects" component={SubjectsListPage}></Route>
-        <Route exact path="/staffHome" component={StaffDashboard}></Route>
+
         <Route exact path="/studentHome" component={StudentDashboard}></Route>
         <Route
           exact
@@ -64,6 +63,11 @@ function App() {
             <SideMenu />
           </div>
           <div className="col-md-9">
+            <Route
+              exact
+              path="/chooseExamToSet"
+              component={ExamChoicePage}
+            ></Route>
             <Route exact path="/adminHome" component={AdminDashboard}></Route>
             <Route exact path="/subjectsViewAdd" component={Subjects}></Route>
             <Route
@@ -94,11 +98,6 @@ function App() {
 
             <Route
               exact
-              path="/chooseExamToSet"
-              component={ExamChoicePage}
-            ></Route>
-            <Route
-              exact
               path="/setExam/:subjectId/:levelId"
               component={SetExamPage}
             ></Route>
@@ -117,6 +116,11 @@ function App() {
               path="/classTeacherHome"
               component={ClassTeacherDashboard}
             ></Route>
+            <Route
+              exact
+              path="/teacherHome"
+              component={TeacherDashboard}
+            ></Route>
             <Route exact path="/myResults/:id" component={ResultsPage}></Route>
             <Route
               exact
@@ -127,6 +131,11 @@ function App() {
               exact
               path="/subjectsClassAssignment"
               component={SubjectsClassAssignmentPage}
+            ></Route>
+            <Route
+              exact
+              path="/studentsPerformance"
+              component={StudentsPerformancePage}
             ></Route>
           </div>
         </div>

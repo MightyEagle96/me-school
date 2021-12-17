@@ -35,6 +35,7 @@ export default function MyClassStudentsPage() {
         </div>
       ),
     },
+    { title: 'Email', field: 'email' },
     { title: 'Full Name', field: 'fullName' },
     {
       title: 'Action',
@@ -42,7 +43,7 @@ export default function MyClassStudentsPage() {
       render: (rowData) => (
         <div>
           <a
-            className="btn btn-elegant"
+            className="btn btn-dark"
             href={`/studentsPerformance/${rowData._id}`}
           >{`${rowData.firstName}'s performance`}</a>
         </div>
@@ -51,8 +52,12 @@ export default function MyClassStudentsPage() {
   ];
   return (
     <div>
-      <div className="mt-3">
-        <div className="h3 text-primary mb-4">My Class Students</div>
+      <div className="p-3">
+        <div className="border border-primary p-3 mb-4 bg-primary text-white shadow-lg rounded">
+          <div className="h3">My Class Students</div>
+          <p>See all the students assigned to your class.</p>
+          <p>You can also view performance for each student.</p>
+        </div>
         <MyTable
           title={`${level.level} students`}
           data={students}

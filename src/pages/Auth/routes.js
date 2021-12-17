@@ -8,6 +8,8 @@ export const loginRouting = (role) => {
       return window.location.assign('/studentHome');
     case 'admin':
       return window.location.assign('/adminHome');
+    case 'teacher':
+      return window.location.assign('/teacherHome');
 
     default:
       break;

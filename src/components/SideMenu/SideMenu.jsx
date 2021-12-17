@@ -25,7 +25,9 @@ export default function SideMenu() {
       case 'student':
         return '/studentHome';
       case 'class teacher':
-        return '/classteacherHome';
+        return '/classTeacherHome';
+      case 'teacher':
+        return '/teacherHome';
 
       default:
         break;
@@ -103,7 +105,7 @@ export default function SideMenu() {
                   </a>
                 </li>
                 <li className=" mb-4 ">
-                  <a href="#">
+                  <a href="/studentsPerformance">
                     <i class="    "></i>
                     <span class="fas fa-user-graduate  mr-3"></span> Students
                     performance

@@ -32,7 +32,7 @@ export const RegisteredSubjects = () => {
       field: '_id',
       render: (rowData) => (
         <button
-          className="btn btn-success btn-sm"
+          className="btn btn-success"
           onClick={() => {
             const confirmExistence = userSelectedSubject.find((d) => {
               return d._id === rowData._id;
