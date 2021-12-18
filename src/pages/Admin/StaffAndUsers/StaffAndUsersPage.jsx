@@ -46,11 +46,11 @@ export default function StaffAndUsersPage() {
   return (
     <div>
       <div>
-        <div className="mt-3">
-          <div className="alert alert-light">
+        <div className="mt-3 p-3">
+          <div className="alert alert-dark">
             <div className="d-flex justify-content-between">
               <div>
-                <h3>STAFF & STUDENTS</h3>
+                <h3>Staff & Students</h3>
               </div>
               <div>
                 <a href="/createUser" className="btn btn-success">

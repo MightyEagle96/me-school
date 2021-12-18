@@ -28,6 +28,8 @@ export default function SideMenu() {
         return '/classTeacherHome';
       case 'teacher':
         return '/teacherHome';
+      case 'store admin':
+        return '/storeAdminHome';
 
       default:
         break;
@@ -167,6 +169,24 @@ export default function SideMenu() {
                   <a href="£!">
                     <span className="fas fa-volume-up mr-3   "></span>{' '}
                     Broadcasts
+                  </a>
+                </li>
+              </div>
+            ) : (
+              ''
+            )}
+            {loggedInUser && loggedInUser.role === 'store admin' ? (
+              <div>
+                <li className="mb-4">
+                  <a href="/addStoreItem">
+                    <span className="fas fa-cart-plus mr-3   "></span> Add a new
+                    store item
+                  </a>
+                </li>
+                <li className="mb-4">
+                  <a href="/addNewItem">
+                    <span className="fas fa-money-bill  mr-3   "></span>{' '}
+                    Financial Report
                   </a>
                 </li>
               </div>

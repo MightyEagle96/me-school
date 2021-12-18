@@ -4,7 +4,7 @@ import { loggedInUser } from '../../../data/services';
 
 export default function AdminDashboard() {
   return (
-    <div className="p-3">
+    <div className="pr-3">
       <div className="jumbotron jumbotron-fluid jumbotronBackground text-white m-0">
         <div class="container">
           <h1 class="display-4">Hello, {loggedInUser.firstName}</h1>

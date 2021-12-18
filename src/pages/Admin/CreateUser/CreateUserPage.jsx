@@ -133,6 +133,7 @@ export default function CreateUserPage() {
                 <option value="teacher">Teacher</option>
                 <option value="class teacher">Class Teacher</option>
                 <option value="student">Student</option>
+                <option value="store admin">Store Admin</option>
               </select>
             </div>
             <div className="form-group">

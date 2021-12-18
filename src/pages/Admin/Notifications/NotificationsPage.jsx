@@ -135,47 +135,48 @@ export default function NotificationsPage() {
   ];
   return (
     <div>
-      <div className="row mt-3">
-        <div className="col-md-4">
-          <div className="alert alert-light">
-            <div className="h5">Students yet to be assigned</div>
-            <hr />
-            <div className="d-flex justify-content-between">
-              <div className="d-flex align-items-center">
-                <div className="h2"> {awaitingStudents.count}</div>
+      <div className="pr-3">
+        <div className="row">
+          <div className="col-md-4 card">
+            <div className="alert alert-light">
+              <div className="h5">Students yet to be assigned</div>
+              <hr />
+              <div className="d-flex justify-content-between">
+                <div className="d-flex align-items-center">
+                  <div className="h2"> {awaitingStudents.count}</div>
+                </div>
+                <div>
+                  <button className="btn btn-success btn-sm">
+                    Click to view
+                  </button>
+                </div>
               </div>
-              <div>
-                <button className="btn btn-success btn-sm">
-                  Click to view
-                </button>
+            </div>
+          </div>
+          <div className="col-md-4  card ml-3">
+            <div className="alert alert-light">
+              <div className="h5">Class Teachers yet to be assigned</div>
+              <hr />
+              <div className="d-flex justify-content-between">
+                <div className="d-flex align-items-center">
+                  <div className="h2"> {awaitingClassTeachers.count}</div>
+                </div>
+                <div>
+                  <button className="btn btn-primary btn-sm">
+                    Click to view
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <div className="col-md-4">
-          <div className="alert alert-light">
-            <div className="h5">Class Teachers yet to be assigned</div>
-            <hr />
-            <div className="d-flex justify-content-between">
-              <div className="d-flex align-items-center">
-                <div className="h2"> {awaitingClassTeachers.count}</div>
-              </div>
-              <div>
-                <button className="btn btn-primary btn-sm">
-                  Click to view
-                </button>
-              </div>
-            </div>
-          </div>
+        <div className="mt-3">
+          <MyTable
+            title="YET TO BE ASSIGNED STUDENTS"
+            data={awaitingStudents.awaitingStudents}
+            columns={columns}
+          ></MyTable>
         </div>
-        <div className="col-md-4"></div>
-      </div>
-      <div className="mt-3">
-        <MyTable
-          title="YET TO BE ASSIGNED STUDENTS"
-          data={awaitingStudents.awaitingStudents}
-          columns={columns}
-        ></MyTable>
       </div>
     </div>
   );

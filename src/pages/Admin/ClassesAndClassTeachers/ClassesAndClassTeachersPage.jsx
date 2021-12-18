@@ -66,7 +66,7 @@ export default function ClassesAndClassTeachersPage() {
   };
   return (
     <div>
-      <div className="p-3">
+      <div className="pr-3">
         <div>
           <div className="h3 text-black-50">CLASSES AND CLASS TEACHERS</div>
           <hr />

@@ -3,8 +3,6 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap-css-only/css/bootstrap.min.css';
 // import 'mdbreact/dist/css/mdb.css';
 
-import 'bootstrap/dist/js/bootstrap.bundle';
-
 import HomePage from './pages/Gen/HomePage';
 import { LoginPage } from './pages/Auth/LoginPage';
 import { SignUpPage } from './pages/Auth/SignUpPage';
@@ -38,6 +36,8 @@ import TermResultsPage from './pages/Students/Results/TermResultsPage';
 import SubjectsClassAssignmentPage from './pages/Academics/SubjectsClassAssignmentPage';
 import TeacherDashboard from './pages/Teachers/Home/TeacherDashboard';
 import StudentsPerformancePage from './pages/Academics/StudentsPerformancePage';
+import StoreAdminDashboard from './pages/StoreAdmin/Home/StoreAdminDashboard';
+import AddStoreItem from './pages/StoreAdmin/Store/AddStoreItem';
 
 function App() {
   const user = JSON.parse(localStorage.getItem('loggedInUser'));
@@ -69,6 +69,12 @@ function App() {
               component={ExamChoicePage}
             ></Route>
             <Route exact path="/adminHome" component={AdminDashboard}></Route>
+            <Route
+              exact
+              path="/storeAdminHome"
+              component={StoreAdminDashboard}
+            ></Route>
+            <Route exact path="/addStoreItem" component={AddStoreItem}></Route>
             <Route exact path="/subjectsViewAdd" component={Subjects}></Route>
             <Route
               exact

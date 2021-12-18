@@ -41,8 +41,8 @@ export default function Subjects() {
 
   return (
     <div>
-      <div>
-        <div className="h3 mt-4">CREATED SUBJECTS</div>
+      <div className="pr-3">
+        <div className="h3">Available Subjects</div>
         <hr />
 
         <div className="row">
@@ -86,7 +86,7 @@ export default function Subjects() {
                       </td>
                       <td className="text-center">
                         <button className="btn btn-danger btn-sm">
-                          Delete
+                          <i class="fas fa-trash    "></i>
                         </button>
                       </td>
                     </tr>

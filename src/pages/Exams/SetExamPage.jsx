@@ -324,448 +324,437 @@ export default function SetExamPage() {
   ];
   return (
     <div>
-      <div className=" ">
-        <div className="mt-3 pr-2">
-          <div>
-            <div className="row">
-              <div className="col-md-4">
-                <div className="shadow-lg rounded p-3">
-                  <div className="text-center">
-                    <button
-                      className="btn btn-danger mb-2"
-                      onClick={toggleShow}
-                    >
-                      {paperDetail.type || 'Choose paper type'}
-                    </button>
-                    <hr className="bg-white" />
-                  </div>
-                  <div className="text-center">
-                    <MDBCollapse show={showShow}>
-                      {testTypes.map((testType, index) => {
-                        return (
-                          <button
-                            key={index}
-                            className="btn btn-info"
-                            onClick={() => {
-                              setPaperDetail({
-                                ...paperDetail,
-                                testTypeId: testType._id,
-                                type: testType.testType,
-                              });
-                              setShowShow(!showShow);
-                            }}
-                          >
-                            {testType.testType}
-                          </button>
-                        );
-                      })}
-                    </MDBCollapse>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-4">
-                <div className="shadow-lg rounded p-3">
-                  <div className="text-center">
-                    <button
-                      className="btn btn-secondary mb-2"
-                      onClick={toggleTerm}
-                    >
-                      {paperDetail.term || 'Choose term to set'}
-                    </button>
-                    <hr className="bg-white" />
-                  </div>
-                  <div className="text-cetner">
-                    <MDBCollapse show={showTerm}>
-                      {currentTerm.map((term, index) => {
-                        return (
-                          <button
-                            key={index}
-                            className="btn btn-info"
-                            onClick={() => {
-                              setPaperDetail({
-                                ...paperDetail,
-                                termId: term._id,
-                                term: term.term,
-                              });
-                              setShowTerm(!showTerm);
-                            }}
-                          >
-                            {term.term}
-                          </button>
-                        );
-                      })}
-                    </MDBCollapse>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-4">
-                <div className="shadow-lg rounded p-3 mb-2">
-                  <div className="d-flex justify-content-between">
-                    <div>
-                      <div className="h6">Subject: {subject.title}</div>
-                      <div className="h6">Class: {level.level}</div>
-                    </div>
-                    <div>
-                      <button
-                        className="btn btn-danger"
-                        onClick={() => {
-                          fetchQuestions();
-                        }}
-                      >
-                        FETCH QUESTIONS
-                      </button>
-                    </div>
-                  </div>
-
+      <div className="mt-3 pr-3">
+        <div>
+          <div className="row">
+            <div className="col-md-4">
+              <div className="shadow-lg rounded p-3">
+                <div className="text-center">
+                  <button className="btn btn-danger mb-2" onClick={toggleShow}>
+                    {paperDetail.type || 'Choose paper type'}
+                  </button>
                   <hr className="bg-white" />
+                </div>
+                <div className="text-center">
+                  <MDBCollapse show={showShow}>
+                    {testTypes.map((testType, index) => {
+                      return (
+                        <button
+                          key={index}
+                          className="btn btn-info"
+                          onClick={() => {
+                            setPaperDetail({
+                              ...paperDetail,
+                              testTypeId: testType._id,
+                              type: testType.testType,
+                            });
+                            setShowShow(!showShow);
+                          }}
+                        >
+                          {testType.testType}
+                        </button>
+                      );
+                    })}
+                  </MDBCollapse>
                 </div>
               </div>
             </div>
+            <div className="col-md-4">
+              <div className="shadow-lg rounded p-3">
+                <div className="text-center">
+                  <button
+                    className="btn btn-secondary mb-2"
+                    onClick={toggleTerm}
+                  >
+                    {paperDetail.term || 'Choose term to set'}
+                  </button>
+                  <hr className="bg-white" />
+                </div>
+                <div className="text-cetner">
+                  <MDBCollapse show={showTerm}>
+                    {currentTerm.map((term, index) => {
+                      return (
+                        <button
+                          key={index}
+                          className="btn btn-info"
+                          onClick={() => {
+                            setPaperDetail({
+                              ...paperDetail,
+                              termId: term._id,
+                              term: term.term,
+                            });
+                            setShowTerm(!showTerm);
+                          }}
+                        >
+                          {term.term}
+                        </button>
+                      );
+                    })}
+                  </MDBCollapse>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-4">
+              <div className="shadow-lg rounded p-3 mb-2">
+                <div className="d-flex justify-content-between">
+                  <div>
+                    <div className="h6">Subject: {subject.title}</div>
+                    <div className="h6">Class: {level.level}</div>
+                  </div>
+                  <div>
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => {
+                        fetchQuestions();
+                      }}
+                    >
+                      FETCH QUESTIONS
+                    </button>
+                  </div>
+                </div>
+
+                <hr className="bg-white" />
+              </div>
+            </div>
           </div>
-          <hr />
-          <div className="row">
-            <div className="col-md-6">
-              <div className="alert alert-light pt-5">
-                {/* {loading ? (
+        </div>
+        <hr />
+        <div className="row">
+          <div className="col-md-6">
+            <div className="alert alert-light pt-5">
+              {/* {loading ? (
                   <div className="spinner-border text-primary" role="status">
                     <span className="sr-only">Loading...</span>
                   </div>
                 ) : (
                   ''
                 )} */}
-                <div className="row">
-                  <div className="col-md-3">
-                    {isActivated ? (
-                      <div>
-                        <div className="text-center h1 text-success ">
-                          <i
-                            className="fas fa-lock-open   delete "
-                            onClick={() => {
-                              Swal.fire({
-                                icon: 'question',
-                                title: 'Deactivate paper?',
-                                showCancelButton: true,
-                                showConfirmButton: true,
-                                confirmButtonText: 'Yes',
-                                cancelButtonText: 'No',
-                              }).then((result) => {
-                                if (result.isConfirmed) {
-                                  toggleActivation('Deactivated');
-                                }
-                              });
-                            }}
-                          ></i>
-                        </div>
-                        <div className="text-center">
-                          <div className="h6">Paper Activated</div>
-                        </div>
+              <div className="row">
+                <div className="col-md-3">
+                  {isActivated ? (
+                    <div>
+                      <div className="text-center h1 text-success ">
+                        <i
+                          className="fas fa-lock-open   delete "
+                          onClick={() => {
+                            Swal.fire({
+                              icon: 'question',
+                              title: 'Deactivate paper?',
+                              showCancelButton: true,
+                              showConfirmButton: true,
+                              confirmButtonText: 'Yes',
+                              cancelButtonText: 'No',
+                            }).then((result) => {
+                              if (result.isConfirmed) {
+                                toggleActivation('Deactivated');
+                              }
+                            });
+                          }}
+                        ></i>
                       </div>
-                    ) : (
-                      <div>
-                        <div className="text-center h1 text-danger ">
-                          <i
-                            className="fas fa-lock    delete"
-                            onClick={() => {
-                              Swal.fire({
-                                icon: 'question',
-                                title: 'Activate paper?',
-                                showCancelButton: true,
-                                showConfirmButton: true,
-                                confirmButtonText: 'Yes',
-                                cancelButtonText: 'No',
-                              }).then((result) => {
-                                if (result.isConfirmed) {
-                                  toggleActivation('Activated');
-                                }
-                              });
-                            }}
-                          ></i>
-                        </div>
-                        <div className="text-center">
-                          <div className="h6">Paper Deactivated</div>
-                        </div>
+                      <div className="text-center">
+                        <div className="h6">Paper Activated</div>
                       </div>
-                    )}
-                  </div>
-                  <div className="border-left col-md-6">
-                    <div className="input-group">
-                      <div className="input-group-prepend">
-                        <span className="input-group-text bg-primary text-white">
-                          <i class="fas fa-clock    "></i>
-                        </span>
-                      </div>
-                      <input
-                        type="number"
-                        placeholder="HH"
-                        className="form-control"
-                        min="0"
-                        max="3"
-                        value={duration.hour}
-                        onChange={(e) => {
-                          setDuration({ ...duration, hour: e.target.value });
-                        }}
-                      />
-                      <input
-                        type="number"
-                        placeholder="MM"
-                        className="form-control"
-                        min="0"
-                        max="59"
-                        value={duration.minute}
-                        onChange={(e) => {
-                          setDuration({ ...duration, minute: e.target.value });
-                        }}
-                      />
                     </div>
+                  ) : (
+                    <div>
+                      <div className="text-center h1 text-danger ">
+                        <i
+                          className="fas fa-lock    delete"
+                          onClick={() => {
+                            Swal.fire({
+                              icon: 'question',
+                              title: 'Activate paper?',
+                              showCancelButton: true,
+                              showConfirmButton: true,
+                              confirmButtonText: 'Yes',
+                              cancelButtonText: 'No',
+                            }).then((result) => {
+                              if (result.isConfirmed) {
+                                toggleActivation('Activated');
+                              }
+                            });
+                          }}
+                        ></i>
+                      </div>
+                      <div className="text-center">
+                        <div className="h6">Paper Deactivated</div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+                <div className="border-left col-md-6">
+                  <div className="input-group">
+                    <div className="input-group-prepend">
+                      <span className="input-group-text bg-primary text-white">
+                        <i class="fas fa-clock    "></i>
+                      </span>
+                    </div>
+                    <input
+                      type="number"
+                      placeholder="HH"
+                      className="form-control"
+                      min="0"
+                      max="3"
+                      value={duration.hour}
+                      onChange={(e) => {
+                        setDuration({ ...duration, hour: e.target.value });
+                      }}
+                    />
+                    <input
+                      type="number"
+                      placeholder="MM"
+                      className="form-control"
+                      min="0"
+                      max="59"
+                      value={duration.minute}
+                      onChange={(e) => {
+                        setDuration({ ...duration, minute: e.target.value });
+                      }}
+                    />
+                  </div>
 
-                    <div className="text-center">
-                      <button className="btn btn-primary" onClick={setTimer}>
-                        Set Duration
-                      </button>
-                    </div>
-                  </div>
-                  <div className="border-left col-md-3">
-                    <div className="form-group mb-3">
-                      <label htmlFor="" className="form-label">
-                        Divisor
-                      </label>
-                      <input
-                        type="number"
-                        className="form-control"
-                        onChange={(e) => {
-                          setDivisor(e.target.value);
-                        }}
-                        value={divisor}
-                      />
-                      <button className="btn btn-warning" onClick={SetDivisor}>
-                        <i class="fa fa-check" aria-hidden="true"></i>
-                      </button>
-                    </div>
+                  <div className="text-center">
+                    <button className="btn btn-primary" onClick={setTimer}>
+                      Set Duration
+                    </button>
                   </div>
                 </div>
-              </div>
-            </div>
-            <div className="col-md-6 ">
-              <div className="alert alert-secondary">
-                {!paperDetail.type && !paperDetail.term ? (
-                  <span>Please select a paper type and a term</span>
-                ) : (
-                  <b>
-                    You are currently working on {subject.title} for{' '}
-                    {level.level} and you are setting{' '}
-                    <span>
-                      {' '}
-                      <strong>{paperDetail.type}</strong>{' '}
-                    </span>{' '}
-                    questions for{' '}
-                    <span>
-                      {' '}
-                      <strong>{paperDetail.term}.</strong>{' '}
-                    </span>
-                    <span>
-                      <button
-                        type="button"
-                        className="btn btn-secondary"
-                        onClick={() => {
-                          fetchQuestions();
-                        }}
-                      >
-                        If this is not the question you wish to set for you can
-                        reload
-                      </button>{' '}
-                      <a href="/chooseExamToSet" className="nav-link">
-                        Go back to the SELECT CLASS TO SET PAGE.
-                      </a>
-                    </span>
-                  </b>
-                )}
+                <div className="border-left col-md-3">
+                  <div className="form-group mb-3">
+                    <label htmlFor="" className="form-label">
+                      Divisor
+                    </label>
+                    <input
+                      type="number"
+                      className="form-control"
+                      onChange={(e) => {
+                        setDivisor(e.target.value);
+                      }}
+                      value={divisor}
+                    />
+                    <button className="btn btn-warning" onClick={SetDivisor}>
+                      <i class="fa fa-check" aria-hidden="true"></i>
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-          <div className="shadow-lg rounded p-4 mb-3">
-            <div className="h3 text-secondary">SET QUESTIONS</div>
-            <div className="d-flex flex-wrap">
-              <div className="col-md-4 mb-2">
-                <div className="input-group">
-                  <div className="input-group-prepend">
-                    <span className="input-group-text" id="basic-addon">
-                      Question
-                    </span>
-                  </div>
-                  <input
-                    type="text"
-                    className="form-control"
-                    aria-label="Username"
-                    aria-describedby="basic-addon"
-                    name="question"
-                    value={question.question}
-                    onChange={handleChange}
-                  />
+          <div className="col-md-6 ">
+            <div className="alert alert-secondary">
+              {!paperDetail.type && !paperDetail.term ? (
+                <span>Please select a paper type and a term</span>
+              ) : (
+                <b>
+                  You are currently working on {subject.title} for {level.level}{' '}
+                  and you are setting{' '}
+                  <span>
+                    {' '}
+                    <strong>{paperDetail.type}</strong>{' '}
+                  </span>{' '}
+                  questions for{' '}
+                  <span>
+                    {' '}
+                    <strong>{paperDetail.term}.</strong>{' '}
+                  </span>
+                  <span>
+                    <button
+                      type="button"
+                      className="btn btn-secondary"
+                      onClick={() => {
+                        fetchQuestions();
+                      }}
+                    >
+                      If this is not the question you wish to set for you can
+                      reload
+                    </button>{' '}
+                    <a href="/chooseExamToSet" className="nav-link">
+                      Go back to the SELECT CLASS TO SET PAGE.
+                    </a>
+                  </span>
+                </b>
+              )}
+            </div>
+          </div>
+        </div>
+        <div className="shadow-lg rounded p-4 mb-3">
+          <div className="h3 text-secondary">SET QUESTIONS</div>
+          <div className="d-flex flex-wrap">
+            <div className="col-md-4 mb-2">
+              <div className="input-group">
+                <div className="input-group-prepend">
+                  <span className="input-group-text" id="basic-addon">
+                    Question
+                  </span>
                 </div>
+                <input
+                  type="text"
+                  className="form-control"
+                  aria-label="Username"
+                  aria-describedby="basic-addon"
+                  name="question"
+                  value={question.question}
+                  onChange={handleChange}
+                />
               </div>
-              <div className="col-md-4 mb-2">
-                <div className="input-group">
-                  <div className="input-group-prepend">
-                    <span className="input-group-text" id="basic-addon">
-                      Option A
-                    </span>
-                  </div>
-                  <input
-                    type="text"
-                    className="form-control"
-                    name="optionA"
-                    value={question.optionA}
-                    onChange={handleChange}
-                    aria-label="Username"
-                    aria-describedby="basic-addon"
-                  />
+            </div>
+            <div className="col-md-4 mb-2">
+              <div className="input-group">
+                <div className="input-group-prepend">
+                  <span className="input-group-text" id="basic-addon">
+                    Option A
+                  </span>
                 </div>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="optionA"
+                  value={question.optionA}
+                  onChange={handleChange}
+                  aria-label="Username"
+                  aria-describedby="basic-addon"
+                />
               </div>
-              <div className="col-md-4 mb-2">
-                <div className="input-group">
-                  <div className="input-group-prepend">
-                    <span className="input-group-text" id="basic-addon">
-                      Option B
-                    </span>
-                  </div>
-                  <input
-                    type="text"
-                    className="form-control"
-                    aria-label="Username"
-                    aria-describedby="basic-addon"
-                    name="optionB"
-                    value={question.optionB}
-                    onChange={handleChange}
-                  />
+            </div>
+            <div className="col-md-4 mb-2">
+              <div className="input-group">
+                <div className="input-group-prepend">
+                  <span className="input-group-text" id="basic-addon">
+                    Option B
+                  </span>
                 </div>
+                <input
+                  type="text"
+                  className="form-control"
+                  aria-label="Username"
+                  aria-describedby="basic-addon"
+                  name="optionB"
+                  value={question.optionB}
+                  onChange={handleChange}
+                />
               </div>
-              <div className="col-md-4 mb-2">
-                <div className="input-group">
-                  <div className="input-group-prepend">
-                    <span className="input-group-text" id="basic-addon">
-                      Option C
-                    </span>
-                  </div>
-                  <input
-                    type="text"
-                    className="form-control"
-                    aria-label="Username"
-                    aria-describedby="basic-addon"
-                    name="optionC"
-                    value={question.optionC}
-                    onChange={handleChange}
-                  />
+            </div>
+            <div className="col-md-4 mb-2">
+              <div className="input-group">
+                <div className="input-group-prepend">
+                  <span className="input-group-text" id="basic-addon">
+                    Option C
+                  </span>
                 </div>
+                <input
+                  type="text"
+                  className="form-control"
+                  aria-label="Username"
+                  aria-describedby="basic-addon"
+                  name="optionC"
+                  value={question.optionC}
+                  onChange={handleChange}
+                />
               </div>
-              <div className="col-md-4 mb-2">
-                <div className="input-group">
-                  <div className="input-group-prepend">
-                    <span className="input-group-text" id="basic-addon">
-                      Option D
-                    </span>
-                  </div>
-                  <input
-                    type="text"
-                    className="form-control"
-                    aria-label="Username"
-                    aria-describedby="basic-addon"
-                    name="optionD"
-                    value={question.optionD}
-                    onChange={handleChange}
-                  />
+            </div>
+            <div className="col-md-4 mb-2">
+              <div className="input-group">
+                <div className="input-group-prepend">
+                  <span className="input-group-text" id="basic-addon">
+                    Option D
+                  </span>
                 </div>
+                <input
+                  type="text"
+                  className="form-control"
+                  aria-label="Username"
+                  aria-describedby="basic-addon"
+                  name="optionD"
+                  value={question.optionD}
+                  onChange={handleChange}
+                />
               </div>
-              <div className="col-md-4 mb-2">
-                <div className="input-group">
-                  <div className="input-group-prepend">
-                    <span className="input-group-text" id="basic-addon">
-                      Correct Answer
-                    </span>
-                  </div>
-                  <select
-                    className="form-control"
-                    aria-label="Default select example"
-                    value={question.correctAns}
-                    onChange={handleChange}
-                    name="correctAns"
-                  >
-                    <option selected>Select correct answer </option>
-                    <option value={question.optionA}>{question.optionA}</option>
-                    <option value={question.optionB}>{question.optionB}</option>
-                    <option value={question.optionC}>{question.optionC}</option>
-                    <option value={question.optionD}>{question.optionD}</option>
-                  </select>
+            </div>
+            <div className="col-md-4 mb-2">
+              <div className="input-group">
+                <div className="input-group-prepend">
+                  <span className="input-group-text" id="basic-addon">
+                    Correct Answer
+                  </span>
                 </div>
-              </div>
-              <div className="col-md-4 mb-2">
-                {isUpdate ? (
-                  <button className="btn btn-unique" onClick={updateQuestion}>
-                    Update this question
-                  </button>
-                ) : (
-                  <button
-                    className="btn btn-deep-purple"
-                    onClick={postQuestions}
-                  >
-                    POST QUESTION
-                  </button>
-                )}
-                <button
-                  className="btn btn-pink"
-                  type="reset"
-                  onClick={() => {
-                    setQuestion({});
-                  }}
+                <select
+                  className="form-control"
+                  aria-label="Default select example"
+                  value={question.correctAns}
+                  onChange={handleChange}
+                  name="correctAns"
                 >
-                  Reset
+                  <option selected>Select correct answer </option>
+                  <option value={question.optionA}>{question.optionA}</option>
+                  <option value={question.optionB}>{question.optionB}</option>
+                  <option value={question.optionC}>{question.optionC}</option>
+                  <option value={question.optionD}>{question.optionD}</option>
+                </select>
+              </div>
+            </div>
+            <div className="col-md-4 mb-2">
+              {isUpdate ? (
+                <button className="btn btn-unique" onClick={updateQuestion}>
+                  Update this question
                 </button>
-                {/* <button className="btn btn-success">
+              ) : (
+                <button className="btn btn-deep-purple" onClick={postQuestions}>
+                  POST QUESTION
+                </button>
+              )}
+              <button
+                className="btn btn-pink"
+                type="reset"
+                onClick={() => {
+                  setQuestion({});
+                }}
+              >
+                Reset
+              </button>
+              {/* <button className="btn btn-success">
                   upload csv{' '}
                   <span>
                     <i className="fas fa-upload    ml-3"></i>
                   </span>
                 </button> */}
-                <div className="mt-3">
-                  <label htmlFor="customFile" className="form-label">
-                    Upload CSV file for this paper
-                  </label>
-                  <input
-                    type="file"
-                    name=""
-                    id="customFile"
-                    className="form-control"
-                    accept=".csv"
-                    onChange={(e) => {
-                      setSelectedFile(e.target.files[0]);
-                    }}
-                  />
-                </div>
-                <div className="mt-3">
-                  {selectedFile ? (
-                    <button
-                      className="btn btn-success"
-                      onClick={uploadQuestion}
-                    >
-                      Upload{' '}
-                      <span>
-                        <i class="fas fa-upload    ml-2"></i>
-                      </span>
-                    </button>
-                  ) : (
-                    ''
-                  )}
-                </div>
+              <div className="mt-3">
+                <label htmlFor="customFile" className="form-label">
+                  Upload CSV file for this paper
+                </label>
+                <input
+                  type="file"
+                  name=""
+                  id="customFile"
+                  className="form-control"
+                  accept=".csv"
+                  onChange={(e) => {
+                    setSelectedFile(e.target.files[0]);
+                  }}
+                />
+              </div>
+              <div className="mt-3">
+                {selectedFile ? (
+                  <button className="btn btn-success" onClick={uploadQuestion}>
+                    Upload{' '}
+                    <span>
+                      <i class="fas fa-upload    ml-2"></i>
+                    </span>
+                  </button>
+                ) : (
+                  ''
+                )}
               </div>
             </div>
           </div>
+        </div>
 
-          <div>
-            <MyTable
-              title={`${subject.title} questions`}
-              data={questions}
-              columns={columns}
-            />
-          </div>
+        <div>
+          <MyTable
+            title={`${subject.title} questions`}
+            data={questions}
+            columns={columns}
+          />
         </div>
       </div>
     </div>

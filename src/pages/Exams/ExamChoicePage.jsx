@@ -27,7 +27,7 @@ export default function ExamChoicePage() {
   }, []);
   return (
     <div>
-      <div className="p-3">
+      <div className="pr-3">
         {message ? (
           <div className="alert alert-danger">
             <div className="h5">
