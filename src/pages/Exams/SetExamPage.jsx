@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
 import { httpService } from '../../data/services';
 
-import { HttpError } from '../../assets/aesthetics/HttpError';
 import Swal from 'sweetalert2';
 import { MyTable } from '../../assets/aesthetics/MyTable';
 import './SetExamPage.scss';
@@ -82,7 +81,7 @@ export default function SetExamPage() {
     if (res) {
       setSubject(res.data.subject);
     } else {
-      return HttpError;
+      // return HttpError;
     }
   }
 
@@ -92,7 +91,7 @@ export default function SetExamPage() {
     if (res) {
       setLevel(res.data.level);
     } else {
-      return HttpError;
+      // return HttpError;
     }
   }
   async function getTestTypes() {
@@ -101,7 +100,7 @@ export default function SetExamPage() {
     if (res) {
       setTestTypes(res.data.testTypes);
     } else {
-      return HttpError;
+      // return HttpError;
     }
   }
 
@@ -113,7 +112,7 @@ export default function SetExamPage() {
 
       setPaperDetail({ ...paperDetail, termId: res.data.terms[0]._id });
     } else {
-      return HttpError;
+      // return HttpError;
     }
   }
 
@@ -154,7 +153,7 @@ export default function SetExamPage() {
           });
         }
       } else {
-        return HttpError;
+        // return HttpError;
       }
     }
     setLoadFetchQuestions(false);
