@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 
 import { useParams } from 'react-router';
 import { httpService } from '../../data/services';
-import { MDBCollapse } from 'mdb-react-ui-kit';
 
 import { HttpError } from '../../assets/aesthetics/HttpError';
 import Swal from 'sweetalert2';
 import { MyTable } from '../../assets/aesthetics/MyTable';
+import './SetExamPage.scss';
+import { IsLoading } from '../../assets/aesthetics/IsLoading';
 
 export default function SetExamPage() {
   const defaultData = {
@@ -20,7 +21,7 @@ export default function SetExamPage() {
   const { subjectId, levelId } = useParams();
   const [subject, setSubject] = useState({});
   const [level, setLevel] = useState({});
-  const [showShow, setShowShow] = useState(false);
+
   const [paperDetail, setPaperDetail] = useState({});
   const [question, setQuestion] = useState({});
   const [questions, setQuestions] = useState([]);
@@ -29,10 +30,9 @@ export default function SetExamPage() {
   const [isUpdate, setIsUpdate] = useState(false);
   const [updateQuestionId, setUpdateQuestionId] = useState('');
 
-  const [showTerm, setShowTerm] = useState(false);
   const [testTypes, setTestTypes] = useState([]);
-  const [currentTerm, setCurrentTerm] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [currentTerm, setCurrentTerm] = useState(null);
+  const [loadFetchQuestions, setLoadFetchQuestions] = useState(false);
 
   const [isActivated, setIsActivated] = useState(false);
 
@@ -45,21 +45,25 @@ export default function SetExamPage() {
   const [selectedFile, setSelectedFile] = useState(null);
 
   const uploadQuestion = async () => {
-    if (!paperDetail.termId) {
-      setLoading(false);
-      return alert(`You haven't set the term yet`);
-    }
     if (!paperDetail.testTypeId) {
-      setLoading(false);
-      return alert(`You haven't set the test type yet`);
+      return Swal.fire({
+        icon: 'warning',
+        titleText: 'Cannot post question',
+        text: 'Please select a test type',
+      });
+    }
+    if (!currentTerm._id) {
+      return Swal.fire({
+        icon: 'warning',
+        titleText: 'Cannot post question.',
+        text: 'No term id found',
+      });
     }
     setLoading(true);
-    console.log(selectedFile);
 
     const formData = new FormData();
     formData.append('questions', selectedFile, selectedFile.name);
 
-    console.log(formData);
     const path = `questions?currentTerm=${paperDetail.termId}&testType=${paperDetail.testTypeId}&subject=${subject._id}&currentClass=${level._id}`;
     // const body ={...}
 
@@ -72,67 +76,73 @@ export default function SetExamPage() {
     }
   };
 
-  const toggleShow = () => setShowShow(!showShow);
-
-  const toggleTerm = () => setShowTerm(!showTerm);
   async function getSubject() {
-    setLoading(true);
     const path = `subjects/view/${subjectId}`;
     const res = await httpService.get(path);
     if (res) {
       setSubject(res.data.subject);
-      setLoading(false);
     } else {
       return HttpError;
     }
   }
 
   async function getLevel() {
-    setLoading(true);
     const path = `levels/${levelId}`;
     const res = await httpService.get(path);
     if (res) {
       setLevel(res.data.level);
-      setLoading(false);
     } else {
       return HttpError;
     }
   }
   async function getTestTypes() {
-    setLoading(true);
     const path = 'testType';
     const res = await httpService.get(path);
     if (res) {
       setTestTypes(res.data.testTypes);
-      setLoading(false);
     } else {
       return HttpError;
     }
   }
 
   async function getTerms() {
-    setLoading(false);
-    const path = 'terms/view';
+    const path = 'terms/view?activeTerm=true';
     const res = await httpService.get(path);
     if (res) {
-      setCurrentTerm(res.data.terms);
-      setLoading(true);
+      setCurrentTerm(res.data.terms[0]);
+
+      setPaperDetail({ ...paperDetail, termId: res.data.terms[0]._id });
     } else {
       return HttpError;
     }
   }
 
   async function fetchQuestions() {
-    setLoading(true);
-    const path = `questions?currentClass=${level._id}&subject=${subject._id}&currentTerm=${paperDetail.termId}&testType=${paperDetail.testTypeId}`;
+    if (!paperDetail.testTypeId) {
+      return Swal.fire({
+        icon: 'warning',
+        titleText: 'Cannot fetch questions',
+        text: 'Please select a test type',
+      });
+    }
+    if (!currentTerm._id) {
+      return Swal.fire({
+        icon: 'warning',
+        titleText: 'Cannot fetch questions.',
+        text: 'No term id found',
+      });
+    }
+    setLoadFetchQuestions(true);
+    const path = `questions?currentClass=${level._id}&subject=${subject._id}&currentTerm=${currentTerm._id}&testType=${paperDetail.testTypeId}`;
     const res = await httpService.get(path);
     if (res) {
       if (!res.data.message) {
+        setLoadFetchQuestions(false);
         setQuestionCollectionId(res.data.questions._id);
         setQuestions(res.data.questions.questions);
         setQuestionId(res.data.questionId);
         setIsActivated(res.data.questions.activated);
-        setLoading(false);
+
         setDivisor(res.data.questions.divisor);
 
         if (res.data.questions.duration) {
@@ -147,22 +157,31 @@ export default function SetExamPage() {
         return HttpError;
       }
     }
+    setLoadFetchQuestions(false);
   }
   async function postQuestions(e) {
     setLoading(true);
-    if (!paperDetail.termId) {
+    if (!currentTerm._id) {
       setLoading(false);
-      return alert(`You haven't set the term yet`);
+      return Swal.fire({
+        icon: 'warning',
+        titleText: 'Cannot post question.',
+        text: 'No term id found',
+      });
     }
     if (!paperDetail.testTypeId) {
       setLoading(false);
-      return alert(`You haven't set the test type yet`);
+      return Swal.fire({
+        icon: 'warning',
+        titleText: 'Cannot post question.',
+        text: 'Please select a test type',
+      });
     }
 
     const path = 'questions';
     const body = {
       ...question,
-      currentTerm: paperDetail.termId,
+      currentTerm: currentTerm._id,
       testType: paperDetail.testTypeId,
       subject: subject._id,
       currentClass: level._id,
@@ -324,262 +343,168 @@ export default function SetExamPage() {
   ];
   return (
     <div>
-      <div className="mt-3 pr-3">
-        <div>
-          <div className="row">
-            <div className="col-md-4">
-              <div className="shadow-lg rounded p-3">
-                <div className="text-center">
-                  <button className="btn btn-danger mb-2" onClick={toggleShow}>
-                    {paperDetail.type || 'Choose paper type'}
-                  </button>
-                  <hr className="bg-white" />
-                </div>
-                <div className="text-center">
-                  <MDBCollapse show={showShow}>
-                    {testTypes.map((testType, index) => {
-                      return (
-                        <button
-                          key={index}
-                          className="btn btn-info"
-                          onClick={() => {
-                            setPaperDetail({
-                              ...paperDetail,
-                              testTypeId: testType._id,
-                              type: testType.testType,
-                            });
-                            setShowShow(!showShow);
-                          }}
-                        >
-                          {testType.testType}
-                        </button>
-                      );
-                    })}
-                  </MDBCollapse>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-4">
-              <div className="shadow-lg rounded p-3">
-                <div className="text-center">
-                  <button
-                    className="btn btn-secondary mb-2"
-                    onClick={toggleTerm}
-                  >
-                    {paperDetail.term || 'Choose term to set'}
-                  </button>
-                  <hr className="bg-white" />
-                </div>
-                <div className="text-cetner">
-                  <MDBCollapse show={showTerm}>
-                    {currentTerm.map((term, index) => {
-                      return (
-                        <button
-                          key={index}
-                          className="btn btn-info"
-                          onClick={() => {
-                            setPaperDetail({
-                              ...paperDetail,
-                              termId: term._id,
-                              term: term.term,
-                            });
-                            setShowTerm(!showTerm);
-                          }}
-                        >
-                          {term.term}
-                        </button>
-                      );
-                    })}
-                  </MDBCollapse>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-4">
-              <div className="shadow-lg rounded p-3 mb-2">
-                <div className="d-flex justify-content-between">
-                  <div>
-                    <div className="h6">Subject: {subject.title}</div>
-                    <div className="h6">Class: {level.level}</div>
-                  </div>
-                  <div>
-                    <button
-                      className="btn btn-danger"
-                      onClick={() => {
-                        fetchQuestions();
-                      }}
-                    >
-                      FETCH QUESTIONS
-                    </button>
-                  </div>
-                </div>
+      <div className="pr-3">
+        <div className="text-center titleBanner p-3 mb-3 text-white rounded shadow">
+          <div className="h3">{subject.title}</div>
 
-                <hr className="bg-white" />
+          <div className="h5">{level.level}</div>
+        </div>
+        <div className="border border-info rounded p-3">
+          <div className="row text-center">
+            <div className="col-md-4">
+              <p>Select Test Type</p>
+              <select
+                name=""
+                id=""
+                className="form-control"
+                onChange={(e) => {
+                  setPaperDetail({
+                    ...paperDetail,
+                    testTypeId: e.target.value,
+                  });
+                }}
+              >
+                <option value="">--</option>
+                {testTypes.map((testType, index) => (
+                  <option key={index} value={testType._id}>
+                    {testType.testType}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="col-md-4">
+              <div className="h4 text-secondary">
+                {currentTerm ? currentTerm.term : '...'}
               </div>
+            </div>
+            <div className="col-md-4">
+              <button className="btn btn-success mr-2" onClick={fetchQuestions}>
+                Fetch Questions
+              </button>
+
+              <IsLoading show={loadFetchQuestions} color={'text-success'} />
             </div>
           </div>
         </div>
         <hr />
-        <div className="row">
-          <div className="col-md-6">
-            <div className="alert alert-light pt-5">
-              {/* {loading ? (
-                  <div className="spinner-border text-primary" role="status">
-                    <span className="sr-only">Loading...</span>
-                  </div>
-                ) : (
-                  ''
-                )} */}
-              <div className="row">
-                <div className="col-md-3">
-                  {isActivated ? (
-                    <div>
-                      <div className="text-center h1 text-success ">
-                        <i
-                          className="fas fa-lock-open   delete "
-                          onClick={() => {
-                            Swal.fire({
-                              icon: 'question',
-                              title: 'Deactivate paper?',
-                              showCancelButton: true,
-                              showConfirmButton: true,
-                              confirmButtonText: 'Yes',
-                              cancelButtonText: 'No',
-                            }).then((result) => {
-                              if (result.isConfirmed) {
-                                toggleActivation('Deactivated');
-                              }
-                            });
-                          }}
-                        ></i>
-                      </div>
-                      <div className="text-center">
-                        <div className="h6">Paper Activated</div>
-                      </div>
-                    </div>
-                  ) : (
-                    <div>
-                      <div className="text-center h1 text-danger ">
-                        <i
-                          className="fas fa-lock    delete"
-                          onClick={() => {
-                            Swal.fire({
-                              icon: 'question',
-                              title: 'Activate paper?',
-                              showCancelButton: true,
-                              showConfirmButton: true,
-                              confirmButtonText: 'Yes',
-                              cancelButtonText: 'No',
-                            }).then((result) => {
-                              if (result.isConfirmed) {
-                                toggleActivation('Activated');
-                              }
-                            });
-                          }}
-                        ></i>
-                      </div>
-                      <div className="text-center">
-                        <div className="h6">Paper Deactivated</div>
-                      </div>
-                    </div>
-                  )}
-                </div>
-                <div className="border-left col-md-6">
-                  <div className="input-group">
-                    <div className="input-group-prepend">
-                      <span className="input-group-text bg-primary text-white">
-                        <i class="fas fa-clock    "></i>
-                      </span>
-                    </div>
-                    <input
-                      type="number"
-                      placeholder="HH"
-                      className="form-control"
-                      min="0"
-                      max="3"
-                      value={duration.hour}
-                      onChange={(e) => {
-                        setDuration({ ...duration, hour: e.target.value });
-                      }}
-                    />
-                    <input
-                      type="number"
-                      placeholder="MM"
-                      className="form-control"
-                      min="0"
-                      max="59"
-                      value={duration.minute}
-                      onChange={(e) => {
-                        setDuration({ ...duration, minute: e.target.value });
-                      }}
-                    />
-                  </div>
 
-                  <div className="text-center">
-                    <button className="btn btn-primary" onClick={setTimer}>
-                      Set Duration
-                    </button>
-                  </div>
-                </div>
-                <div className="border-left col-md-3">
-                  <div className="form-group mb-3">
-                    <label htmlFor="" className="form-label">
-                      Divisor
-                    </label>
-                    <input
-                      type="number"
-                      className="form-control"
-                      onChange={(e) => {
-                        setDivisor(e.target.value);
+        <div className="titleBanner text-white p-3 rounded shadow">
+          <div className="row text-center">
+            <div className="col-md-4">
+              {isActivated ? (
+                <div>
+                  <div className="text-center h1  ">
+                    <i
+                      className="fas fa-lock-open   delete "
+                      onClick={() => {
+                        Swal.fire({
+                          icon: 'question',
+                          title: 'Deactivate paper?',
+                          showCancelButton: true,
+                          showConfirmButton: true,
+                          confirmButtonText: 'Yes',
+                          cancelButtonText: 'No',
+                        }).then((result) => {
+                          if (result.isConfirmed) {
+                            toggleActivation('Deactivated');
+                          }
+                        });
                       }}
-                      value={divisor}
-                    />
-                    <button className="btn btn-warning" onClick={SetDivisor}>
-                      <i class="fa fa-check" aria-hidden="true"></i>
-                    </button>
+                    ></i>
+                  </div>
+                  <div className="text-center">
+                    <div className="h6">Paper Activated</div>
                   </div>
                 </div>
+              ) : (
+                <div>
+                  <div className="text-center h1  ">
+                    <i
+                      className="fas fa-lock    delete"
+                      onClick={() => {
+                        Swal.fire({
+                          icon: 'question',
+                          title: 'Activate paper?',
+                          showCancelButton: true,
+                          showConfirmButton: true,
+                          confirmButtonText: 'Yes',
+                          cancelButtonText: 'No',
+                        }).then((result) => {
+                          if (result.isConfirmed) {
+                            toggleActivation('Activated');
+                          }
+                        });
+                      }}
+                    ></i>
+                  </div>
+                  <div className="text-center">
+                    <div className="h6">Paper Deactivated</div>
+                  </div>
+                </div>
+              )}
+            </div>
+            <div className="border-left col-md-4">
+              <label htmlFor="">Duration:</label>
+              <div className="input-group">
+                <div className="input-group-prepend">
+                  <span className="input-group-text ">Hours and Minutes</span>
+                </div>
+                <input
+                  type="number"
+                  placeholder="HH"
+                  className="form-control bg-transparent text-white"
+                  min="0"
+                  max="3"
+                  value={duration.hour}
+                  onChange={(e) => {
+                    setDuration({ ...duration, hour: e.target.value });
+                  }}
+                />
+                <input
+                  type="number"
+                  placeholder="MM"
+                  className="form-control  bg-transparent text-white"
+                  min="0"
+                  max="59"
+                  value={duration.minute}
+                  onChange={(e) => {
+                    setDuration({ ...duration, minute: e.target.value });
+                  }}
+                />
+              </div>
+
+              <div className="mt-3">
+                <button className="btn btn-outline-light" onClick={setTimer}>
+                  Set Duration
+                </button>
+              </div>
+            </div>
+            <div className="border-left col-md-4">
+              <div className="form-group mb-3">
+                <label htmlFor="" className="form-label">
+                  Divisor:
+                </label>
+                <input
+                  type="number"
+                  className="form-control  bg-transparent text-white"
+                  onChange={(e) => {
+                    setDivisor(e.target.value);
+                  }}
+                  value={divisor}
+                />
+                <button
+                  className="btn btn-outline-light mt-3 "
+                  onClick={SetDivisor}
+                >
+                  Set Divisor
+                </button>
               </div>
             </div>
           </div>
-          <div className="col-md-6 ">
-            <div className="alert alert-secondary">
-              {!paperDetail.type && !paperDetail.term ? (
-                <span>Please select a paper type and a term</span>
-              ) : (
-                <b>
-                  You are currently working on {subject.title} for {level.level}{' '}
-                  and you are setting{' '}
-                  <span>
-                    {' '}
-                    <strong>{paperDetail.type}</strong>{' '}
-                  </span>{' '}
-                  questions for{' '}
-                  <span>
-                    {' '}
-                    <strong>{paperDetail.term}.</strong>{' '}
-                  </span>
-                  <span>
-                    <button
-                      type="button"
-                      className="btn btn-secondary"
-                      onClick={() => {
-                        fetchQuestions();
-                      }}
-                    >
-                      If this is not the question you wish to set for you can
-                      reload
-                    </button>{' '}
-                    <a href="/chooseExamToSet" className="nav-link">
-                      Go back to the SELECT CLASS TO SET PAGE.
-                    </a>
-                  </span>
-                </b>
-              )}
-            </div>
-          </div>
         </div>
+
         <div className="shadow-lg rounded p-4 mb-3">
-          <div className="h3 text-secondary">SET QUESTIONS</div>
+          <div className="h3 text-secondary">Set Questions</div>
           <div className="d-flex flex-wrap">
             <div className="col-md-4 mb-2">
               <div className="input-group">
@@ -695,16 +620,22 @@ export default function SetExamPage() {
             </div>
             <div className="col-md-4 mb-2">
               {isUpdate ? (
-                <button className="btn btn-unique" onClick={updateQuestion}>
+                <button
+                  className="btn btn-warning mr-2"
+                  onClick={updateQuestion}
+                >
                   Update this question
                 </button>
               ) : (
-                <button className="btn btn-deep-purple" onClick={postQuestions}>
-                  POST QUESTION
+                <button
+                  className="btn btn-success mr-2"
+                  onClick={postQuestions}
+                >
+                  Post Question
                 </button>
               )}
               <button
-                className="btn btn-pink"
+                className="btn btn-danger"
                 type="reset"
                 onClick={() => {
                   setQuestion({});

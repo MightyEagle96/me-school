@@ -38,6 +38,7 @@ import TeacherDashboard from './pages/Teachers/Home/TeacherDashboard';
 import StudentsPerformancePage from './pages/Academics/StudentsPerformancePage';
 import StoreAdminDashboard from './pages/StoreAdmin/Home/StoreAdminDashboard';
 import AddStoreItem from './pages/StoreAdmin/Store/AddStoreItem';
+import GraduationPage from './pages/Admin/Graduation/GraduationPage';
 
 function App() {
   const user = JSON.parse(localStorage.getItem('loggedInUser'));
@@ -63,6 +64,7 @@ function App() {
             <SideMenu />
           </div>
           <div className="col-md-9">
+            <Route exact path="/graduation" component={GraduationPage}></Route>
             <Route
               exact
               path="/chooseExamToSet"

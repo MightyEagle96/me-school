@@ -17,16 +17,13 @@ export default function ExamChoiceItem(subject) {
   useEffect(() => {
     fetchTestTypes();
   }, []);
-  console.log(subject);
+
   return (
     <div className="cardWidth mr-3">
       <div className="subjectBanner  text-white">
         <div className="p-3">
           <h3 className="marginText">{subject.subject.subject.title}</h3>
         </div>
-        {/* <div className="mb-2">
-         
-        </div> */}
       </div>
       <div className="border border-white shadow-lg p-3 selectDiv">
         <div class="dropdown">
@@ -58,35 +55,5 @@ export default function ExamChoiceItem(subject) {
         </div>
       </div>
     </div>
-    // <div>
-    //   <MDBCol style={{ maxWidth: '22rem' }}>
-    //     <MDBCard>
-    //       <MDBCardImage
-    //         className="img-fluid"
-    //         src="https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg"
-    //         waves
-    //       />
-    //       <MDBCardBody>
-    //         <MDBCardTitle>{subject.subject.subject.title}</MDBCardTitle>
-    //         <MDBCardText>
-    //           {testTypes.map((testType, index) => {
-    //             return (
-    //               <a
-    //                 key={index}
-    //                 target="_blank"
-    //                 href={`/takeExam/${subject.subject.subject._id}/${testType._id}`}
-    //                 className="btn btn-pink"
-    //                 rel="noreferrer"
-    //               >
-    //                 {testType.testType}
-    //               </a>
-    //             );
-    //           })}
-    //         </MDBCardText>
-    //         {/* <MDBBtn href="#">Click</MDBBtn> */}
-    //       </MDBCardBody>
-    //     </MDBCard>
-    //   </MDBCol>
-    // </div>
   );
 }

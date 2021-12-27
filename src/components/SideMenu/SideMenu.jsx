@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { backendUrl, loggedInUser } from '../../data/services';
 import './SideMenu.scss';
 import maleAvatar from '../../assets/images/avatars/maleDefault.png';
@@ -159,6 +159,13 @@ export default function SideMenu() {
                     <span className="fas fa-bell mr-3   "></span> Notifications
                   </a>
                 </li>
+                <li className="mb-4">
+                  <a href="/graduation">
+                    <span className="fas fa-graduation-cap mr-3   "></span>{' '}
+                    Graduate Students
+                  </a>
+                </li>
+
                 <li className="mb-4">
                   <a href="£!">
                     <span className="fas fa-chart-bar  mr-3   "></span>{' '}
