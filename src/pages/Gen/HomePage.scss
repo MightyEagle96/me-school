@@ -1,11 +1,6 @@
-.homePage {
-  height: 100vh;
-  background-image: linear-gradient(
-      to right,
-      rgba(0, 0, 0, 0.786),
-      rgba(0, 0, 0, 0.8)
-    ),
-    url("../../assets/images/large/home.jpg");
-  background-position: center;
-  background-size: cover;
+.emailField {
+  width: 350px;
+}
+.passwordField {
+  width: 308px;
 }

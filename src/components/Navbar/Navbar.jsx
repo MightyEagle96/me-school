@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import {
   MDBContainer,
   MDBNavbar,
@@ -14,11 +14,11 @@ import {
   MDBDropdownItem,
   MDBDropdownLink,
   MDBCollapse,
-} from "mdb-react-ui-kit";
+} from 'mdb-react-ui-kit';
 
-import { backendUrl, dataService, loggedInUser } from "../../data/services";
-import Swal from "sweetalert2";
-import "./Navbar.scss";
+import { backendUrl, dataService, loggedInUser } from '../../data/services';
+import Swal from 'sweetalert2';
+import './Navbar.scss';
 export default function Navbar() {
   const [showBasic, setShowBasic] = useState(false);
 
@@ -31,10 +31,10 @@ export default function Navbar() {
   const logout = () => {
     dataService.logout().catch(() =>
       Swal.fire({
-        iconColor: "red",
-        icon: "error",
-        titleText: "Logout error",
-        text: "There is a network related issue, please try again later",
+        iconColor: 'red',
+        icon: 'error',
+        titleText: 'Logout error',
+        text: 'There is a network related issue, please try again later',
       })
     );
   };
@@ -43,7 +43,7 @@ export default function Navbar() {
       <MDBContainer fluid>
         <MDBNavbarBrand href="#">
           <div className="h5 text-primary d-flex align-items-center">
-            ME-SCHOOL{" "}
+            ME-SCHOOL{' '}
             <span>
               <i className="fab fa-phoenix-framework "></i>
             </span>
@@ -62,7 +62,7 @@ export default function Navbar() {
         <MDBCollapse navbar show={showBasic}>
           <MDBNavbarNav className="mr-auto mb-2 mb-lg-0">
             <MDBNavbarItem>
-              {user && user.role === "user" ? (
+              {user && user.role === 'user' ? (
                 <MDBNavbarLink active aria-current="page" href="/user">
                   Home
                 </MDBNavbarLink>
@@ -73,20 +73,20 @@ export default function Navbar() {
               )}
             </MDBNavbarItem>
             <MDBNavbarItem>
-              <MDBNavbarLink href="#">Link</MDBNavbarLink>
+              {/* <MDBNavbarLink href="#">Link</MDBNavbarLink> */}
             </MDBNavbarItem>
 
             <MDBNavbarItem></MDBNavbarItem>
 
             <MDBNavbarItem>
-              <MDBNavbarLink
+              {/* <MDBNavbarLink
                 disabled
                 href="#"
                 tabIndex={-1}
                 aria-disabled="true"
               >
                 Disabled
-              </MDBNavbarLink>
+              </MDBNavbarLink> */}
             </MDBNavbarItem>
           </MDBNavbarNav>
 
@@ -97,7 +97,7 @@ export default function Navbar() {
                   <MDBNavbarLink className="waves-effect waves-light" to="#!">
                     <img
                       src={
-                        `${backendUrl}/images/${loggedInUser.imageUrl}` || ""
+                        `${backendUrl}/images/${loggedInUser.imageUrl}` || ''
                       }
                       className="navbarImg"
                     />
@@ -108,15 +108,15 @@ export default function Navbar() {
                     {user.lastName}
                   </MDBDropdownToggle>
                   <MDBDropdownMenu>
-                    {user.role !== "user" ? (
+                    {user.role !== 'user' ? (
                       <MDBDropdownItem>
                         <MDBDropdownLink href="/profile">
-                          {" "}
+                          {' '}
                           My Profile
                         </MDBDropdownLink>
                       </MDBDropdownItem>
                     ) : (
-                      ""
+                      ''
                     )}
                     <MDBDropdownItem>
                       <MDBDropdownLink>Another action</MDBDropdownLink>
@@ -126,7 +126,7 @@ export default function Navbar() {
                     </MDBDropdownItem>
                   </MDBDropdownMenu>
                 </MDBDropdown>
-                <MDBNavbarLink style={{ cursor: "pointer" }} onClick={logout}>
+                <MDBNavbarLink style={{ cursor: 'pointer' }} onClick={logout}>
                   Logout
                 </MDBNavbarLink>
               </MDBNavbarNav>
@@ -134,8 +134,8 @@ export default function Navbar() {
           ) : (
             <div className="d-flex w-auto ms-auto">
               <MDBNavbarNav>
-                <MDBNavbarLink href="/login">Login</MDBNavbarLink>
-                <MDBNavbarLink href="/signUp">Register</MDBNavbarLink>
+                {/* <MDBNavbarLink href="/login">Login</MDBNavbarLink>
+                <MDBNavbarLink href="/signUp">Register</MDBNavbarLink> */}
               </MDBNavbarNav>
             </div>
           )}

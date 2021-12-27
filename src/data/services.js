@@ -1,10 +1,14 @@
 import axios from 'axios';
 
 import Swal from 'sweetalert2';
-export const backendUrl = 'http://localhost:4000/';
-//export const backendUrl = 'http://192.168.41.129:4000/';
 
-//export const backendUrl = 'https://mightyeagle-be.herokuapp.com';
+const devUrl = 'http://192.168.1.2:4000';
+
+const prodUrl = 'https://mightyeagle-be.herokuapp.com';
+//export const backendUrl = 'http://localhost:4000/';
+
+export const backendUrl =
+  process.env.REACT_APP_ENV === 'production' ? prodUrl : devUrl;
 
 const AUTH_TOKEN = localStorage.getItem('token') || '';
 
@@ -41,7 +45,7 @@ httpService.interceptors.response.use(
         }).then(() => {
           localStorage.removeItem('token');
           localStorage.removeItem('loggedInUser');
-          window.location.assign('/login');
+          window.location.assign('/');
         });
       } else if (response.status === 403) {
         Swal.fire({

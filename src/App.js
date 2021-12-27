@@ -3,6 +3,7 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap-css-only/css/bootstrap.min.css';
 // import 'mdbreact/dist/css/mdb.css';
 
+import dotenv from 'dotenv';
 import HomePage from './pages/Gen/HomePage';
 import { LoginPage } from './pages/Auth/LoginPage';
 import { SignUpPage } from './pages/Auth/SignUpPage';
@@ -42,6 +43,7 @@ import GraduationPage from './pages/Admin/Graduation/GraduationPage';
 
 function App() {
   const user = JSON.parse(localStorage.getItem('loggedInUser'));
+  console.log(process.env.REACT_APP_ENV);
 
   return (
     <div className=" noOverFlow defColor">
