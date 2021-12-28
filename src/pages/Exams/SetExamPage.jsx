@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+import { useAlert, positions } from 'react-alert';
 import { useParams } from 'react-router';
 import { httpService } from '../../data/services';
 
@@ -9,6 +9,8 @@ import './SetExamPage.scss';
 import { IsLoading } from '../../assets/aesthetics/IsLoading';
 
 export default function SetExamPage() {
+  const alert = useAlert();
+  const [loading, setLoading] = useState(false);
   const defaultData = {
     question: '',
     optionA: '',
@@ -187,6 +189,7 @@ export default function SetExamPage() {
     };
     const res = await httpService.post(path, body);
     if (res) {
+      alert.success('Question Saved');
       fetchQuestions();
       setLoading(false);
       setQuestion(defaultData);
@@ -473,7 +476,7 @@ export default function SetExamPage() {
               </div>
 
               <div className="mt-3">
-                <button className="btn btn-outline-light" onClick={setTimer}>
+                <button className="btn btn-light" onClick={setTimer}>
                   Set Duration
                 </button>
               </div>
@@ -491,10 +494,7 @@ export default function SetExamPage() {
                   }}
                   value={divisor}
                 />
-                <button
-                  className="btn btn-outline-light mt-3 "
-                  onClick={SetDivisor}
-                >
+                <button className="btn btn-light mt-3 " onClick={SetDivisor}>
                   Set Divisor
                 </button>
               </div>
