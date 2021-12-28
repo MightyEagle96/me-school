@@ -44,26 +44,22 @@ export default function StaffAndUsersPage() {
     },
   ];
   return (
-    <div>
-      <div>
-        <div className="mt-3 p-3">
-          <div className="alert alert-dark">
-            <div className="d-flex justify-content-between">
-              <div>
-                <h3>Staff & Students</h3>
-              </div>
-              <div>
-                <a href="/createUser" className="btn btn-success">
-                  <i class="fa fa-user-plus" aria-hidden="true"></i>
-                </a>
-              </div>
-            </div>
-          </div>
-
+    <div className="">
+      <div className="alert alert-dark">
+        <div className="d-flex justify-content-between">
           <div>
-            <MyTable title={'All Users'} data={users} columns={columns} />
+            <h3>Staff & Students</h3>
+          </div>
+          <div>
+            <a href="/createUser" className="btn btn-success">
+              <i class="fa fa-user-plus" aria-hidden="true"></i>
+            </a>
           </div>
         </div>
+      </div>
+
+      <div>
+        <MyTable title={'All Users'} data={users} columns={columns} />
       </div>
     </div>
   );

@@ -69,7 +69,7 @@ function App() {
           path="/takeExam/:subjectId/:testTypeId"
           component={TakeTestPage}
         ></Route>
-        <div className="row">
+        <div className={size > 990 ? 'row' : ''}>
           {size > 990 ? (
             <div className="col-md-3">
               <SideMenu />

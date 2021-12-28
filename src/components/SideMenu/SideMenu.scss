@@ -1,10 +1,6 @@
 .sideMenu {
-  // background-color: steelblue;
-  & .staffList {
+  & li {
     list-style: none;
-  }
-  & a {
-    // color: white;
   }
   & .avatar {
     border-radius: 50%;
@@ -15,15 +11,81 @@
 .hamIcon {
   margin-left: 20px;
   border-radius: 50%;
-  padding: 20px;
+  padding: 10px;
   z-index: 10000;
-  background-color: rgb(255, 255, 255);
-  width: 70px;
+  background-color: rgba(30, 54, 85, 0.568);
+  width: 50px;
   position: absolute;
   position: fixed;
-  opacity: 0.6;
-
+  opacity: 0.8;
+  color: white;
+  font-weight: 100;
   &:hover {
+    opacity: 1;
+  }
+}
+.staffList {
+  list-style: none;
+}
+.mobileMenu {
+  animation-name: FadeIn;
+  animation-duration: 1.5s;
+  transition-timing-function: linear;
+
+  height: max-content;
+  width: 100%;
+  background-image: linear-gradient(
+    to bottom right,
+    rgba(30, 54, 85, 0.9),
+    rgba(13, 14, 95, 0.9)
+  );
+  position: absolute;
+  z-index: 10000;
+  color: white;
+  // position: fixed;
+  top: 0;
+
+  & a {
+    color: white;
+  }
+  & li {
+    margin-left: 40px;
+    text-align: left;
+    list-style: none;
+  }
+}
+
+@keyframes FadeOut {
+  100% {
+    opacity: 1;
+  }
+  0% {
+    opacity: 0;
+  }
+}
+@keyframes FadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-moz-keyframes FadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes FadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
     opacity: 1;
   }
 }

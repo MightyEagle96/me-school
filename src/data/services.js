@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import Swal from 'sweetalert2';
 
-const devUrl = 'http://192.168.1.2:4000';
+const devUrl = 'http://localhost:4000';
 
 const prodUrl = 'https://mightyeagle-be.herokuapp.com';
 //export const backendUrl = 'http://localhost:4000/';
