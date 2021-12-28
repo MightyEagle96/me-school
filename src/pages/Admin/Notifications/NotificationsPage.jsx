@@ -21,10 +21,9 @@ export default function NotificationsPage() {
 
   //get students who are yet to be assigned to a class
   async function studentsYetToBeAssiged() {
-    const path = `${backendUrl}school/admin/toBeAssigned?role=student`;
+    const path = 'school/admin/toBeAssigned?role=student';
     const res = await httpService.get(path);
     if (res) {
-      console.log(res.data);
       setAwaitingStudents({
         count: res.data.count,
         awaitingStudents: res.data.awaitingUsers,
@@ -37,7 +36,6 @@ export default function NotificationsPage() {
     const path = `${backendUrl}school/admin/toBeAssigned?role=classTeacher`;
     const res = await httpService.get(path);
     if (res) {
-      console.log(res.data);
       setAwaitingClassTeachers({
         count: res.data.count,
         awaitingClassTeachers: res.data.awaitingUsers,
@@ -153,7 +151,7 @@ export default function NotificationsPage() {
               </div>
             </div>
           </div>
-          <div className="col-md-4  card ml-3">
+          {/* <div className="col-md-4  card ml-3">
             <div className="alert alert-light">
               <div className="h5">Class Teachers yet to be assigned</div>
               <hr />
@@ -168,11 +166,11 @@ export default function NotificationsPage() {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
         <div className="mt-3">
           <MyTable
-            title="YET TO BE ASSIGNED STUDENTS"
+            title="Students waiting to be assigned to a class"
             data={awaitingStudents.awaitingStudents}
             columns={columns}
           ></MyTable>
