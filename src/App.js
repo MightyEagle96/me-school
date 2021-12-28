@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap-css-only/css/bootstrap.min.css';
@@ -43,7 +44,14 @@ import GraduationPage from './pages/Admin/Graduation/GraduationPage';
 
 function App() {
   const user = JSON.parse(localStorage.getItem('loggedInUser'));
-  console.log(process.env.REACT_APP_ENV);
+  const [size, setSize] = useState(window.innerWidth);
+
+  function checkSize() {
+    setSize(window.innerWidth);
+  }
+  useEffect(() => {
+    window.addEventListener('resize', checkSize);
+  }, []);
 
   return (
     <div className=" noOverFlow defColor">
@@ -62,10 +70,15 @@ function App() {
           component={TakeTestPage}
         ></Route>
         <div className="row">
-          <div className="col-md-3">
-            <SideMenu />
-          </div>
-          <div className="col-md-9">
+          {size > 990 ? (
+            <div className="col-md-3">
+              <SideMenu />
+            </div>
+          ) : (
+            ''
+          )}
+          <div className={size > 990 ? 'col-md-9' : ''}>
+            {size < 990 ? <SideMenu /> : ''}
             <Route exact path="/graduation" component={GraduationPage}></Route>
             <Route
               exact
