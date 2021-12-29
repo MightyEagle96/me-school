@@ -3,17 +3,13 @@ import { Route, Switch } from 'react-router-dom';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap-css-only/css/bootstrap.min.css';
 // import 'mdbreact/dist/css/mdb.css';
-
-import dotenv from 'dotenv';
+import './App.scss';
 import HomePage from './pages/Gen/HomePage';
 import { LoginPage } from './pages/Auth/LoginPage';
 import { SignUpPage } from './pages/Auth/SignUpPage';
 import ExamChoicePage from './pages/Exams/ExamChoicePage';
-
-import './App.scss';
 import SetExamPage from './pages/Exams/SetExamPage';
 import StudentDashboard from './pages/Students/Home/StudentDashboard';
-
 import TestsChoicePage from './pages/Students/Tests/TestsChoicePage';
 import { TakeTestPage } from './pages/Students/Tests/TakeTestPage';
 import Navbar from './components/Navbar/Navbar';

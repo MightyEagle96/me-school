@@ -345,7 +345,7 @@ export default function SetExamPage() {
   ];
   return (
     <div>
-      <div className="pr-3">
+      <div className="mr-2">
         <div className="text-center titleBanner p-3 mb-3 text-white rounded shadow">
           <div className="h3">{subject.title}</div>
 

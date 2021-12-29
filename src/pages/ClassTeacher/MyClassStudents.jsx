@@ -11,7 +11,6 @@ export default function MyClassStudentsPage() {
     const res = await httpService.get(path);
 
     if (res) {
-      console.log(res.data.students);
       setStudents(res.data.students);
       setLevel(res.data.level);
     }
@@ -58,11 +57,15 @@ export default function MyClassStudentsPage() {
           <p>See all the students assigned to your class.</p>
           <p>You can also view performance for each student.</p>
         </div>
-        <MyTable
-          title={`${level.level} students`}
-          data={students}
-          columns={columns}
-        ></MyTable>
+        {level ? (
+          <MyTable
+            title={`${level.level} students`}
+            data={students}
+            columns={columns}
+          ></MyTable>
+        ) : (
+          ''
+        )}
       </div>
     </div>
   );

@@ -49,7 +49,9 @@ export default function SideMenuLinks() {
       ) : (
         ''
       )}
-      {loggedInUser && loggedInUser.role === 'class teacher' ? (
+      {loggedInUser &&
+      loggedInUser.role === 'class teacher' &&
+      loggedInUser.level ? (
         <div>
           <li className="mb-4  ">
             <a href="/myStudents">

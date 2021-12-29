@@ -20,9 +20,9 @@ export default function StoreAdminDashboard() {
     GetProducts();
   }, []);
   return (
-    <div className="pr-3">
+    <div className="mr-2">
       <div className="jumbotron storeAdminDashboard p-5 text-white">
-        <div className="display-4">Hello, {loggedInUser.lastName}</div>
+        <div className="display-4">Welcome, {loggedInUser.lastName}</div>
         <hr className="my-4 border-white" />
       </div>
       <div className="mt-2">

@@ -133,7 +133,7 @@ export default function NotificationsPage() {
   ];
   return (
     <div>
-      <div className="pr-3">
+      <div className="mr-2">
         <div className="row">
           <div className="col-md-4 card">
             <div className="alert alert-light">

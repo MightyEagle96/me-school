@@ -3,12 +3,14 @@ import React, { useState, useEffect } from 'react';
 import { httpService } from '../../../data/services';
 import { IsLoading } from '../../../assets/aesthetics/IsLoading';
 import Swal from 'sweetalert2';
+import { useAlert } from 'react-alert';
 
 export default function Subjects() {
   const defaultData = { title: '', category: '' };
   const [subject, setSubject] = useState(defaultData);
   const [subjects, setSubjects] = useState([]);
   const [loading, setLoading] = useState(false);
+  const alert = useAlert();
 
   const createSubject = async () => {
     if (subject.title === '' && subject.category === '') {
@@ -47,6 +49,16 @@ export default function Subjects() {
     });
   };
 
+  const updateSubject = async () => {
+    const path = `subjects/update/${subject._id}`;
+
+    const res = await httpService.patch(path, subject);
+    if (res) {
+      alert.success(res.data.message);
+      setSubject(defaultData);
+      viewSubjects();
+    }
+  };
   const viewSubjects = async () => {
     setLoading(true);
     const path = 'subjects/view';
@@ -56,11 +68,7 @@ export default function Subjects() {
 
       setSubjects(res.data.subjects);
     } else {
-      setLoading(false);
-      Swal.fire({
-        icon: 'info',
-        text: 'Something occurred, cannot process request at this time',
-      });
+      alert.error('Something occurred, cannot process request at this time');
     }
   };
 
@@ -95,13 +103,23 @@ export default function Subjects() {
       }
     });
   };
+
+  const viewSubject = async (subjectId) => {
+    const path = `subjects/view/${subjectId}`;
+    const res = await httpService(path);
+    if (res) {
+      setSubject(res.data.subject);
+    } else {
+      alert.error('Something happened. Try again later');
+    }
+  };
   useEffect(() => {
     viewSubjects();
   }, []);
 
   return (
     <div>
-      <div className="shadow-lg pr-3">
+      <div className="shadow-lg mr-2">
         <div className="p-3">
           <div className="h3">Available Subjects</div>
           <hr />
@@ -109,14 +127,14 @@ export default function Subjects() {
           <div className="row">
             <div className="col-md-8 p-3">
               <IsLoading color={'text-primary'} />
-              <table className="table table-bordered">
+              <table className="table table-condensed">
                 <thead>
                   <tr>
                     <th>SUBJECT</th>
                     <th>JUNIOR</th>
                     <th>SENIOR</th>
                     <th>BOTH</th>
-                    <th>Action</th>
+                    <th>EDIT</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -147,12 +165,12 @@ export default function Subjects() {
                         </td>
                         <td className="text-center">
                           <button
-                            className="btn btn-danger btn-sm"
+                            className="btn btn-info"
                             onClick={() => {
-                              deleteSubject(sub.subject._id, sub.subject.title);
+                              viewSubject(sub.subject._id);
                             }}
                           >
-                            <i class="fas fa-trash    "></i>
+                            <i class="fas fa-edit    "></i>
                           </button>
                         </td>
                       </tr>
@@ -181,6 +199,8 @@ export default function Subjects() {
                     onChange={(e) => {
                       setSubject({ ...subject, category: e.target.value });
                     }}
+                    name="category"
+                    value={subject.category}
                   >
                     <option value="">Select a category for the subject</option>
                     <option value="junior">Junior</option>
@@ -189,13 +209,26 @@ export default function Subjects() {
                   </select>
                 </div>
                 <div>
-                  <button
-                    className="btn btn-primary btn-sm"
-                    onClick={createSubject}
-                  >
-                    Create Subject
-                  </button>{' '}
-                  <IsLoading color={'text-primary'} show={loading} />
+                  {subject._id ? (
+                    <button className="btn btn-warning" onClick={updateSubject}>
+                      {loading ? (
+                        <IsLoading color={'text-white'} show={loading} />
+                      ) : (
+                        'Update Subject'
+                      )}
+                    </button>
+                  ) : (
+                    <button
+                      className="btn btn-primary "
+                      onClick={createSubject}
+                    >
+                      {loading ? (
+                        <IsLoading color={'text-white'} show={loading} />
+                      ) : (
+                        'Create Subject'
+                      )}
+                    </button>
+                  )}
                 </div>
               </div>
               <hr />

@@ -1,0 +1,10 @@
+.studentBanner {
+  background-image: linear-gradient(
+      to right bottom,
+      rgba(102, 45, 76, 0.562),
+      rgba(92, 24, 92, 0.438)
+    ),
+    url('../../../assets/images/landscape.jpg');
+  background-position: center;
+  color: white;
+}

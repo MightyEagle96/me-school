@@ -40,7 +40,7 @@ export default function GraduationPage() {
   }, []);
   return (
     <div>
-      <div className="pr-3">
+      <div className="mr-2">
         <div className="border border-light p-3 rounded shadow-lg">
           <div className="h2">Graduate Students</div>
           <p>
