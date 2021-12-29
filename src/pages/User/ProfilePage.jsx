@@ -3,6 +3,7 @@ import Swal from 'sweetalert2';
 import { useAlert } from 'react-alert';
 import { httpService, loggedInUser } from '../../data/services';
 import { IsLoading } from '../../assets/aesthetics/IsLoading';
+import AvatarEditor from 'react-avatar-editor';
 
 export default function ProfilePage() {
   const alert = useAlert();
@@ -76,12 +77,23 @@ export default function ProfilePage() {
             }}
           />
           {selectedFile ? (
-            <button className="btn btn-danger" onClick={uploadPhoto}>
-              Upload Photo{' '}
-              <span>
-                <i class="fa fa-camera" aria-hidden="true"></i>
-              </span>
-            </button>
+            <div>
+              <AvatarEditor
+                image={selectedFile}
+                width={250}
+                height={250}
+                border={50}
+                color={[255, 255, 255, 0.4]} // RGBA
+                scale={1.0}
+                rotate={0}
+              />
+              <button className="btn btn-danger" onClick={uploadPhoto}>
+                Upload Photo{' '}
+                <span>
+                  <i class="fa fa-camera" aria-hidden="true"></i>
+                </span>
+              </button>
+            </div>
           ) : (
             ''
           )}
