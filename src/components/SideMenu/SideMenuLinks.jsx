@@ -150,12 +150,12 @@ export default function SideMenuLinks() {
       )}
       {loggedInUser && loggedInUser.role === 'store admin' ? (
         <div>
-          <li className="mb-4">
+          {/* <li className="mb-4">
             <a href="/addStoreItem">
               <span className="fas fa-cart-plus mr-3   "></span> Add a new store
               item
             </a>
-          </li>
+          </li> */}
           <li className="mb-4">
             <a href="/addNewItem">
               <span className="fas fa-money-bill  mr-3   "></span> Financial

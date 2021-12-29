@@ -9,7 +9,6 @@
   }
 }
 .hamIcon {
-  margin-left: 20px;
   border-radius: 50%;
   padding: 10px;
   z-index: 10000;
@@ -31,8 +30,8 @@
   animation-name: FadeIn;
   animation-duration: 1.5s;
   transition-timing-function: linear;
-
-  height: max-content;
+  margin-left: -8px !important;
+  height: 100vh;
   width: 100%;
   background-image: linear-gradient(
     to bottom right,

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useAlert, positions } from 'react-alert';
+import { useAlert } from 'react-alert';
 import { useParams } from 'react-router';
 import { httpService } from '../../data/services';
 

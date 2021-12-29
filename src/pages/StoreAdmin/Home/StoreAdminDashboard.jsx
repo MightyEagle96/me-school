@@ -12,7 +12,6 @@ export default function StoreAdminDashboard() {
     const res = await httpService.get(path);
 
     if (res) {
-      console.log(res.data.products);
       setProducts(res.data.products);
     }
   }
@@ -23,7 +22,7 @@ export default function StoreAdminDashboard() {
   return (
     <div className="pr-3">
       <div className="jumbotron storeAdminDashboard p-5 text-white">
-        <div className="display-4">Hello, {loggedInUser.fullName}</div>
+        <div className="display-4">Hello, {loggedInUser.lastName}</div>
         <hr className="my-4 border-white" />
       </div>
       <div className="mt-2">

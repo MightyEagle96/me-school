@@ -91,11 +91,13 @@ export const RegisteredSubjects = () => {
           <div className="row">
             <div className="col-md-5">
               {registeredSubjects.map((data) => {
-                return <SubjectListItem subject={data} key={data._id} />;
+                if (data.subject) {
+                  return <SubjectListItem subject={data} key={data._id} />;
+                }
               })}
             </div>
             <div className="d-flex align-items-center col-md-7 ">
-              <div className="h5 text-primary ">
+              <div className="h5 text-primary p-3 ">
                 These are you registered subjects for the session.
                 <br /> You can view your performance for each subject by
                 clicking on the view result button

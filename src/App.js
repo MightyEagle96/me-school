@@ -41,6 +41,8 @@ import StudentsPerformancePage from './pages/Academics/StudentsPerformancePage';
 import StoreAdminDashboard from './pages/StoreAdmin/Home/StoreAdminDashboard';
 import AddStoreItem from './pages/StoreAdmin/Store/AddStoreItem';
 import GraduationPage from './pages/Admin/Graduation/GraduationPage';
+import NewAccountBanner from './components/NewAccount/NewAccountBanner';
+import { loggedInUser } from './data/services';
 
 function App() {
   const user = JSON.parse(localStorage.getItem('loggedInUser'));
@@ -63,7 +65,6 @@ function App() {
         <Route exact path="/login" component={LoginPage}></Route>
         <Route exact path="/signUp" component={SignUpPage}></Route>
 
-        <Route exact path="/studentHome" component={StudentDashboard}></Route>
         <Route
           exact
           path="/takeExam/:subjectId/:testTypeId"
@@ -77,8 +78,18 @@ function App() {
           ) : (
             ''
           )}
-          <div className={size > 990 ? 'col-md-9' : ''}>
+          <div className={size > 990 ? 'col-md-9' : 'ml-2'}>
             {size < 990 ? <SideMenu /> : ''}
+            {loggedInUser && loggedInUser.isNewAccount ? (
+              <NewAccountBanner />
+            ) : (
+              ''
+            )}
+            <Route
+              exact
+              path="/studentHome"
+              component={StudentDashboard}
+            ></Route>
             <Route exact path="/graduation" component={GraduationPage}></Route>
             <Route
               exact

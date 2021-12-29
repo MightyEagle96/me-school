@@ -138,16 +138,15 @@ export default function CreateUserPage() {
             </div>
             <div className="form-group">
               <button className="btn btn-primary" onClick={CreateUser}>
-                Create new user
+                {loading ? (
+                  <IsLoading show={loading} color={'text-white'} />
+                ) : (
+                  'Create user'
+                )}
               </button>
             </div>
           </div>
           <div className="col-md-4"></div>
-        </div>
-        <div className="col-md-4">
-          <div>
-            <IsLoading show={loading} />
-          </div>
         </div>
       </div>
     </div>

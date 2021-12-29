@@ -37,10 +37,10 @@ export default function AddStoreItem({ RefreshPage }) {
           <div className="h5 text-center">Add a new product to the store</div>
         </div>
         <div className="mt-3">
-          <div className="p-4 col-md-6 shadow-lg rounded">
+          <div className="p-4  shadow-lg rounded">
             <form onSubmit={CreateItem}>
               <div className="form-group">
-                <label htmlFor="">Name:</label>
+                <label htmlFor="name">Name:</label>
                 <input
                   className="form-control"
                   type="text"
@@ -50,7 +50,7 @@ export default function AddStoreItem({ RefreshPage }) {
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="">Price:</label>
+                <label htmlFor="price">Price:</label>
                 <input
                   className="form-control"
                   type="number"
@@ -60,7 +60,7 @@ export default function AddStoreItem({ RefreshPage }) {
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="">Quantity:</label>
+                <label htmlFor="quantity">Quantity:</label>
                 <input
                   className="form-control"
                   type="number"
@@ -69,7 +69,7 @@ export default function AddStoreItem({ RefreshPage }) {
                   value={product.quantity}
                 />
               </div>
-              <div className="form-group">
+              <div className="form-group text-center">
                 <button className="btn btn-success" type="submit">
                   Create
                 </button>
