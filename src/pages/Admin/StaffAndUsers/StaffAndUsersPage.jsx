@@ -27,7 +27,7 @@ export default function StaffAndUsersPage() {
           <img
             src={`${backendUrl}/images/${rowData.imageUrl}`}
             alt={rowData.fullName}
-            className="avatar"
+            className="avatarList img-fluid"
           />
         </div>
       ),

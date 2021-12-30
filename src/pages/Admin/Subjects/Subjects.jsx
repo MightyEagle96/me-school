@@ -232,7 +232,7 @@ export default function Subjects() {
                 </div>
               </div>
               <hr />
-              <div className="alert alert-primary p-3">
+              {/* <div className="alert alert-primary p-3">
                 <h4>LEGEND</h4>
                 {subjects.length > 0 ? (
                   <div>
@@ -277,7 +277,7 @@ export default function Subjects() {
                 ) : (
                   ''
                 )}
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
