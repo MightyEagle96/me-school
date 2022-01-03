@@ -39,10 +39,10 @@
     rgba(30, 54, 85, 0.9),
     rgba(13, 14, 95, 0.9)
   );
-  position: absolute;
+  //position: relative;
   z-index: 10000;
   color: white;
-  // position: fixed;
+  position: fixed;
   top: 0;
 
   & a {

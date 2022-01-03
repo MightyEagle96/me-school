@@ -1,5 +1,5 @@
 import React from 'react';
-import { loggedInUser } from '../../data/services';
+import { loggedInUser, dataService } from '../../data/services';
 import { RedirectUser } from '../../pages/Auth/routes';
 export default function SideMenuLinks() {
   function redirectUser(role) {
@@ -171,6 +171,17 @@ export default function SideMenuLinks() {
       <li className="mb-4  ">
         <a href="/profile">
           <span class="fas fa-user-cog   mr-3"></span> Profile
+        </a>
+      </li>
+      <li className="mb-4  ">
+        <a
+          type="button"
+          onClick={() => {
+            dataService.logout();
+          }}
+        >
+          {' '}
+          <span className="fas fa-arrow-circle-left mr-3"> </span> Logout
         </a>
       </li>
     </div>
