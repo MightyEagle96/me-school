@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import { backendUrl, httpService } from '../../../data/services';
 import { ADDCLASS_INFO, CATEGORY_LABEL } from '../../../utils/labels';
+import './ClassesAndClassTeacher.css';
 
 export default function ClassesAndClassTeachersPage() {
   const defaultValue = { level: '', levelTeacher: '', category: '' };
@@ -180,7 +181,7 @@ export default function ClassesAndClassTeachersPage() {
                             <div className="d-flex justify-content-between">
                               <div>
                                 <img
-                                  className="avatar mr-3"
+                                  className="classTeacherAvatar mr-3"
                                   src={`${backendUrl}/images/${level.levelTeacher.imageUrl}`}
                                 />
                               </div>
