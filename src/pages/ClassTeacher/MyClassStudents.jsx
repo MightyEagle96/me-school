@@ -29,7 +29,7 @@ export default function MyClassStudentsPage() {
           <img
             src={`${backendUrl}/images/${rowData.imageUrl}`}
             alt={rowData.fullName}
-            className="avatar"
+            className="avatarList img-fluid"
           />
         </div>
       ),
