@@ -121,13 +121,15 @@ export default function Subjects() {
     <div>
       <div className="shadow-lg mr-2">
         <div className="p-3">
-          <div className="h3">Available Subjects</div>
+          <div className="h3" style={{ fontWeight: 400 }}>
+            AVAILABLE SUBJECTS
+          </div>
           <hr />
 
           <div className="row">
             <div className="col-md-8 p-3">
               <IsLoading color={'text-primary'} />
-              <table className="table table-condensed">
+              <table className="table table-bordered">
                 <thead>
                   <tr>
                     <th>SUBJECT</th>
@@ -177,11 +179,18 @@ export default function Subjects() {
                     );
                   })}
                 </tbody>
+                {/* <tfoot>
+                  <tr>
+                    <td colSpan={5}>Helo</td>
+                  </tr>
+                </tfoot> */}
               </table>
             </div>
             <div className=" col-md-4 p-3">
-              <div className="border border-primary p-3">
-                <h4 className="text-primary">Add a new subject</h4>
+              <div className=" ">
+                <h4 className="text-primary" style={{ fontWeight: 400 }}>
+                  Add a new subject
+                </h4>
                 <div className="mt-2 mb-2">
                   <input
                     className="form-control"
@@ -232,52 +241,6 @@ export default function Subjects() {
                 </div>
               </div>
               <hr />
-              {/* <div className="alert alert-primary p-3">
-                <h4>LEGEND</h4>
-                {subjects.length > 0 ? (
-                  <div>
-                    <div>
-                      Junior category <i class="fas fa-arrow-down    "></i>:{' '}
-                      <strong>
-                        {
-                          subjects.filter((sub) => {
-                            return sub.category === 'junior';
-                          }).length
-                        }
-                      </strong>
-                    </div>
-                    <div>
-                      Senior category <i class="fas fa-arrow-up    "></i>:{' '}
-                      <strong>
-                        {
-                          subjects.filter((sub) => {
-                            return sub.category === 'senior';
-                          }).length
-                        }
-                      </strong>
-                    </div>
-                    <div>
-                      Both <i class="fas fa-recycle  "></i>:{' '}
-                      <strong>
-                        {
-                          subjects.filter((sub) => {
-                            return sub.category === 'both';
-                          }).length
-                        }
-                      </strong>
-                    </div>
-                    <div>
-                      Total Number of Subjects:{' '}
-                      <span>
-                        {' '}
-                        <strong>{subjects.length}</strong>
-                      </span>
-                    </div>
-                  </div>
-                ) : (
-                  ''
-                )}
-              </div> */}
             </div>
           </div>
         </div>

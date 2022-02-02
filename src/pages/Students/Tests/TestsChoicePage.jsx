@@ -24,19 +24,23 @@ export default function TestsChoicePage() {
     fetchRegisteredSubjects();
   }, []);
   return (
-    <div className="mt-3">
-      <div className="h4 text-primary p-3">
+    <div className="">
+      <div
+        className="h4 text-secondary shadow-lg p-3"
+        style={{ fontWeight: 400 }}
+      >
         Choose a subject from the available subjects you have registered
-        <hr />
       </div>
       <div>
         {subjects.length > 0 ? (
           <div className="d-flex flex-wrap">
             {subjects.map((subject, index) => {
-              return (
+              return subject.subject ? (
                 <div key={index} className="mb-3">
                   <ExamChoiceItem subject={subject} />
                 </div>
+              ) : (
+                ''
               );
             })}
           </div>

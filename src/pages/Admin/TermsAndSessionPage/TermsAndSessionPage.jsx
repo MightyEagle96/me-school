@@ -209,11 +209,16 @@ export default function TermsAndSessionPage() {
   }, []);
   return (
     <div>
+      <div
+        className=" mb-3 h3 text-secondary p-3 shadow-lg rounded"
+        style={{ fontWeight: 400 }}
+      >
+        ACADEMIC SESSIONS & TERMS
+      </div>
+      <hr />
       <div className="p-3">
-        <div className="mt-3 mb-3 h3">Terms And Sessions</div>
-        <hr />
         <div className="row alert alert-success ">
-          <div className="col-md-6 p-3">
+          <div className="col-md-6">
             <div className="d-flex justify-content-between">
               <div>
                 <div className="h5">Current Session</div>
@@ -228,7 +233,7 @@ export default function TermsAndSessionPage() {
               </div>
             </div>
           </div>
-          <div className="col-md-6 p-3">
+          <div className="col-md-6 ">
             <div className="d-flex justify-content-between">
               <div>
                 <div className="h5">Current Term</div>
@@ -241,14 +246,13 @@ export default function TermsAndSessionPage() {
               </div>
             </div>
           </div>
-
-          <hr />
         </div>
+        <hr />
 
-        <div className="row">
+        <div className="row mt-5">
           <div className="col-md-6">
             <div className="d-flex justify-content-between">
-              <div className="h3">Sessions List</div>
+              <div className="h5 text-secondary">ACADEMIC SESSIONS</div>
               <div>
                 <button
                   className="btn btn-secondary"
@@ -306,7 +310,7 @@ export default function TermsAndSessionPage() {
           </div>
           <div className="border-left col-md-6">
             <div className="d-flex justify-content-between">
-              <div className="h3">Term List</div>
+              <div className="h5 text-secondary">TERMS</div>
               <div>
                 <button
                   className="btn btn-warning"

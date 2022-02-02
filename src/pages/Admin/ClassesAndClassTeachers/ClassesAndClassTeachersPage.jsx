@@ -66,9 +66,11 @@ export default function ClassesAndClassTeachersPage() {
     }
   };
   return (
-    <div className="mr-2">
+    <div className="mr-3">
       <div>
-        <div className="h3 text-black-50">Classes & Class Teachers</div>
+        <div className="h3 text-secondary" style={{ fontWeight: 400 }}>
+          CLASSES & CLASS TEACHERS
+        </div>
         <hr />
       </div>
       <div className="row">

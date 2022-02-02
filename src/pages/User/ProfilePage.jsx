@@ -99,8 +99,8 @@ export default function ProfilePage() {
           )}
         </div>
       </div>
-      <div className="P-3">
-        <div className="col-md-4 border p-3 border-dark">
+      <div className="">
+        <div className="p-3">
           <div className="h3">Update your password</div>
           <div className="input-group mb-3 mt-3">
             <div className="input-group-prepend">

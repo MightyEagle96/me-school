@@ -27,7 +27,7 @@ export default function ExamChoicePage() {
   }, []);
   return (
     <div>
-      <div className="mr-2">
+      <div className="mr-3">
         {message ? (
           <div className="alert alert-danger">
             <div className="h5">
@@ -37,7 +37,7 @@ export default function ExamChoicePage() {
           </div>
         ) : (
           <div>
-            <div className="border border-info p-3 bg-info text-white">
+            <div className=" rounded shadow-lg p-3 bg-info text-white">
               <div className="h3 mb-2">Paper Choice</div>
               <p>Select a subject to set for a class that you registered</p>
             </div>

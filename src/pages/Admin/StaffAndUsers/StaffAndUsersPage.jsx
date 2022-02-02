@@ -44,11 +44,11 @@ export default function StaffAndUsersPage() {
     },
   ];
   return (
-    <div className="">
+    <div className="mr-3">
       <div className="alert alert-dark">
         <div className="d-flex justify-content-between">
           <div>
-            <h3>Staff & Students</h3>
+            <h3 style={{ fontWeight: 400 }}>STAFF & STUDENTS</h3>
           </div>
           <div>
             <a href="/createUser" className="btn btn-success">
@@ -59,7 +59,7 @@ export default function StaffAndUsersPage() {
       </div>
 
       <div>
-        <MyTable title={'All Users'} data={users} columns={columns} />
+        <MyTable title={'CREATED USERS'} data={users} columns={columns} />
       </div>
     </div>
   );

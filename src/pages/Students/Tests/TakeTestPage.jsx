@@ -256,7 +256,7 @@ export const TakeTestPage = () => {
                   return (
                     <button
                       key={index}
-                      className={`btn ${ChangeButtonColor(index)}`}
+                      className={`btn ${ChangeButtonColor(index)} mr-2`}
                       onClick={() => {
                         setQuestionNumber(index);
                       }}

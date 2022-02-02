@@ -123,7 +123,7 @@ export default function SubjectsClassAssignmentPage() {
 
   return (
     <div>
-      <div className="">
+      <div className="mr-3 ">
         <div className="border border-danger p-3 mb-4 bg-danger text-white shadow-lg rounded">
           <div className="h3 mb-3">Subject And Class Assignment</div>
           <p>

@@ -5,7 +5,7 @@ import footerLogo from '../../assets/images/eagleLogo3.png';
 export default function Footer() {
   return (
     <div>
-      <footer className="mt-5 footerColor  text-white">
+      <footer className="mt-3 footerColor  text-white">
         <div className="row text-center">
           <div className="col-md-4">
             <img src={footerLogo} className="footerLogo" />

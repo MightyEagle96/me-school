@@ -11,7 +11,8 @@ export default function CreateUserPage() {
     setUserData({ ...userData, [e.target.name]: e.target.value });
   }
 
-  async function CreateUser() {
+  async function CreateUser(e) {
+    e.preventDefault();
     Swal.fire({
       icon: 'question',
       showCancelButton: true,
@@ -44,110 +45,120 @@ export default function CreateUserPage() {
   }
 
   return (
-    <div className="p-3">
-      <div className="alert alert-info col-md-5">
-        <div className="h3">Create a new User</div>
+    <div className="mr-3">
+      <div className="alert alert-info ">
+        <div className="h3" style={{ fontWeight: 400 }}>
+          CREATE USER
+        </div>
       </div>
       <div className="mt-4">
-        <div className="row">
-          <div className="col-md-4">
-            <div className="form-group">
-              <label htmlFor="">First Name:</label>
-              <input
-                className="form-control"
-                type="text"
-                name="firstName"
-                value={userData.firstName}
-                onChange={HandleChange}
-              />
+        <form onSubmit={CreateUser}>
+          <div className="row">
+            <div className="col-md-6">
+              <div className="form-group">
+                <label htmlFor="">First Name:</label>
+                <input
+                  className="form-control"
+                  type="text"
+                  name="firstName"
+                  value={userData.firstName}
+                  onChange={HandleChange}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="">Last Name:</label>
+                <input
+                  className="form-control"
+                  type="text"
+                  name="lastName"
+                  value={userData.lastName}
+                  onChange={HandleChange}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="">Email Address:</label>
+                <input
+                  className="form-control"
+                  type="email"
+                  name="email"
+                  value={userData.email}
+                  onChange={HandleChange}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="">Phone Number:</label>
+                <input
+                  className="form-control"
+                  type="number"
+                  name="phoneNumber"
+                  value={userData.phoneNumber}
+                  onChange={HandleChange}
+                  required
+                />
+              </div>
             </div>
-            <div className="form-group">
-              <label htmlFor="">Last Name:</label>
-              <input
-                className="form-control"
-                type="text"
-                name="lastName"
-                value={userData.lastName}
-                onChange={HandleChange}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="">Email Address:</label>
-              <input
-                className="form-control"
-                type="email"
-                name="email"
-                value={userData.email}
-                onChange={HandleChange}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="">Phone Number:</label>
-              <input
-                className="form-control"
-                type="number"
-                name="phoneNumber"
-                value={userData.phoneNumber}
-                onChange={HandleChange}
-              />
+            <div className="col-md-6">
+              <div className="form-group">
+                <label htmlFor="">Password:</label>
+                <input
+                  className="form-control"
+                  type="password"
+                  name="password"
+                  value={userData.password}
+                  onChange={HandleChange}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="">Gender:</label>
+                <select
+                  name="role"
+                  id=""
+                  name="gender"
+                  value={userData.gender}
+                  onChange={HandleChange}
+                  className="form-control"
+                  required
+                >
+                  <option value="">Select gender</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                </select>
+              </div>
+              <div className="form-group">
+                <label htmlFor="">Role:</label>
+                <select
+                  name="role"
+                  id=""
+                  name="role"
+                  value={userData.role}
+                  onChange={HandleChange}
+                  className="form-control"
+                  required
+                >
+                  <option value="">Select role</option>
+                  <option value="admin">Admin</option>
+                  <option value="teacher">Teacher</option>
+                  <option value="class teacher">Class Teacher</option>
+                  <option value="student">Student</option>
+                  <option value="store admin">Store Admin</option>
+                </select>
+              </div>
+              <div className="form-group">
+                <button className="btn btn-primary" type="submit">
+                  {loading ? (
+                    <IsLoading show={loading} color={'text-white'} />
+                  ) : (
+                    'Create user'
+                  )}
+                </button>
+              </div>
             </div>
           </div>
-          <div className="col-md-4">
-            <div className="form-group">
-              <label htmlFor="">Password:</label>
-              <input
-                className="form-control"
-                type="password"
-                name="password"
-                value={userData.password}
-                onChange={HandleChange}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="">Gender:</label>
-              <select
-                name="role"
-                id=""
-                name="gender"
-                value={userData.gender}
-                onChange={HandleChange}
-                className="form-control"
-              >
-                <option value="">Select gender</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-              </select>
-            </div>
-            <div className="form-group">
-              <label htmlFor="">Role:</label>
-              <select
-                name="role"
-                id=""
-                name="role"
-                value={userData.role}
-                onChange={HandleChange}
-                className="form-control"
-              >
-                <option value="">Select role</option>
-                <option value="admin">Admin</option>
-                <option value="teacher">Teacher</option>
-                <option value="class teacher">Class Teacher</option>
-                <option value="student">Student</option>
-                <option value="store admin">Store Admin</option>
-              </select>
-            </div>
-            <div className="form-group">
-              <button className="btn btn-primary" onClick={CreateUser}>
-                {loading ? (
-                  <IsLoading show={loading} color={'text-white'} />
-                ) : (
-                  'Create user'
-                )}
-              </button>
-            </div>
-          </div>
-          <div className="col-md-4"></div>
-        </div>
+        </form>
       </div>
     </div>
   );
